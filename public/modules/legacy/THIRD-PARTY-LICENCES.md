@@ -45,3 +45,7 @@ permissive licence.
   any other dice game (including the unlicensed GitHub craps game).
 - **Jukebox tracks**: your own Suno tracks, played only when made on a paid
   plan (see `living-script-v3/jukebox/README.md`). None are in the repo yet.
+
+## Mystery kit browser exports
+
+PDF exports load pdf-lib 1.17.1 (MIT) and JSZip 3.10.1 (used under MIT) from jsDelivr on demand. These libraries do not receive game data; PDF and ZIP generation happen in the browser. Network access is required to load the libraries.

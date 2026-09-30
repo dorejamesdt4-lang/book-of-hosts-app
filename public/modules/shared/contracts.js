@@ -11,6 +11,7 @@ export function checkRuby(g){
  g.acts.forEach((a,i)=>{require(object(a)&&a.act_number===i+1&&text(a.act_title),'Acts must be numbered in order from 1.');require(a.narrator_script===null||typeof a.narrator_script==='string','Invalid narrator_script.');require(Array.isArray(a.clues_revealed)&&a.clues_revealed.every(text),'Invalid clues_revealed.');require(Array.isArray(a.guest_instructions)&&a.guest_instructions.every(x=>object(x)&&ids.has(x.guest_index)&&text(x.instructions)),'Invalid guest instructions or guest link.');});
  require(object(g.solution)&&ids.has(g.solution.killer_guest_index)&&text(g.solution.motive)&&text(g.solution.how_it_was_done)&&text(g.solution.final_reveal_script),'A linked final solution is required.');
  require(g.characters.filter(c=>c.is_killer).length===1&&g.characters.find(c=>c.is_killer).guest_index===g.solution.killer_guest_index,'Killer flag must match the solution.');
+ if(g.narration_cues!==undefined)require(Array.isArray(g.narration_cues)&&g.narration_cues.every(c=>object(c)&&Number.isInteger(c.act)&&c.act>0&&c.act<=g.acts.length&&text(c.play_cue)&&text(c.pause_cue)),'Invalid narrator playback cues.');
  return g;
 }
 export function checkJester(g){

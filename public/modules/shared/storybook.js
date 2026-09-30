@@ -15,7 +15,7 @@ export function storybook(form,kind){
  const pages=titles.map((title,i)=>{const page=document.createElement('section');page.className='story-page';const h=document.createElement('h2');h.textContent=title;h.tabIndex=-1;const p=document.createElement('p');p.className='chapter-note';p.textContent=notes[i];page.append(h,p);return page});
  for(const e of original){if(e.tagName==='BUTTON'&&e.type==='submit')phase=2;if(e.querySelector('#response'))phase=3;
  let target=phase;
- if(phase<2){const control=e.querySelector('input,select,textarea');const first=kind==='ruby'?['event_theme','timeline_era','backstory','format','game_length','difficulty']:['game_type','player_count'];target=control&&first.includes(control.name)?0:1;}
+ if(phase<2){const control=e.querySelector('input,select,textarea');const first=kind==='ruby'?['event_theme','timeline_era','backstory','format','game_length','difficulty','eventDate','eventTime','venue','dressCode','rsvpBy']:['game_type','player_count'];target=control&&first.includes(control.name)?0:1;}
  pages[target].append(e);}
  const controls=document.createElement('div');controls.className='chapter-controls';const back=document.createElement('button');back.type='button';back.textContent='← Previous page';const progress=document.createElement('span');progress.setAttribute('aria-live','polite');const next=document.createElement('button');next.type='button';next.textContent='Next page →';controls.append(back,progress,next);
  form.prepend(header,nav);form.append(...pages,controls);if(status)form.append(status);form.classList.add('storybook-intake');form.noValidate=true;
