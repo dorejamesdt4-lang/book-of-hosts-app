@@ -19,7 +19,7 @@ Open **http://localhost:3000**. See [testing instructions](docs/TESTING.md).
 - `public/index.html`: dashboard shell.
 - `public/styles/`: shared brand styles.
 - `public/scripts/`: dashboard behaviour and feature catalogue.
-- `public/modules/ruby/`: Ruby intake and manual AI bridge.
+- `public/modules/ruby/`: Original Ruby intake, JSON import and act-by-act host rehearsal.
 - `public/modules/feature/`: feature launcher with honest status and isolated frames.
 - `public/modules/legacy/`: selected runtime tools, characters, Living Script v3 and actual bundled 3D Manor from the source ZIP. No archived copies, environments, Supabase app or old cloud functions.
 - `server/`: dependency-free Node server, static build and automated checks.
@@ -30,3 +30,7 @@ Imported tool screens retain their existing styling pending individual rebuilds.
 Source: `doretradinguk-cyber/book-of-hosts-web-app`, commit `87a064f53468523ece53de89452201fe88ba5975`. Source ZIPs remain in that repository. This destination does not include them.
 
 Copyright 2026 James Dore. Original source ownership notices remain applicable. Third-party licence notices are preserved in `public/modules/legacy/THIRD-PARTY-LICENCES.md`.
+
+## JSON testing first
+
+Mystery Box and Game Jester use the original static ZIP schemas, not the separate Next.js contracts. Open either module and click **Load sample JSON** for a local smoke test. Ruby checks character links, act order and culprit consistency; the host reviews narrative pacing. Jester previews its rules and saves generated mini-games to this browser. Mini Games also imports Jester JSON and links the original playable module collection. Rules-only generated games remain in-person games; they are not automatically converted into executable engines. No API or login is required.

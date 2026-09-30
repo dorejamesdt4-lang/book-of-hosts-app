@@ -1,0 +1,5 @@
+export const q=s=>document.querySelector(s);
+export function node(tag,text,parent){const e=document.createElement(tag);e.textContent=text;if(parent)parent.append(e);return e;}
+export function download(name,data,type='application/json'){const url=URL.createObjectURL(new Blob([typeof data==='string'?data:JSON.stringify(data,null,2)],{type}));const a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+export async function copy(input,status){try{await navigator.clipboard.writeText(input.value);status.textContent='Prompt copied.'}catch{input.select();status.textContent='Select and copy the prompt, or download it.'}}
+export function jesterCard(g,parent){node('h2',g.game_title,parent);node('p',`${g.player_count_range.min}–${g.player_count_range.max} players · ${g.venue||'Any venue'}`,parent);for(const [label,value] of [['Setup',g.setup],['Rules',g.rules],['Winning',g.scoring_or_win_condition],['Props',g.props_used.join(', ')||'None'],['Health & safety',g.health_and_safety.join('\n')]]){node('h3',label,parent);node('p',value,parent);}}

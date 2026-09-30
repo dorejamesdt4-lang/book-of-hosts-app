@@ -1,0 +1,10 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {checkRuby,checkJester} from '../public/modules/shared/contracts.js';
+const ruby=JSON.parse(await readFile(new URL('../public/modules/ruby/sample.json',import.meta.url)));
+const jester=JSON.parse(await readFile(new URL('../public/modules/jester/sample.json',import.meta.url)));
+test('original ZIP Ruby schema accepts linked characters and sequential acts',()=>assert.equal(checkRuby(ruby),ruby));
+test('Ruby rejects mismatched culprit and broken private guest links',()=>{const a=structuredClone(ruby);a.solution.killer_guest_index=1;assert.throws(()=>checkRuby(a),/Killer/);const b=structuredClone(ruby);b.acts[0].guest_instructions[0].guest_index=99;assert.throws(()=>checkRuby(b),/guest/)});
+test('original Jester mini-game JSON accepted; unrelated newer schema rejected clearly',()=>{assert.equal(checkJester(jester),jester);assert.throws(()=>checkJester({game_title:'Other',how_to_play:[]}),/Original Jester/);assert.throws(()=>checkRuby({mystery_title:'Other',acts:{}}),/event_title/)});
+test('Ruby rejects out-of-order acts',()=>{const a=structuredClone(ruby);a.acts.reverse();assert.throws(()=>checkRuby(a),/numbered/)});

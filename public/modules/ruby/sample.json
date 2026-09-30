@@ -1,0 +1,94 @@
+{
+  "event_title": "The Last Bell at Moonfall",
+  "theme": "Manor mystery",
+  "timeline_era": "Victorian",
+  "format": "live",
+  "difficulty": "medium",
+  "estimated_duration": "1 hour",
+  "age_rating": "18",
+  "adult_comedy_mode": false,
+  "voice_ai_narrator": true,
+  "mini_games": [],
+  "characters": [
+    {
+      "guest_index": 0,
+      "is_host_character": false,
+      "character_name": "Rowan Vale",
+      "pronouns": "they/them",
+      "role_title": "Manor guest",
+      "personality_traits": "Observant",
+      "secret": "Moved the letter",
+      "is_killer": true,
+      "dialogue_lines": [
+        "The clock hides more than time."
+      ],
+      "costume_suggestion": "A waistcoat or scarf",
+      "opted_out_of_jokes": false
+    },
+    {
+      "guest_index": 1,
+      "is_host_character": false,
+      "character_name": "Sage Finch",
+      "pronouns": "they/them",
+      "role_title": "Manor guest",
+      "personality_traits": "Observant",
+      "secret": "Knows the clock was stopped",
+      "is_killer": false,
+      "dialogue_lines": [
+        "The clock hides more than time."
+      ],
+      "costume_suggestion": "A waistcoat or scarf",
+      "opted_out_of_jokes": false
+    }
+  ],
+  "acts": [
+    {
+      "act_number": 1,
+      "act_title": "Arrival",
+      "narrator_script": "The guests gather after a fictional death at the manor.",
+      "clues_revealed": [
+        "The study clock has stopped."
+      ],
+      "guest_instructions": [
+        {
+          "guest_index": 1,
+          "instructions": "Ask who last visited the study."
+        }
+      ]
+    },
+    {
+      "act_number": 2,
+      "act_title": "Investigation",
+      "narrator_script": "A letter is missing from the desk.",
+      "clues_revealed": [
+        "Both guests visited the study."
+      ],
+      "guest_instructions": [
+        {
+          "guest_index": 1,
+          "instructions": "Ask who last visited the study."
+        }
+      ]
+    },
+    {
+      "act_number": 3,
+      "act_title": "Last bell",
+      "narrator_script": "The letter is found beneath a clock.",
+      "clues_revealed": [
+        "Rowan\u2019s private seal matches the letter."
+      ],
+      "guest_instructions": [
+        {
+          "guest_index": 1,
+          "instructions": "Ask who last visited the study."
+        }
+      ]
+    }
+  ],
+  "solution": {
+    "killer_guest_index": 0,
+    "motive": "To conceal a fictional inheritance fraud.",
+    "how_it_was_done": "Rowan arranged the fictional crime and hid the revealing letter.",
+    "final_reveal_script": "Rowan\u2019s seal on the concealed letter reveals the culprit."
+  }
+}
