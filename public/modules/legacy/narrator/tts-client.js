@@ -41,6 +41,7 @@ function startWorkerBackend() {
       worker.removeEventListener('message', onFirst);
       resolve({
         mode: 'worker',
+        dispose: () => worker.terminate(),
         post: (msg) => worker.postMessage(msg),
         listen: (fn) => {
           worker.addEventListener('message', (ev) => fn(ev.data));
@@ -59,6 +60,7 @@ async function startMainThreadBackend() {
   const handle = createEngineHost((msg) => queueMicrotask(() => listeners.forEach((fn) => fn(msg))));
   return {
     mode: 'main-thread',
+    dispose: () => { listeners.length = 0; },
     // Cancel applies at once so it lands before the engine's next
     // sentence; everything else is async, matching the worker path.
     post: (msg) => (msg.type === 'cancel' ? handle(msg) : setTimeout(() => handle(msg), 0)),
@@ -178,6 +180,14 @@ export function createTtsClient() {
           if (activeJob && activeJob.id === id) { activeJob = null; onError(err); }
         });
       return id;
+    },
+
+    dispose() {
+      client.cancel();
+      if (loadWaiters) { loadWaiters.reject(new Error('Voice preparation stopped.')); loadWaiters = null; }
+      ready = false;
+      if (backend) backend.dispose();
+      else if (backendPromise) backendPromise.then(b => b.dispose()).catch(() => {});
     },
 
     cancel() {
