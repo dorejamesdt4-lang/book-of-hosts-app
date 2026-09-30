@@ -1,3 +1,4 @@
+import {storybook} from '../shared/storybook.js';
 import {JESTER_GENERATE_PROMPT} from '../legacy/lib/jester-prompt.js';
 import {checkJester} from '../shared/contracts.js';
 import {q,jesterCard,download,copy} from '../shared/ui.js';
@@ -9,3 +10,5 @@ q('#sample').onclick=async()=>{q('#response').value=JSON.stringify(await (await 
 q('#import').onclick=()=>{game=null;q('#result').replaceChildren();q('#save').hidden=q('#export').hidden=true;try{game=checkJester(JSON.parse(q('#response').value));if(game.swearing_used&&!q('[name=swearing_aloud]').checked)throw Error('Confirm the adult audience before previewing an adult game.');jesterCard(game,q('#result'));q('#save').hidden=q('#export').hidden=false;q('#status').textContent='JSON structure checked. Your mini-game is ready to review and test.'}catch(e){game=null;q('#status').textContent=e.message}};
 q('#export').onclick=()=>game&&download('jester-mini-game.json',game);
 q('#save').onclick=()=>{if(!game)return;try{const saved=JSON.parse(localStorage.getItem('boh.jester.games')||'[]');if(!Array.isArray(saved))throw Error('Saved library is invalid. Download your game JSON instead.');saved.push(game);localStorage.setItem('boh.jester.games',JSON.stringify(saved));q('#status').textContent='Saved. Open Mini Games to play from these rules.'}catch(e){q('#status').textContent='Could not save: '+e.message}};
+
+storybook(q('#intake'),'jester');
