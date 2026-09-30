@@ -1,4 +1,4 @@
-import {catalogue} from './catalogue.js';
+import {catalogue} from './catalogue.js?v=user-tools-2';
 import {glyph} from './glyphs.js';
 const cards=document.querySelector('#cards');
 cards.innerHTML=catalogue.map(f=>`<article class="parchment feature" data-category="${f.category}"><span class="illustration" aria-hidden="true">${glyph(f.id)}</span><h3>${f.name}</h3><p>${f.description}</p><span class="badge">${f.status}</span><a class="button" href="${new URL("../modules/feature/",import.meta.url).href}?id=${f.id}">${f.target?'Open':'View progress'} <span>→</span></a></article>`).join('');

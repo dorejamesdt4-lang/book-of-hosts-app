@@ -8,7 +8,6 @@ const motifs={
  narrator:'<path d="M29 19a7 7 0 0 1 14 0v18a7 7 0 0 1-14 0zM23 32v5a13 13 0 0 0 26 0v-5M36 50v8m-8 0h16M33 22h6m-6 5h6M17 27v13m38-13v13"/>',
  'character-forge':'<path d="m20 49 13-30 4 17 9 8M16 49q20-9 40 0-20 10-40 0zM40 19l4-7 2 7 7 2-7 2-2 7-4-7-7-2z"/>',
  'game-jester':'<path d="M20 41 17 22l12 9 7-17 7 17 12-9-3 19M20 41q16 8 32 0v9H20zM27 54h18"/><circle cx="17" cy="20" r="3"/><circle cx="36" cy="12" r="3"/><circle cx="55" cy="20" r="3"/><path d="m36 34 3 4-3 4-3-4z"/>',
- seumas:'<rect x="24" y="18" width="26" height="36" rx="3"/><path d="m22 20-8 3 8 34 8-2M37 27c-3 4-9 8-6 12 2 3 5 1 6-1 1 2 4 4 6 1 3-4-3-8-6-12zM37 38v7m-4 0h8"/>',
  'print-preview':'<path d="M24 27V16h24v11M22 47h-6V28h40v19h-6M24 40h24v17H24M29 46h14m-14 5h10"/><circle cx="49" cy="33" r="1"/>',
  'image-tools':'<rect x="17" y="19" width="38" height="34" rx="2"/><path d="m20 47 12-14 8 9 7-8 5 13M27 15v-5m-8 9h-5m39 36v6m4-10h5"/><circle cx="44" cy="27" r="3"/>',
  compiler:'<circle cx="36" cy="36" r="13"/><circle cx="36" cy="36" r="5"/><path d="M36 15v8m0 26v8M15 36h8m26 0h8M21 21l6 6m18 18 6 6M21 51l6-6m18-18 6-6"/>',
