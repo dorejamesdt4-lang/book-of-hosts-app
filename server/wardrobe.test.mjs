@@ -1,0 +1,11 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {defaultLook,validLook,wardrobeKey,saveLook,lookFor,importLooks} from '../public/modules/wardrobe/appearance.js';
+import {portrait} from '../public/modules/theatre/portrait.js';
+import {readPackage} from '../public/modules/theatre/package.js';
+import {readFile} from 'node:fs/promises';
+const values=new Map();globalThis.localStorage={getItem:k=>values.get(k)||null,setItem:(k,v)=>values.set(k,v)};
+test('saved appearance survives reload and is scoped to its mystery',()=>{const key=wardrobeKey('one','guest-1'),look={...defaultLook(key,'jester'),costume:'burgundy',face:2};saveLook(key,look);assert.deepEqual(lookFor(key),look);assert.notEqual(wardrobeKey('two','guest-1'),key);assert.deepEqual(defaultLook('fixed'),defaultLook('fixed'));assert.match(portrait('jester',look),/Female Jester/)});
+test('wardrobe import validates atomically and excludes arbitrary markup',()=>{const before=values.get('boh.wardrobe');assert.throws(()=>importLooks({version:1,appearances:{good:defaultLook('good'),bad:{...defaultLook('bad'),skin:90}}}));assert.equal(values.get('boh.wardrobe'),before);assert.throws(()=>validLook({...defaultLook('bad'),costume:'<script>'}));assert.equal(importLooks({version:1,appearances:{portable:defaultLook('portable')}}),1);assert.deepEqual(lookFor('portable'),defaultLook('portable'));assert.equal(validLook({...defaultLook('x'),injected:'<script>'}).injected,undefined)});
+test('first-test package has recorded clips and every host cue type',async()=>{const sample=readPackage(JSON.parse(await readFile(new URL('../public/modules/theatre/sample-narrator.json',import.meta.url))));assert.equal(sample.characters[0].presentation,'jester');assert.deepEqual(new Set(sample.steps.map(s=>s.type)),new Set(['line','clue','pause','music','minigame']));for(const line of sample.steps.filter(s=>s.type==='line'))assert.match(line.audio,/^data:audio\/mpeg;base64,/);assert.equal(sample.steps.at(-1).type,'pause')});
+test('cast requires distinct character ids and explicit supported presentation',()=>{assert.throws(()=>readPackage({title:'Show',characters:[{id:'guest',name:'Guest',presentation:'<script>'}],acts:[{steps:[{id:'a',type:'pause'}]}]}),/cast/)});
