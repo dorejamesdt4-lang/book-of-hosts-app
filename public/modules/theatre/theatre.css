@@ -3,3 +3,7 @@
 .theatre-stage:fullscreen{background:#0b1620;padding:30px;overflow:auto;width:100%;height:100%;box-sizing:border-box}.narration select,.narration input{max-width:100%}.narration label{color:#514027}#seek-time{width:100px}#volume{width:180px}
 
 .parchment button{color:#fff1d0}.narration select,.narration input[type=number]{padding:10px;border:1px solid #9c814b;border-radius:5px;background:#fff9e9;color:#192c32}.narration .actions{display:flex;gap:8px;flex-wrap:wrap}.narration button:disabled{color:#fff1d0}
+
+#host-console{margin-top:28px}.live-seat{border-top:1px solid #b79452;padding:12px 0;display:flex;gap:10px;align-items:center;flex-wrap:wrap}.live-seat p{margin:0}.live-seat select{width:auto!important;max-width:220px}#live-roster span{font-size:14px}#stage[hidden],#card[hidden],#join[hidden]{display:none}#card{margin-top:28px}
+
+.player-portrait{float:right;width:130px;margin:0 0 16px 20px}.player-portrait svg{width:100%;border:2px solid #b79452;border-radius:6px}#card:after{clear:both}@media(max-width:480px){.player-portrait{width:90px}}
