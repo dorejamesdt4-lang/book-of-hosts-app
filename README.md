@@ -34,3 +34,7 @@ Copyright 2026 James Dore. Original source ownership notices remain applicable. 
 ## JSON testing first
 
 Mystery Box and Game Jester use the original static ZIP schemas, not the separate Next.js contracts. Open either module and click **Load sample JSON** for a local smoke test. Ruby checks character links, act order and culprit consistency; the host reviews narrative pacing. Jester previews its rules and saves generated mini-games to this browser. Mini Games also imports Jester JSON and links the original playable module collection. Rules-only generated games remain in-person games; they are not automatically converted into executable engines. No API or login is required.
+
+## GitHub Pages
+
+The repository-root index redirects to `public/`. Dashboard styles, scripts and navigation use relative URLs so this works under the GitHub Pages repository path and on a custom domain. `.nojekyll` preserves the static files.
