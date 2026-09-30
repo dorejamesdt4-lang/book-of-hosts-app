@@ -1,7 +1,7 @@
 import * as T from '../vendor/three.module.min.js';
-import {rooms,portals,wallSegments} from './layout.js';
-import {Architecture} from './geometry.js';
-import {makeProps} from './props.js';
+import {rooms,portals,wallSegments} from './layout.js?v=manor-3';
+import {Architecture} from './geometry.js?v=manor-3';
+import {makeProps} from './props.js?v=manor-3';
 export function buildWorld(m){
  const a=new Architecture(),p=makeProps(a,m),interactions=[];
  const b=(w,h,d,x,y,z,mat=m.wood,ry=0)=>a.box(w,h,d,x,y,z,mat,ry);
@@ -11,7 +11,7 @@ export function buildWorld(m){
    for(let i=0;i<12;i++)for(let j=0;j<12;j++)b(.994,.1,.994,x0+i+.5,-.05,z0+j+.5,(i+j)%2?m.marble:m.darkMarble);
   }else b(w,.1,d,x,-.05,z,room.floor==='tile'?m.tile:room.floor==='grass'?m.grass:m.wood);
   if(room.id!=='garden'){
-   b(w,.12,d,x,4.24,z,m.plaster);
+   b(w,.12,d,x,4.24,z,room.id==='conserv'?m.glass:m.plaster);
    if(room.id==='hall'||room.id==='gallery'){
     for(let zz=z0+.6;zz<z1;zz+=2)b(room.id==='hall'?2.5:1.65,.014,Math.min(2,z1-zz+.6),x,.008,zz+.4,m.rug);
     for(let zz=z0+1;zz<z1;zz+=2.7){b(w-.15,.08,.12,x,4.14,zz,m.darkWood);b(w-.15,.022,.028,x,4.09,zz,m.brass);}
@@ -44,16 +44,17 @@ export function buildWorld(m){
   for(const y of [2.99,3.09,3.22])b(w+.45,.08,.36,x,y,z,y===3.09?m.brass:m.wood,ry);
  }
  // Entrance Hall: deliberately modelled to the reference's cabinet/portrait sightline.
- p.cabinet(-4.25,5.1,2.2);p.lamp(-4.7,5.1);for(let k=0;k<7;k++)p.book(-4.2+k*.12,1.03,5.1,[m.bookRed,m.bookTan,m.bookGreen][k%3],.09,.25+k%3*.06);
- p.cabinet(4.25,5.1,2.2);p.lamp(4.6,5.1);p.plant(3.65,5.15,1.03,.65);
+ p.cabinet(-2.6,6.2,2.2);p.lamp(-1.92,6.2);for(let k=0;k<7;k++)p.book(-3.3+k*.12,1.03,6.2,[m.bookRed,m.bookTan,m.bookGreen][k%3],.09,.25+k%3*.06);
+ p.cabinet(2.6,6.2,2.2);p.lamp(1.92,6.2);p.plant(3.2,6.25,1.03,.65);
  p.frame(-5.78,2.65,5.5,1.7,2.05,Math.PI/2);p.frame(5.78,2.65,5.5,1.7,2.05,-Math.PI/2);
+ p.frame(-3.7,2.65,11.8,1.8,2.2,Math.PI);p.frame(3.7,2.65,11.8,1.8,2.2,Math.PI);
  p.chair(-4.5,9);p.chair(4.5,9);p.plant(-5.1,10.6,0,1.3);p.plant(5.1,10.6,0,1.3);
  // Handrails and a front door, no time machine or wing portal.
  b(2.4,2.9,.2,0,1.45,.06,m.darkWood);for(const xx of [-.85,.85]){b(.055,2.3,.1,xx,1.5,.2,m.brass);}b(2.3,.06,.1,0,2.55,.2,m.brass);
  // Repeating portrait, lamp and moulding rhythm in the original long gallery.
  for(let i=0;i<4;i++){const z=15+i*5.2;for(const side of [-1,1]){p.frame(side*1.8,2.37,z,1.02,1.35,-side*Math.PI/2);p.wallLamp(side*1.76,2.35,z+1.7,-side*Math.PI/2);}if(i<3){p.plant(-1.45,z+2.9,0,.6);}}
  // Library shelves and desk in the verified west room.
- for(let z=27.6;z<35;z+=2.4){p.shelf(-15.6,z,2.2,Math.PI/2);p.shelf(-2.4,z,2.2,-Math.PI/2);}
+ for(let z=27.6;z<35;z+=2.4){p.shelf(-15.6,z,2.2,Math.PI/2);if(z<29||z>31.4)p.shelf(-2.4,z,2.2,-Math.PI/2);}
  p.shelf(-12,35.5,2.6,Math.PI);p.shelf(-8.8,35.5,2.6,Math.PI);
  p.cabinet(-9,32.8,2.8);p.lamp(-9.6,32.8);p.chair(-9,31.6);b(3.7,.018,4,-9,.011,31,m.rug);
  a.sphere(.27,-10.3,1.36,32.8,m.water);a.cylinder(.12,.18,.18,-10.3,1.13,32.8,m.brass);
@@ -78,9 +79,9 @@ export function buildWorld(m){
  for(const xx of [-4.6,4.6]){b(2.3,.1,.58,xx,.5,57,m.wood);b(2.3,.55,.08,xx,.82,57.25,m.wood);for(const dx of [-.85,.85])b(.12,.45,.4,xx+dx,.225,57,m.black);a.obstacle(xx,57,2.4,.7);}
  for(let zz=51;zz<79;zz+=6)for(const xx of [-13,13]){a.cylinder(.18,.25,3.2,xx,1.6,zz,m.darkWood);a.sphere(1.8,xx,3.8,zz,m.leaf,1,1.5,1);a.obstacle(xx,zz,.7,.7);}
  // A real key mesh, interactable note and room hooks; no fake game generation.
- a.cylinder(.055,.055,.014,-3.65,1.065,4.96,m.brass);b(.16,.012,.025,-3.54,1.07,4.96,m.brass);b(.024,.012,.06,-3.47,1.07,4.97,m.brass);
- b(.29,.012,.22,-3.72,1.065,5.19,m.paper);
- interactions.push({id:'letter',name:'Inspect the sealed letter',position:[-3.7,1.07,5.12],title:'A letter on the hall table',text:'The house is ready for its next story. This is an exploration foundation: follow the portrait gallery, enter the library or dining room, and continue through the conservatory into the garden. Your future games can attach clues to these objects.',kind:'inspect'});
+ a.cylinder(.055,.055,.014,-2.65,1.065,6.05,m.brass);b(.16,.012,.025,-2.54,1.07,6.05,m.brass);b(.024,.012,.06,-2.47,1.07,6.06,m.brass);
+ b(.29,.012,.22,-2.72,1.065,6.29,m.paper);
+ interactions.push({id:'letter',name:'Inspect the sealed letter',position:[-2.7,1.07,6.2],title:'A letter on the hall table',text:'The house is ready for its next story. This is an exploration foundation: follow the portrait gallery, enter the library or dining room, and continue through the conservatory into the garden. Your future games can attach clues to these objects.',kind:'inspect'});
  interactions.push({id:'library-note',name:'Read the library journal',position:[-9,1.05,32.8],title:'The library journal',text:'A reusable world should keep its rooms, props and interactions separate from each game. This desk is an example interaction anchor. It does not reveal a generated mystery.',kind:'inspect'});
  interactions.push({id:'theatre',name:'Open Theatre',position:[8.4,1,21],title:'Theatre',text:'Open your Narrator Package in the existing Theatre. Returning here starts a fresh exploration.',kind:'link',href:'../theatre/'});
  const root=a.finish();return {root,colliders:a.colliders,interactions,dispose(){a.dispose();}};

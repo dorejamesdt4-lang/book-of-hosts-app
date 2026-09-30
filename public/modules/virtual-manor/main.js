@@ -14,7 +14,7 @@ const callbacks={
  metrics(data){$('metrics').textContent=`${data.fps} fps in this browser · ${data.drawCalls} draw calls · ${data.triangles.toLocaleString()} triangles · ${data.quality} · ${data.renderer}. These are current browser measurements, not a phone benchmark.`;}
 };
 try{
- const {createManor}=await import('./engine/runtime.js');engine=await createManor($('scene'),ui,callbacks);$('enter').disabled=false;
+ const {createManor}=await import('./engine/runtime.js?v=manor-3');engine=await createManor($('scene'),ui,callbacks);$('enter').disabled=false;
  $('quality').value=engine.diagnostics().quality;
  let settings;try{settings=JSON.parse(localStorage.getItem('boh.manor.settings'));}catch{}if(settings){for(const id of ['quality','sensitivity','fov'])if(settings[id]!=null)$(id).value=settings[id];engine.settings({quality:$('quality').value,sensitivity:Number($('sensitivity').value),fov:Number($('fov').value)});}
  // Diagnostic output is explicitly opt-in and contains no secrets or game answers.
@@ -25,3 +25,6 @@ $('inspect').onclick=()=>engine?.inspect();$('restart').onclick=()=>{engine?.res
 for(const id of ['quality','sensitivity','fov'])$(id).addEventListener('change',()=>{const settings={quality:$('quality').value,sensitivity:Number($('sensitivity').value),fov:Number($('fov').value)};engine?.settings(settings);try{localStorage.setItem('boh.manor.settings',JSON.stringify(settings));}catch{}});
 for(const id of ['menu','object'])$(id).addEventListener('cancel',e=>{e.preventDefault();resume();});for(const id of ['welcome','error'])$(id).addEventListener('cancel',e=>e.preventDefault());
 window.addEventListener('pagehide',()=>engine?.dispose());
+window.addEventListener('pageshow',e=>{if(e.persisted)location.reload();});
+
+$('touch-mode').onchange=()=>document.body.classList.toggle('touch-mode',$('touch-mode').checked);

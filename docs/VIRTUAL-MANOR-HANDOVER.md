@@ -3,7 +3,7 @@
 Updated: 1 October 2026 (Europe/London). Owner: James Dore.
 
 ## Current phase
-Design and source inspection. Show James a visual BEFORE implementing the 3D world. A concept image is a design target, not evidence of a working renderer or phone performance.
+James approved building from the visual on 1 October 2026 and explicitly requires honesty and a close visual match. The first playable isolated foundation is implemented. The concept image remains a target: the current scene does not yet match it exactly. Do not claim perfection, completed art or tested phone GPU performance.
 
 ## Locked requirements
 - Build in dorejamesdt4-lang/book-of-hosts-app.
@@ -32,7 +32,7 @@ Resolved by James: source archive repo https://github.com/doretradinguk-cyber/bo
 
 Original layout verified inside dore-trading-main.zip → manor-lab/manor-engine.js, not the separate Panda3D horror layout. Extracted seven actual rooms to public/modules/virtual-manor/design/original-room-bounds.json. Entrance Hall, Long Gallery, Drawing Room, Library, Dining Room, Conservatory, Garden. Doorway graph/colliders still require extraction. Archive SHA-256 is recorded in that JSON.
 
-Nightmare source packs include damaged plaster, plastered wall, rock wall, terracotta tiles, metal and concrete. These ZIPs are Git LFS pointers in the git tree: damaged_plaster master alone is 77,255,657 bytes. Actual binary packs and mesh contents have not been downloaded or visually inspected. Material maps still need retrieval, verification and conversion to smaller runtime assets. Arbitrary OBJ REVIEW pack remains unverified. ASSET-LICENSES.md and source texture README inspected. Existing three-runtime.js contains malformed movement/initial-exit code and mobile third-person follow behaviour; do not import it wholesale. Existing source handover includes superseded sections: inspect actual code rather than trusting old completion claims.
+Nightmare source packs include damaged plaster, plastered wall, rock wall, terracotta tiles, metal and concrete. These ZIPs are Git LFS pointers in the git tree: damaged_plaster master alone is 77,255,657 bytes. Plaster and terracotta binary source packs have now been downloaded through Git LFS; runtime diffuse and bump textures derived and provenance recorded in assets/catalog.json. Source masters remain intact. 16-bit displacement was converted to linear 8-bit rather than clipped. The OBJ REVIEW pack was unpacked and inspected (chairs, desks, sofas, bookcases), but not shipped because its exact pack identity/provenance is still unverified. ASSET-LICENSES.md and source texture README inspected. Existing three-runtime.js contains malformed movement/initial-exit code and mobile third-person follow behaviour; do not import it wholesale. Existing source handover includes superseded sections: inspect actual code rather than trusting old completion claims.
 
 The Nightmare project's procedural horror, twisting corridors and horror entities are not requirements for Book of Hosts. James's fixed original mansion and first-person camera requirements take precedence. Use reviewed assets and suitable concepts, keep game rules separate. Do not copy source dev consoles, admin pages, time-machine/wing bundles into public gameplay.
 
@@ -43,5 +43,22 @@ The Nightmare project's procedural horror, twisting corridors and horror entitie
 - First playable milestone after visual review: Entrance Hall with the beginning of Long Gallery; first-person controls on both desktop and phone. No scope expansion until measured usability and material quality are accepted.
 - Future reusable room definitions, material registry, collision, interactions, camera/input, quality profiles and game adapters each get separate modules.
 - A folder alone is not crash isolation: use a separately navigated runtime with no eager dashboard imports, handle failed imports/assets/WebGL loss locally, stop animation/audio and dispose textures/geometries/listeners on exit. Maintain a non-WebGL recovery screen. Avoid a global service worker changing app caches.
-- Next session must show/read the visual and James's feedback before beginning the full build. This turn creates handover/design files only; no working 3D engine is claimed.
+- James has approved building. Continue from the current engine; do not restart or replace the approved visual target with an unrelated style.
 
+## Current build milestone — 1 October 2026
+- Entry public/modules/virtual-manor/index.html; first-person ground-floor exploration of seven rooms.
+- Self-hosted Three.js 0.180.0/MIT, authored batched architecture, source-derived plaster/tile maps and original portrait. No CDN import at runtime.
+- 23 merged material meshes, roughly 99k triangles; furniture and wall colliders; a furnished-room reachability test prevents blocked portals.
+- Desktop mouse/WASD and separate multi-pointer touch movement/look; camera settings, pause, restart and blur/visibility handling.
+- Three inspection anchors; existing Theatre is linked, not rendered within this world. No mystery multiplayer/avatar system is claimed.
+- Runtime provides injectable world factory/spawn/room resolver, interaction replacement and room callback for future game adapters.
+- Load/import/context-loss errors are contained within the separate page; no shared service worker or eager dashboard renderer import.
+- The test cloud browser reports GL_VENDOR=Disabled and cannot create WebGL2. Therefore GPU lighting/shadow rendering and physical phone performance remain UNVERIFIED.
+- Added explicitly labelled software geometry preview of the same meshes; it lacks GPU lighting/shadows and is not the intended phone renderer.
+- Automated checks: 27 passing after collision/furniture audit. Keep FIRST-TEST checks in the module README.
+
+## Work still needed for the approved visual
+Detailed furniture/landscape art, more varied portraits, decorative modelling, proper UVs on larger architectural surfaces, realistic material calibration, baked lighting/ambient occlusion, conservatory/garden polish and actual GPU screenshot comparison. The current simple authored props are foundation placeholders, not a pixel-identical delivery of the concept.
+
+## Next session
+Read module README and this handover; check deployed main and renderer mode. Continue checking actual rendered scene, fix any control/lifecycle issues, test actual WebGL2 desktop and physical phones, then improve the visual against the approved board. Do not replace a real scene screenshot with the concept image as proof. Keep updates concrete and preserve existing Ruby/narrator/live features.

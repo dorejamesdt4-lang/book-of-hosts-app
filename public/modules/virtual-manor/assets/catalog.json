@@ -21,9 +21,9 @@
     "sourceEntry": "textures/plastered_wall_05_disp_4k.png",
     "license": "CC0-1.0",
     "sourceURL": "https://polyhaven.com/a/plastered_wall_05",
-    "modifications": "Resized and encoded WebP; no semantic changes",
-    "sha256": "62ef0b6db86f334566bb477a61afa6daa830ef6013a49f84e4169a78b9574618",
-    "bytes": 528
+    "modifications": "16-bit displacement converted to linear 8-bit; resized to 512 and encoded WebP",
+    "sha256": "c4f567ca93512023d2a3b9c7f664ddd5d77b061f8a73f65380298d8446e410a2",
+    "bytes": 98174
   },
   {
     "path": "patterned_terracotta_tiling-diff.webp",
@@ -47,8 +47,8 @@
     "sourceEntry": "textures/patterned_terracotta_tiling_disp_4k.png",
     "license": "CC0-1.0",
     "sourceURL": "https://polyhaven.com/a/patterned_terracotta_tiling",
-    "modifications": "Resized and encoded WebP; no semantic changes",
-    "sha256": "b6837df4f5061c67cb61c8a24e80c96827e93c7603812a0f2ad400d8d513ae00",
-    "bytes": 534
+    "modifications": "16-bit displacement converted to linear 8-bit; resized to 512 and encoded WebP",
+    "sha256": "387173131c404c627e7eb78109a5cdb25f87f895be108fcac129ac7469b24003",
+    "bytes": 19188
   }
 ]
