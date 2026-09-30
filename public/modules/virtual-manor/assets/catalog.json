@@ -1,0 +1,54 @@
+[
+  {
+    "path": "plastered_wall_05-diff.webp",
+    "sourceRepo": "doretradinguk-cyber/project-nightmare-game-engine",
+    "sourceCommit": "c9de735b655c53ab8509e6ffd713e44115dab44b",
+    "master": "plastered_wall_05_4k.blend.zip",
+    "masterSHA256": "3d2ff12ed5f27d4ad5b0aa508c6ceb75f1cd3df3f5d069123bcb6cd483982e0f",
+    "sourceEntry": "textures/plastered_wall_05_diff_4k.jpg",
+    "license": "CC0-1.0",
+    "sourceURL": "https://polyhaven.com/a/plastered_wall_05",
+    "modifications": "Resized and encoded WebP; no semantic changes",
+    "sha256": "acb1fdc69232cd9d45b4f136d0e3e1b0209e62e191666ec4334dfc9ea0fdd94d",
+    "bytes": 80174
+  },
+  {
+    "path": "plastered_wall_05-disp.webp",
+    "sourceRepo": "doretradinguk-cyber/project-nightmare-game-engine",
+    "sourceCommit": "c9de735b655c53ab8509e6ffd713e44115dab44b",
+    "master": "plastered_wall_05_4k.blend.zip",
+    "masterSHA256": "3d2ff12ed5f27d4ad5b0aa508c6ceb75f1cd3df3f5d069123bcb6cd483982e0f",
+    "sourceEntry": "textures/plastered_wall_05_disp_4k.png",
+    "license": "CC0-1.0",
+    "sourceURL": "https://polyhaven.com/a/plastered_wall_05",
+    "modifications": "Resized and encoded WebP; no semantic changes",
+    "sha256": "62ef0b6db86f334566bb477a61afa6daa830ef6013a49f84e4169a78b9574618",
+    "bytes": 528
+  },
+  {
+    "path": "patterned_terracotta_tiling-diff.webp",
+    "sourceRepo": "doretradinguk-cyber/project-nightmare-game-engine",
+    "sourceCommit": "c9de735b655c53ab8509e6ffd713e44115dab44b",
+    "master": "patterned_terracotta_tiling_4k.blend.zip",
+    "masterSHA256": "ef38c5a6f8e0c1c8aa04f5379a4051079e555b0ba990737cbc8f14ba261f0cd9",
+    "sourceEntry": "textures/patterned_terracotta_tiling_diff_4k.jpg",
+    "license": "CC0-1.0",
+    "sourceURL": "https://polyhaven.com/a/patterned_terracotta_tiling",
+    "modifications": "Resized and encoded WebP; no semantic changes",
+    "sha256": "d74f344b8e720308fcade07fccc2b6be4c9ee49958d14618a63429abe3a7c714",
+    "bytes": 48334
+  },
+  {
+    "path": "patterned_terracotta_tiling-disp.webp",
+    "sourceRepo": "doretradinguk-cyber/project-nightmare-game-engine",
+    "sourceCommit": "c9de735b655c53ab8509e6ffd713e44115dab44b",
+    "master": "patterned_terracotta_tiling_4k.blend.zip",
+    "masterSHA256": "ef38c5a6f8e0c1c8aa04f5379a4051079e555b0ba990737cbc8f14ba261f0cd9",
+    "sourceEntry": "textures/patterned_terracotta_tiling_disp_4k.png",
+    "license": "CC0-1.0",
+    "sourceURL": "https://polyhaven.com/a/patterned_terracotta_tiling",
+    "modifications": "Resized and encoded WebP; no semantic changes",
+    "sha256": "b6837df4f5061c67cb61c8a24e80c96827e93c7603812a0f2ad400d8d513ae00",
+    "bytes": 534
+  }
+]
