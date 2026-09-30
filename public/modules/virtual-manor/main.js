@@ -6,11 +6,12 @@ function pause(){if(!started||!engine)return;engine.pause();document.body.classL
 function resume(){dismiss();document.body.classList.remove('paused');started=true;engine.start();}
 function failure(error){engine?.pause();document.body.classList.add('paused');$('error-text').textContent=error?.message||'The graphics could not load. Try reloading this standalone world.';open('error');}
 const callbacks={
+ mode(text){$('render-mode').hidden=false;$('render-mode').textContent=text;},
  progress(value,text){$('loading').value=value;$('status').textContent=text;},pause,failure,
  location(name){$('room').textContent=name;},
  target(item){$('inspect').hidden=!item;$('inspect').textContent=item?.name||'Inspect';},
  interact(item){if(!item)return;engine.pause();document.body.classList.add('paused');$('object-title').textContent=item.title;$('object-text').textContent=item.text;$('object-link').hidden=!item.href;if(item.href){$('object-link').href=item.href;$('object-link').textContent='Open Theatre';}open('object');},
- metrics(data){$('metrics').textContent=`${data.fps} fps in this browser · ${data.drawCalls} draw calls · ${data.triangles.toLocaleString()} triangles · ${data.quality}. These are current browser measurements, not a phone benchmark.`;}
+ metrics(data){$('metrics').textContent=`${data.fps} fps in this browser · ${data.drawCalls} draw calls · ${data.triangles.toLocaleString()} triangles · ${data.quality} · ${data.renderer}. These are current browser measurements, not a phone benchmark.`;}
 };
 try{
  const {createManor}=await import('./engine/runtime.js');engine=await createManor($('scene'),ui,callbacks);$('enter').disabled=false;

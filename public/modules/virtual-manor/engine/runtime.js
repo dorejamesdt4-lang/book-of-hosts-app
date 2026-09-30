@@ -4,11 +4,12 @@ import {buildWorld} from './world.js';
 import {FirstPersonInput} from './input.js';
 import {movePlayer} from './collision.js';
 import {spawn,roomAt} from './layout.js';
+import {CompatibilityRenderer} from './compatibility.js';
 export async function createManor(canvas,ui,callbacks){
  const abort=new AbortController();let disposed=false,playing=false,raf=0,last=0,frames=0,elapsed=0,target=null;
  const scene=new T.Scene();scene.background=new T.Color('#16242b');scene.fog=new T.Fog('#19272b',22,75);
  const camera=new T.PerspectiveCamera(66,1,.08,100);camera.rotation.order='YXZ';
- const renderer=new T.WebGLRenderer({canvas,antialias:false,powerPreference:'high-performance'});renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.18;
+ let renderer,compatibility=false;try{renderer=new T.WebGLRenderer({canvas,antialias:false,powerPreference:'high-performance'});}catch{renderer=new CompatibilityRenderer(canvas);compatibility=true;callbacks.mode?.('Compatibility preview · WebGL2 unavailable');}renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.18;
  const mobile=matchMedia('(pointer:coarse)').matches;let quality=mobile?'low':'balanced';
  let materials,world,input,observer;
  try{
@@ -30,9 +31,9 @@ export async function createManor(canvas,ui,callbacks){
    const forward=new T.Vector3();camera.getWorldDirection(forward);target=null;let nearest=2.3;
    for(const item of world.interactions){const pos=new T.Vector3(...item.position),direction=pos.sub(camera.position),distance=direction.length();if(distance<nearest&&direction.normalize().dot(forward)>.5){target=item;nearest=distance;}}
    callbacks.location(roomAt(player.x,player.z)?.name||'Doorway');callbacks.target(target);renderer.render(scene,camera);
-   frames++;elapsed+=dt;if(elapsed>=1){callbacks.metrics({fps:Math.round(frames/elapsed),drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles,quality});frames=0;elapsed=0;}
+   frames++;elapsed+=dt;if(elapsed>=1){callbacks.metrics({fps:Math.round(frames/elapsed),drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles,quality,renderer:compatibility?'software preview':'WebGL2'});frames=0;elapsed=0;}
   }
-  function loop(now){if(disposed||!playing)return;const dt=Math.min(.04,(now-last)/1000);last=now;try{const v=input.axes(),look=input.consumeLook();player.yaw+=look.x;player.pitch=T.MathUtils.clamp(player.pitch-look.y,-1.2,1.2);const speed=input.keys.has('ShiftLeft')?3.6:2.4;const dx=(Math.sin(player.yaw)*v.z+Math.cos(player.yaw)*v.x)*speed*dt,dz=(Math.cos(player.yaw)*v.z-Math.sin(player.yaw)*v.x)*speed*dt;movePlayer(player,dx,dz,world.colliders);render(dt);raf=requestAnimationFrame(loop);}catch(e){playing=false;input.setActive(false);callbacks.failure(e);}}
+  function loop(now){if(disposed||!playing)return;const actualDt=(now-last)/1000,dt=Math.min(.04,actualDt);last=now;try{const v=input.axes(),look=input.consumeLook();player.yaw+=look.x;player.pitch=T.MathUtils.clamp(player.pitch-look.y,-1.2,1.2);const speed=input.keys.has('ShiftLeft')?3.6:2.4;const dx=(Math.sin(player.yaw)*v.z+Math.cos(player.yaw)*v.x)*speed*dt,dz=(Math.cos(player.yaw)*v.z-Math.sin(player.yaw)*v.x)*speed*dt;movePlayer(player,dx,dz,world.colliders);render(actualDt);raf=requestAnimationFrame(loop);}catch(e){playing=false;input.setActive(false);callbacks.failure(e);}}
   canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();playing=false;input.setActive(false);cancelAnimationFrame(raf);callbacks.failure(new Error('Graphics connection interrupted. Reload the manor to recover.'));},{signal:abort.signal});
   observer=new ResizeObserver(resize);observer.observe(canvas);setQuality(quality);callbacks.progress(100,'The manor is ready');
   return {
@@ -41,7 +42,7 @@ export async function createManor(canvas,ui,callbacks){
    restart(){Object.assign(player,spawn,{pitch:0});input.clear();render(0);},
    settings({quality:q,sensitivity,fov}){if(q)setQuality(q);if(sensitivity)input.sensitivity=sensitivity;if(fov){camera.fov=fov;camera.updateProjectionMatrix();}if(!playing)render(0);},
    inspect(){callbacks.interact(target);},
-   diagnostics(){return {player:{...player},room:roomAt(player.x,player.z)?.id,quality,drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles};},
+   diagnostics(){return {player:{...player},room:roomAt(player.x,player.z)?.id,quality,renderer:compatibility?'software preview':'WebGL2',drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles};},
    dispose(){if(disposed)return;disposed=true;playing=false;cancelAnimationFrame(raf);input.dispose();abort.abort();observer.disconnect();world.dispose();materials.dispose();renderer.dispose();scene.clear();}
   };
  }catch(error){disposed=true;input?.dispose();world?.dispose();materials?.dispose();observer?.disconnect();abort.abort();renderer.dispose();throw error;}
