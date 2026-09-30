@@ -1,0 +1,14 @@
+{
+  "module": "lexical-lanterns",
+  "note": "Fixed narrator lines. They never contain guests' names. audio is the file name: a Show Pack keeps it in its own audio/ folder. Without the file, the line shows as a caption only.",
+  "lines": [
+    { "id": "LL-01", "text": "An unlit scroll appears in the clearing. Let us invoke the letters of old!", "audio": "LL-01.mp3" },
+    { "id": "LL-02", "text": "Ah! The scroll accepts your offering, and the runes begin to reveal themselves!", "audio": "LL-02.mp3" },
+    { "id": "LL-03", "text": "Alas, that letter finds no home here. A lantern's light fades into the twilight.", "audio": "LL-03.mp3" },
+    { "id": "LL-04", "text": "The pixies whisper into the clearing…", "audio": "LL-04.mp3" },
+    { "id": "LL-05", "text": "Take heed! Only one lantern remains to guide your path!", "audio": "LL-05.mp3" },
+    { "id": "LL-06", "text": "The final light goes dark. The forest reclaims the scroll's secrets.", "audio": "LL-06.mp3" },
+    { "id": "LL-07", "text": "Brilliant inkcraft! The phrase is illuminated, and the forest rejoices!", "audio": "LL-07.mp3" },
+    { "id": "LL-08", "text": "The sundial's shadow falls. The library closes its doors for now.", "audio": "LL-08.mp3" }
+  ]
+}

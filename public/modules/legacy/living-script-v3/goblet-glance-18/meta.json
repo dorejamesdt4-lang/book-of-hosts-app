@@ -1,0 +1,42 @@
+{
+  "id": "goblet-glance-18",
+  "name": "Street Shuffle 18+",
+  "ageRating": "18+",
+  "players": {
+    "min": 1,
+    "max": 16
+  },
+  "type": "observation",
+  "needsProps": false,
+  "modes": [
+    "online",
+    "in-person"
+  ],
+  "settings": {
+    "cups": [
+      3,
+      4,
+      5
+    ],
+    "difficulty": [
+      "easy",
+      "medium",
+      "hard"
+    ],
+    "rounds": [
+      3,
+      5,
+      10
+    ],
+    "forfeits": [
+      true,
+      false
+    ]
+  },
+  "pools": [],
+  "lines": "lines.json",
+  "pitch": "Plastic cups, a foam ball and a sticky pub table. Follow the ball if you can. Optional forfeits, always with a Pass.",
+  "testPage": "goblet.html?module=goblet-glance-18",
+  "rulesCard": null,
+  "printPage": "goblet-print.html?module=goblet-glance-18"
+}

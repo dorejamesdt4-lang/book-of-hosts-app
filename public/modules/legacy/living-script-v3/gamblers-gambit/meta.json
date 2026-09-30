@@ -1,0 +1,28 @@
+{
+  "id": "gamblers-gambit",
+  "name": "The Gambler's Gambit",
+  "ageRating": "12+",
+  "players": {
+    "min": 2,
+    "max": 8
+  },
+  "type": "dice",
+  "needsProps": false,
+  "modes": [
+    "online",
+    "in-person"
+  ],
+  "settings": {
+    "rounds": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  "pools": [],
+  "pitch": "Street dice for gold crowns, never money. Roll a natural, find the point, dodge the seven.",
+  "testPage": "dice.html",
+  "rulesCard": null
+}

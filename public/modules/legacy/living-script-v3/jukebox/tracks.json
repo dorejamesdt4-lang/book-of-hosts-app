@@ -1,0 +1,4 @@
+{
+  "note": "The Jukebox manifest. Only tracks with made_on_paid_plan: true are ever played. See README.md.",
+  "tracks": []
+}

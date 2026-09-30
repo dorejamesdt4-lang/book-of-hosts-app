@@ -1,0 +1,424 @@
+{
+  "schema_version": 2,
+  "sample": true,
+  "game": {
+    "id": "sample-midnight-clock",
+    "title": "The Midnight Clock of Blackthorn Hall",
+    "tagline": "SAMPLE GAME — hand-written to test the Living Script (v3 test bench)",
+    "theme": "victorian",
+    "rating": "family",
+    "host_name": "Your host",
+    "date": "Saturday 7 November",
+    "time": "7:30 pm",
+    "reply_by": "Friday 30 October",
+    "culprit": "storyteller",
+    "solution": "At the stroke of midnight the Tavern Bard used his lantern to find his way to the display case, opened it with its own brass key and hid the Blackthorn Heart inside the great clock's pendulum case. He meant no theft: he wanted his favourite tale, of the clock that swallows jewels at midnight, to come true for one glorious evening. The lamp oil on the clock door and the lantern glow the Showman saw are his.",
+    "play_modes": [
+      "online",
+      "theatre",
+      "pdf"
+    ]
+  },
+  "cast": [
+    {
+      "character": "queen",
+      "seat": 1,
+      "title": "The Iron Matron",
+      "role": "Lady of Blackthorn Hall",
+      "bio": "Mistress of the house and keeper of the Blackthorn Heart, the family ruby. She has never once been late, and never once been wrong.",
+      "objective": "Get the ruby back before the Lord Mayor arrives for breakfast, and keep the hall's good name spotless.",
+      "voice_hint": "female"
+    },
+    {
+      "character": "detective",
+      "seat": 2,
+      "title": "The Quiet Watcher",
+      "role": "Detective of Small Things",
+      "bio": "A guest who notices crumbs, creases and cold teacups. Says little and misses nothing.",
+      "objective": "Name the true culprit at the vote. Watch for anyone whose story smells of lamp oil.",
+      "voice_hint": "male"
+    },
+    {
+      "character": "magician",
+      "seat": 3,
+      "title": "The Showman",
+      "role": "Conjurer of the Music Hall",
+      "bio": "Hired to astonish the guests after supper. Every pocket holds a trick, and every trick holds a pocket.",
+      "objective": "Keep your promise of secrecy as long as you can, but do not let an innocent guest take the blame.",
+      "voice_hint": "male"
+    },
+    {
+      "character": "storyteller",
+      "seat": 4,
+      "title": "The Tavern Bard",
+      "role": "Teller of Tall Tales",
+      "bio": "A travelling storyteller with a lantern, a grey beard and a tale for every clock, key and cupboard.",
+      "objective": "You hid the ruby in the clock to make your favourite tale come true. Keep your secret until the end, if you can.",
+      "voice_hint": "male"
+    }
+  ],
+  "acts": [
+    {
+      "id": "act-1",
+      "number": 1,
+      "title": "The Gathering"
+    },
+    {
+      "id": "act-2",
+      "number": 2,
+      "title": "The Reckoning"
+    }
+  ],
+  "beats": [
+    {
+      "id": "m01",
+      "act": "act-1",
+      "type": "music",
+      "mood": "mingle",
+      "host_note": "Arrivals: music plays while guests mingle."
+    },
+    {
+      "id": "b01",
+      "act": "act-1",
+      "type": "narration",
+      "title_card": true,
+      "text": "Good evening, honoured guests, and welcome to Blackthorn Hall. At the stroke of midnight every candle in the hall went out at once, and when the lamps were lit again, the Blackthorn Heart was gone.",
+      "host_note": "Dim the lights, then press Next when everyone is seated."
+    },
+    {
+      "id": "b02",
+      "act": "act-1",
+      "type": "character_turn",
+      "character": "queen",
+      "prompt": "The Lady of the house demands to know who has dared.",
+      "lines": [
+        {
+          "tone": "deflect",
+          "text": "I was in the drawing room writing letters all evening. Ask the cook, she brought me cocoa."
+        },
+        {
+          "tone": "accuse",
+          "text": "A conjurer in my house on the very night my ruby vanishes. I call that more than a coincidence, Showman."
+        },
+        {
+          "tone": "reveal",
+          "text": "The display case was not forced. Whoever opened it used its own little brass key."
+        },
+        {
+          "tone": "jest",
+          "text": "Nobody leaves this hall until the ruby is found. Nobody. Not even for pudding."
+        }
+      ],
+      "nudge": "The Lady of the house is waiting, madam. The whole hall hangs on your word."
+    },
+    {
+      "id": "b03",
+      "act": "act-1",
+      "type": "character_turn",
+      "character": "detective",
+      "prompt": "Everyone turns to the guest who notices small things.",
+      "lines": [
+        {
+          "tone": "deflect",
+          "text": "I was studying the portraits in the east gallery. Ask the footman, he tripped over me twice."
+        },
+        {
+          "tone": "accuse",
+          "text": "Curious, Showman. Your cuffs are spotless, yet you claim you were polishing the stage lamps all night."
+        },
+        {
+          "tone": "reveal",
+          "text": "Something on the floor by the great clock caught the light. A drop of oil, not wax."
+        },
+        {
+          "tone": "jest",
+          "text": "Relax, everyone. If I were the thief, I would have taken the good biscuits as well."
+        }
+      ],
+      "nudge": "The hall grows quiet, detective. Even the clock seems to be listening."
+    },
+    {
+      "id": "b04",
+      "act": "act-1",
+      "type": "private_reveal",
+      "character": "magician",
+      "title": "For Your Eyes Only",
+      "text": "At midnight, while the candles were out, you saw a small golden glow cross the hall towards the great clock. A lantern, not a candle. Earlier tonight you promised the lantern's owner you would keep quiet about 'a little surprise'.",
+      "announce": "A folded note has found its way into the Showman's pocket. What it says is for the Showman's eyes alone.",
+      "host_note": "Envelope 1 goes to the Showman."
+    },
+    {
+      "id": "b05",
+      "act": "act-1",
+      "type": "character_turn",
+      "character": "magician",
+      "prompt": "The Showman has read the note. Every eye is on the conjurer.",
+      "lines": [
+        {
+          "tone": "deflect",
+          "text": "A magician never reveals his secrets, madam, but I promise you, this is not one of my tricks."
+        },
+        {
+          "tone": "accuse",
+          "text": "I saw a glow cross the hall at midnight. Somebody here knew their way in the dark."
+        },
+        {
+          "tone": "reveal",
+          "text": "It was a lantern I saw, not a candle. And there is only one lantern at this party."
+        },
+        {
+          "tone": "jest",
+          "text": "If I could make rubies vanish, madam, I would have made my rent vanish first."
+        }
+      ],
+      "nudge": "The Showman's hands are still for once. Speak, conjurer, before the candles sulk again."
+    },
+    {
+      "id": "b06",
+      "act": "act-1",
+      "type": "clue_drop",
+      "clue": {
+        "id": "clue-key",
+        "title": "The Brass Key",
+        "text": "The display case was opened with its own brass key, not forced. The key is back on its hook in the hall, and it is still warm."
+      },
+      "narration": "A clue for the whole company. The case was opened with its own brass key, and that key, back on its hook, is still warm to the touch."
+    },
+    {
+      "id": "b07",
+      "act": "act-1",
+      "type": "character_turn",
+      "character": "storyteller",
+      "prompt": "The Tavern Bard lifts his lantern and clears his throat.",
+      "lines": [
+        {
+          "tone": "deflect",
+          "text": "I was by the fire all night, telling the kitchen maids about the three-legged horse of Wexley."
+        },
+        {
+          "tone": "accuse",
+          "text": "A warm key, you say? The Lady's own hands are warm from her cocoa. I merely observe."
+        },
+        {
+          "tone": "reveal",
+          "text": "There is an old tale about this very clock. They say at midnight it swallows whatever glitters nearby."
+        },
+        {
+          "tone": "jest",
+          "text": "If the clock has eaten the ruby, I hope it has room left for the cheese board."
+        }
+      ],
+      "nudge": "Our storyteller is never usually short of words. The company is waiting, sir."
+    },
+    {
+      "id": "m02",
+      "act": "act-1",
+      "type": "music",
+      "mood": "minigame"
+    },
+    {
+      "id": "b08",
+      "act": "act-1",
+      "type": "mini_game",
+      "card": "portrait-memory",
+      "narration": "Before the next chime, a small diversion. Let us see how well this company remembers the faces on these walls.",
+      "host_note": "Read the rules card aloud if needed. Press Next when the game is done."
+    },
+    {
+      "id": "m03",
+      "act": "act-1",
+      "type": "music",
+      "mood": "intermission",
+      "host_note": "Intermission: top up drinks before Act Two."
+    },
+    {
+      "id": "b09",
+      "act": "act-2",
+      "type": "narration",
+      "title_card": true,
+      "text": "Act Two. The great clock ticks on, the guests grow restless, and somewhere in this hall the Blackthorn Heart is waiting to be found."
+    },
+    {
+      "id": "b10",
+      "act": "act-2",
+      "type": "character_turn",
+      "character": "queen",
+      "prompt": "The Lady has had quite enough of riddles.",
+      "lines": [
+        {
+          "tone": "deflect",
+          "text": "My hands are warm because I am a good hostess, not a thief. The cocoa was very hot."
+        },
+        {
+          "tone": "accuse",
+          "text": "Bard, you have told three stories about that clock tonight. Why is it always the clock?"
+        },
+        {
+          "tone": "reveal",
+          "text": "That clock case has a little door for the pendulum. It has not been opened in years."
+        },
+        {
+          "tone": "jest",
+          "text": "If this goes on much longer, I shall have the clock arrested and be done with it."
+        }
+      ],
+      "nudge": "Madam, the hall awaits your ruling. Even the portraits are leaning in."
+    },
+    {
+      "id": "b11",
+      "act": "act-2",
+      "type": "clue_drop",
+      "clue": {
+        "id": "clue-oil",
+        "title": "The Oil on the Clock Door",
+        "text": "A smear of lamp oil on the little door of the clock's pendulum case. Candles leave wax; only a lantern leaves oil."
+      },
+      "narration": "Another clue for all to see. There is a smear of lamp oil on the pendulum door of the great clock. Candles leave wax. Only a lantern leaves oil."
+    },
+    {
+      "id": "m04",
+      "act": "act-2",
+      "type": "music",
+      "mood": "minigame"
+    },
+    {
+      "id": "b11g",
+      "act": "act-2",
+      "type": "mini_game",
+      "card": "gamblers-gambit",
+      "options": {
+        "rounds": 3
+      },
+      "narration": "A game of chance, honoured guests, to settle the nerves. The dice will decide who earns a secret of their own.",
+      "on_result": {
+        "winner_clue": {
+          "id": "clue-clockmaker",
+          "title": "The Clockmaker's Note",
+          "text": "A scrap of paper tucked behind the clock face: 'The pendulum door sticks. Mind the oil.' Only someone who has opened that door tonight would need the reminder."
+        }
+      },
+      "host_note": "Theatre: each press of Next rolls for the shooter. Online: players roll from their Hands. The winner gets the prize envelope."
+    },
+    {
+      "id": "m05",
+      "act": "act-2",
+      "type": "music",
+      "mood": "tension"
+    },
+    {
+      "id": "b12",
+      "act": "act-2",
+      "type": "character_turn",
+      "character": "detective",
+      "prompt": "The detective has seen enough small things to speak.",
+      "lines": [
+        {
+          "tone": "deflect",
+          "text": "I will say nothing until I am certain. A wrong answer is worse than a slow one."
+        },
+        {
+          "tone": "accuse",
+          "text": "Lamp oil, a warm key and one lantern in the whole hall. Bard, may we see your lantern?"
+        },
+        {
+          "tone": "reveal",
+          "text": "The oil drop I found by the clock matches the smear on its door. Someone opened that clock tonight."
+        },
+        {
+          "tone": "jest",
+          "text": "Clocks do not swallow rubies. Although this one does look rather pleased with itself."
+        }
+      ],
+      "nudge": "Detective, the small things are all in place. The hall is ready for your thoughts."
+    },
+    {
+      "id": "b13",
+      "act": "act-2",
+      "type": "character_turn",
+      "character": "magician",
+      "prompt": "The Showman must decide whether to keep a promise.",
+      "lines": [
+        {
+          "tone": "deflect",
+          "text": "A promise is a promise, even for a conjurer. Please do not ask me again."
+        },
+        {
+          "tone": "accuse",
+          "text": "I will not break my word, but I will say this: look to whoever carries their own light."
+        },
+        {
+          "tone": "reveal",
+          "text": "Very well. I was asked to keep a surprise quiet by a friend with a lantern and a long grey beard."
+        },
+        {
+          "tone": "jest",
+          "text": "For my next trick, I shall make one storyteller extremely nervous."
+        }
+      ],
+      "nudge": "Conjurer, the moment has come. Keep your promise or keep the peace."
+    },
+    {
+      "id": "b14",
+      "act": "act-2",
+      "type": "character_turn",
+      "character": "storyteller",
+      "prompt": "Every eye in the hall turns to the Bard and his lantern.",
+      "lines": [
+        {
+          "tone": "deflect",
+          "text": "Lamp oil is everywhere in an old house like this. The footman has a lantern too, you know."
+        },
+        {
+          "tone": "accuse",
+          "text": "Our Showman makes things vanish for a living. Who better to make a ruby disappear?"
+        },
+        {
+          "tone": "reveal",
+          "text": "Every good tale needs a mystery, friends. Perhaps the clock has one more story to tell."
+        },
+        {
+          "tone": "jest",
+          "text": "I would confess, but then what would we all talk about until breakfast?"
+        }
+      ],
+      "nudge": "Bard, you have told a hundred tales tonight. Surely you can tell us one more."
+    },
+    {
+      "id": "b15",
+      "act": "act-2",
+      "type": "vote",
+      "question": "Who took the Blackthorn Heart?",
+      "options": [
+        "queen",
+        "detective",
+        "magician",
+        "storyteller"
+      ],
+      "narration": "The time has come. Each of you must name the guest who took the Blackthorn Heart. Choose carefully.",
+      "host_note": "Theatre: count a show of hands on the console, or let phones vote. Press Next to close the vote."
+    },
+    {
+      "id": "m06",
+      "act": "act-2",
+      "type": "music",
+      "mood": "reveal",
+      "host_note": "Music before the big reveal."
+    },
+    {
+      "id": "b16",
+      "act": "act-2",
+      "type": "finale",
+      "reactions": {
+        "correct": "The company has spoken, and the company is right.",
+        "mistaken": "The company has spoken, but the clock knows better."
+      },
+      "narration": [
+        "It was the Tavern Bard. At midnight, by the light of his lantern, he opened the case with its own brass key and hid the ruby inside the great clock.",
+        "He meant no harm. He only wanted his favourite tale, of the clock that swallows jewels, to come true for one glorious evening.",
+        "And there, behind the little pendulum door, safe and sparkling, is the Blackthorn Heart."
+      ],
+      "closing": "The candles are lit, the ruby is home, and the great clock has finally stopped looking so pleased with itself. Good night, honoured guests.",
+      "host_note": "Lights up on the closing line."
+    }
+  ]
+}

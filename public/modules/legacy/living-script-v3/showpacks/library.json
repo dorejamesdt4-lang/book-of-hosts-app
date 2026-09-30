@@ -1,0 +1,12 @@
+{
+  "packs": [
+    {
+      "id": "sample-pack",
+      "title": "The Case of the Vanishing Pudding",
+      "theme": "victorian",
+      "ageRating": "All ages",
+      "guests": { "min": 2, "max": 4 },
+      "path": "showpacks/sample-pack/"
+    }
+  ]
+}

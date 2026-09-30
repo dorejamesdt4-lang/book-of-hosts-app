@@ -1,0 +1,47 @@
+{
+  "module": "goblet-glance-18",
+  "ageRating": "18+",
+  "note": "Fixed narrator lines. They never contain guests' names. audio is the file name: a Show Pack keeps it in its own audio/ folder. Without the file, the line shows as a caption only.",
+  "lines": [
+    {
+      "id": "CUP18-01",
+      "text": "Watch the ball, not my lovely face. Under it goes…",
+      "audio": "CUP18-01.mp3"
+    },
+    {
+      "id": "CUP18-02",
+      "text": "Round and round they go, faster than a taxi meter on a Friday night!",
+      "audio": "CUP18-02.mp3"
+    },
+    {
+      "id": "CUP18-03",
+      "text": "Right, freeze! Go on then, clever clogs. Which one is it?",
+      "audio": "CUP18-03.mp3"
+    },
+    {
+      "id": "CUP18-04",
+      "text": "You beauty! You actually tracked it. Pure genius.",
+      "audio": "CUP18-04.mp3"
+    },
+    {
+      "id": "CUP18-05",
+      "text": "Wrong! Empty! Zero points! Absolute shambles.",
+      "audio": "CUP18-05.mp3"
+    },
+    {
+      "id": "CUP18-06",
+      "text": "Too slow! Did you nod off, or did your finger fall off?",
+      "audio": "CUP18-06.mp3"
+    },
+    {
+      "id": "CUP18-07",
+      "text": "Ooh, wrong cup. Check your phone, there's a forfeit waiting.",
+      "audio": "CUP18-07.mp3"
+    },
+    {
+      "id": "CUP18-08",
+      "text": "Ludicrous speed activated! Good luck, you'll bloody need it.",
+      "audio": "CUP18-08.mp3"
+    }
+  ]
+}

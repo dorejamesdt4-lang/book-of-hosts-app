@@ -1,0 +1,106 @@
+{
+  "ageRating": "12+",
+  "name": "Classic Fairy Tales",
+  "entries": [
+    {
+      "phrase": "Cinderella",
+      "hint": "A glass slipper fits only one foot in the kingdom."
+    },
+    {
+      "phrase": "Rumpelstiltskin",
+      "hint": "A little man spins straw into gold, and hides his name."
+    },
+    {
+      "phrase": "Hansel and Gretel",
+      "hint": "Two children follow a trail of crumbs to a house made of sweets."
+    },
+    {
+      "phrase": "Little Red Riding Hood",
+      "hint": "A girl in a red cloak visits her grandmother in the woods."
+    },
+    {
+      "phrase": "Jack and the Beanstalk",
+      "hint": "Magic beans grow a stalk that reaches a giant's castle."
+    },
+    {
+      "phrase": "Goldilocks and the Three Bears",
+      "hint": "Porridge that is just right, in a house that isn't hers."
+    },
+    {
+      "phrase": "Rapunzel",
+      "hint": "A girl in a tower lets down her very long hair."
+    },
+    {
+      "phrase": "The Frog Prince",
+      "hint": "A princess's golden ball, a well, and a surprising friend."
+    },
+    {
+      "phrase": "Puss in Boots",
+      "hint": "A clever cat in fine boots makes his master's fortune."
+    },
+    {
+      "phrase": "The Ugly Duckling",
+      "hint": "A lonely bird grows up to be a graceful swan."
+    },
+    {
+      "phrase": "Sleeping Beauty",
+      "hint": "A spindle, a long enchanted sleep, and a castle of thorns."
+    },
+    {
+      "phrase": "Snow White",
+      "hint": "A poisoned apple and a mirror that answers questions."
+    },
+    {
+      "phrase": "The Three Little Pigs",
+      "hint": "Straw, sticks and bricks against a huffing wolf."
+    },
+    {
+      "phrase": "The Emperor's New Clothes",
+      "hint": "Only a child dares to say what everyone can see."
+    },
+    {
+      "phrase": "The Elves and the Shoemaker",
+      "hint": "Tiny helpers finish the shoes while the maker sleeps."
+    },
+    {
+      "phrase": "The Princess and the Pea",
+      "hint": "One small pea under many mattresses proves she is royal."
+    },
+    {
+      "phrase": "The Little Mermaid",
+      "hint": "A sea king's daughter longs to walk on land."
+    },
+    {
+      "phrase": "The Snow Queen",
+      "hint": "A splinter of a wicked mirror, and a long journey north to find a friend."
+    },
+    {
+      "phrase": "The Gingerbread Man",
+      "hint": "Run, run, as fast as you can! You can't catch me!"
+    },
+    {
+      "phrase": "The Twelve Dancing Princesses",
+      "hint": "Every morning their shoes are worn through with dancing."
+    },
+    {
+      "phrase": "Thumbelina",
+      "hint": "A girl no bigger than a thumb, born from a flower."
+    },
+    {
+      "phrase": "The Pied Piper",
+      "hint": "A piper's tune leads every rat out of Hamelin."
+    },
+    {
+      "phrase": "Tom Thumb",
+      "hint": "A tiny boy has big adventures, even inside a cow."
+    },
+    {
+      "phrase": "The Golden Goose",
+      "hint": "Anyone who touches it sticks fast, and a sad princess laughs."
+    },
+    {
+      "phrase": "The Steadfast Tin Soldier",
+      "hint": "A one-legged toy soldier loves a paper dancer."
+    }
+  ]
+}

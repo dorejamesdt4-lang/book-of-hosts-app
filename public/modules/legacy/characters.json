@@ -1,0 +1,192 @@
+{
+  "characters": [
+    {
+      "slug": "oracle",
+      "name": "Oracle",
+      "description": "An ancient, hooded seer whose crystal orb glows and drifts as she speaks.",
+      "occasion_tags": ["fantasy", "storytelling", "narration", "mystery"],
+      "default_voice": "bf_isabella",
+      "mouth": { "x": 27, "y": 23, "width": 10, "height": 4 },
+      "props": ["crystal-ball"],
+      "status": "testing",
+      "path": "test-screens/oracle/v3/index.html",
+      "thumbnail": "characters/oracle/thumbnail.png",
+      "title": "The Wandering Oracle",
+      "role": "Seer of the Veil",
+      "voice_profile": {
+        "slug": "female-5-wandering-oracle",
+        "label": "female-5 · Wandering Oracle"
+      },
+      "sample_line": "Gather close, dear hosts. The candles are lit and the doors are bolted, yet one among you carries a secret that does not wish to be found. Listen well, for the Veil speaks only once.",
+      "themes": ["fantasy", "family-safe"]
+    },
+    {
+      "slug": "queen",
+      "name": "Queen",
+      "description": "A poised sovereign in an emerald gown and a gem-set crown, sceptre in hand and every word a decree.",
+      "occasion_tags": ["fantasy", "storytelling", "narration", "court"],
+      "default_voice": "bf_emma",
+      "mouth": { "x": 27, "y": 23, "width": 10, "height": 4 },
+      "props": ["sceptre"],
+      "status": "testing",
+      "path": "test-screens/queen/v3/index.html",
+      "thumbnail": "characters/queen/thumbnail.png",
+      "title": "The Iron Matron",
+      "role": "Queen of the House",
+      "voice_profile": {
+        "slug": "female-4-iron-matron",
+        "label": "female-4 · Iron Matron"
+      },
+      "sample_line": "Stand straight when you address the crown. This house has survived wars, scandals and three disastrous Christmas dinners. It will survive tonight, though perhaps not all of you will.",
+      "themes": ["victorian", "fantasy", "family-safe"]
+    },
+    {
+      "slug": "knight",
+      "name": "Knight",
+      "description": "A helmed guardian in a deep red tabard, visor raised, sword held upright and ready.",
+      "occasion_tags": ["fantasy", "storytelling", "narration", "dungeon"],
+      "default_voice": "bm_george",
+      "mouth": { "x": 27, "y": 23, "width": 10, "height": 4 },
+      "props": ["sword"],
+      "status": "testing",
+      "path": "test-screens/knight/v3/index.html",
+      "thumbnail": "characters/knight/thumbnail.png",
+      "title": "The Stalwart",
+      "role": "Knight of the Hall",
+      "voice_profile": {
+        "slug": "male-2-stalwart",
+        "label": "male-2 · Stalwart"
+      },
+      "sample_line": "I have sworn to guard this hall until the final clue is spoken. No blade, no bribe and no suspiciously generous slice of cake shall move me from my post.",
+      "themes": ["fantasy", "family-safe"]
+    },
+    {
+      "slug": "detective",
+      "name": "Detective",
+      "description": "A hard-boiled noir gumshoe in a fedora and trench coat, pipe in hand.",
+      "occasion_tags": ["noir", "mystery", "storytelling", "narration"],
+      "default_voice": "am_onyx",
+      "mouth": { "x": 27, "y": 23, "width": 10, "height": 4 },
+      "props": ["pipe"],
+      "status": "testing",
+      "path": "test-screens/detective/v3/index.html",
+      "thumbnail": "characters/detective/thumbnail.png",
+      "title": "The Quiet Watcher",
+      "role": "Detective of Small Things",
+      "voice_profile": {
+        "slug": "male-3-quiet-watcher",
+        "label": "male-3 · Quiet Watcher"
+      },
+      "sample_line": "I notice the mud upon your boots, the ink upon your cuff, the pause before your answer. Say nothing, if you like. Your silence is already telling me plenty.",
+      "themes": ["victorian", "family-safe"]
+    },
+    {
+      "slug": "storyteller",
+      "name": "Tavern Storyteller",
+      "description": "A weathered traveller with an eye patch and a scruffy grey beard, lantern in hand for tales told by its flickering light.",
+      "occasion_tags": ["fantasy", "storytelling", "narration", "tavern", "mystery"],
+      "default_voice": "bm_george",
+      "mouth": { "x": 27, "y": 26, "width": 10, "height": 4 },
+      "props": ["lantern"],
+      "status": "testing",
+      "path": "test-screens/storyteller/v3/index.html",
+      "thumbnail": "characters/storyteller/thumbnail.png",
+      "title": "The Tavern Bard",
+      "role": "Teller of Tall Tales",
+      "voice_profile": {
+        "slug": "male-4-tavern-bard",
+        "label": "male-4 · Tavern Bard"
+      },
+      "sample_line": "Pull up a stool and fill your tankard, friend. The tale I am about to tell is mostly true, partly legend and entirely worth a second round.",
+      "themes": ["victorian", "fantasy", "family-safe"]
+    },
+    {
+      "slug": "magician",
+      "name": "Magician",
+      "description": "A charismatic stage showman in top hat and tails, wand poised for the next flourish.",
+      "occasion_tags": ["showman", "stage", "storytelling", "narration"],
+      "default_voice": "bm_lewis",
+      "mouth": { "x": 27, "y": 23, "width": 10, "height": 4 },
+      "props": ["wand"],
+      "status": "testing",
+      "path": "test-screens/magician/v3/index.html",
+      "thumbnail": "characters/magician/thumbnail.png",
+      "title": "The Showman",
+      "role": "Magician of the Stage",
+      "voice_profile": {
+        "slug": "male-5-game-show-showman",
+        "label": "male-5 · Game Show Showman"
+      },
+      "sample_line": "Ladies and gentlemen, keep your eyes on the card! What was here is gone, what was gone returns, and somewhere in this very room a culprit hides in plain sight!",
+      "themes": ["victorian", "family-safe"]
+    },
+    {
+      "slug": "jester",
+      "name": "Jester",
+      "description": "A mischievous harlequin in a two-pointed bell hat, tumbling wit and diamond-tunic flair into every performance.",
+      "occasion_tags": ["fantasy", "storytelling", "narration", "court", "comedy"],
+      "default_voice": "bf_alice",
+      "mouth": { "x": 27, "y": 24, "width": 10, "height": 4 },
+      "props": ["marotte"],
+      "status": "testing",
+      "path": "test-screens/jester/v3/index.html",
+      "thumbnail": "characters/jester/thumbnail.png",
+      "title": "The Songbird Jester",
+      "role": "Fool of the Court",
+      "voice_profile": {
+        "slug": "female-2-panto-songbird",
+        "label": "female-2 · Panto Songbird"
+      },
+      "sample_line": "Oh yes it is! Oh no it is not! Hush your heckling, royal rabble. The Jester sees every trick, every lie and every stolen sausage roll.",
+      "themes": ["fantasy", "family-safe"]
+    },
+    {
+      "slug": "wizard",
+      "name": "Wizard",
+      "description": "An archmage in a tall purple hat, casting gentle sparkles from a well-worn wand while he speaks.",
+      "occasion_tags": ["fantasy", "storytelling", "narration", "dungeon"],
+      "default_voice": "bm_fable",
+      "mouth": { "x": 27, "y": 26, "width": 10, "height": 4 },
+      "props": ["wand"],
+      "status": "testing",
+      "path": "test-screens/wizard/v3/index.html",
+      "thumbnail": "characters/wizard/thumbnail.png",
+      "title": "The Wizard",
+      "role": "Keeper of Runes",
+      "sample_line": "The stars have shifted, the runes are restless, and my tea has gone cold. Something wicked this way wanders, hosts. Do mind the carpet.",
+      "themes": ["fantasy", "family-safe"]
+    },
+    {
+      "slug": "king",
+      "name": "King",
+      "description": "A regal monarch with a full white beard and an ermine-trimmed royal-blue robe, sovereign's orb resting in his palm.",
+      "occasion_tags": ["fantasy", "storytelling", "narration", "court"],
+      "default_voice": "bm_daniel",
+      "mouth": { "x": 27, "y": 26, "width": 10, "height": 4 },
+      "props": ["orb"],
+      "status": "testing",
+      "path": "test-screens/king/v3/index.html",
+      "thumbnail": "characters/king/thumbnail.png",
+      "title": "The King",
+      "role": "Lord of the Feast",
+      "sample_line": "By royal decree, no guest shall leave this feast until the truth is served. Pass the gravy, and prepare your alibis.",
+      "themes": ["victorian", "fantasy", "family-safe"]
+    },
+    {
+      "slug": "illusionist",
+      "name": "Illusionist",
+      "title": "The Illusionist",
+      "role": "Weaver of Tricks",
+      "status": "pending",
+      "pending_label": "PORTRAIT PENDING"
+    },
+    {
+      "slug": "dungeon-master",
+      "name": "Dungeon Master",
+      "title": "Dungeon Master",
+      "role": "Architect of Doom",
+      "status": "pending",
+      "pending_label": "NOT YET SUMMONED"
+    }
+  ]
+}

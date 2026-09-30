@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Gambler's Gambit (test) — The Living Script v3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&amp;family=Cardo:ital,wght@0,400;0,700;1,400&amp;family=Silkscreen&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="ls.css">
+</head>
+<body>
+<script src="js/tabbar.js"></script>
+<!-- Not a mockup screen: a test page for the dice module on its own. -->
+<header style="display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 28px; border-bottom: 1px solid #1E3A3A">
+<div style="display: flex; flex-direction: column; gap: 2px">
+<div style="font-family: 'Cinzel', serif; font-weight: 700; font-size: 18px; letter-spacing: 4px; color: #D9A441">THE GAMBLER'S GAMBIT</div>
+<div style="font-style: italic; font-size: 15px; color: #A9C9C4">Mini-game module test · family version · gold crowns, never money</div>
+</div>
+<div style="display: flex; gap: 10px; align-items: center">
+<label for="rounds" style="font-size: 15px; color: #A9C9C4">Rounds each</label>
+<select id="rounds" style="height: 44px; border: 1px solid #2A4A4A; border-radius: 8px; background: #0F1E28; color: #EDE6D6; font-family: 'Cardo', serif; font-size: 15px; padding: 0 10px"><option>1</option><option>2</option><option selected>3</option><option>4</option><option>5</option></select>
+<button type="button" id="btnSfx" class="pbtn" aria-pressed="true" style="height: 44px; padding: 0 18px; border: 1px solid #2A4A4A; border-radius: 6px; background: transparent; color: #EDE6D6; font-family: 'Cinzel', serif; font-size: 13px; letter-spacing: 1px; cursor: pointer">SOUND: ON</button>
+<button type="button" id="btnRestart" class="pbtn" style="height: 44px; padding: 0 18px; border: 1px solid #2A4A4A; border-radius: 6px; background: transparent; color: #EDE6D6; font-family: 'Cinzel', serif; font-size: 13px; letter-spacing: 1px; cursor: pointer">NEW GAME</button>
+</div>
+</header>
+<main style="max-width: 1100px; margin: 0 auto; padding: 28px; display: flex; flex-direction: column; gap: 20px">
+<div id="table"></div>
+<div style="display: flex; gap: 14px; align-items: center; flex-wrap: wrap">
+<button type="button" id="btnRoll" class="pbtn" style="height: 56px; padding: 0 30px; border: 1px solid #D9A441; border-radius: 6px; background: #D9A441; color: #0F1E28; font-family: 'Cinzel', serif; font-weight: 700; font-size: 16px; letter-spacing: 2px; cursor: pointer">ROLL THE DICE ›</button>
+<div id="result" role="status" aria-live="polite" style="font-size: 18px; color: #EDE6D6"></div>
+</div>
+<div style="font-size: 14px; font-style: italic; color: #8FA5A3">Space, → or a presentation clicker also rolls. In the game, the host's Stage rolls for everyone and the Hands only ask it to, so every screen sees the same dice.</div>
+</main>
+<script type="module" src="js/dice-test.js"></script>
+</body>
+</html>

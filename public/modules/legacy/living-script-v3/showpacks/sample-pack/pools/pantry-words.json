@@ -1,0 +1,18 @@
+{
+  "ageRating": "12+",
+  "name": "The Pantry",
+  "entries": [
+    {
+      "phrase": "Custard Tart",
+      "hint": "A pastry case of set, sweet cream, dusted with nutmeg."
+    },
+    {
+      "phrase": "Garden Door",
+      "hint": "Where the sticky footprints led."
+    },
+    {
+      "phrase": "Silver Spoon",
+      "hint": "Polished every morning and kept in the dresser drawer."
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "module": "twenty-one-trouble",
+  "note": "Fixed narrator lines. They never contain guests' names. audio is the file name: a Show Pack keeps it in its own audio/ folder. Without the file, the line shows as a caption only.",
+  "lines": [
+    { "id": "T21-01", "text": "The deck is shuffled, the vault is barred. Let the dealing commence!", "audio": "T21-01.mp3" },
+    { "id": "T21-02", "text": "Alas! The Vault Keeper holds twenty-one from the very first cards! The round is forfeit!", "audio": "T21-02.mp3" },
+    { "id": "T21-03", "text": "A wondrous omen! Twenty-one on the deal, and the prize is claimed!", "audio": "T21-03.mp3" },
+    { "id": "T21-04", "text": "A courageous choice! Another card is drawn from the deck of fate…", "audio": "T21-04.mp3" },
+    { "id": "T21-05", "text": "The player stands firm, trusting in their numbers.", "audio": "T21-05.mp3" },
+    { "id": "T21-06", "text": "Oh, catastrophic ruin! The total climbs too high and trouble claims the player!", "audio": "T21-06.mp3" },
+    { "id": "T21-07", "text": "The Keeper's greed becomes their undoing! The vault collapses!", "audio": "T21-07.mp3" },
+    { "id": "T21-08", "text": "Victory! The Keeper is out-witted this day.", "audio": "T21-08.mp3" },
+    { "id": "T21-09", "text": "Five cards held without a bust: a feat worthy of legend!", "audio": "T21-09.mp3" },
+    { "id": "T21-10", "text": "The Keeper smiles and bars the vault once more.", "audio": "T21-10.mp3" }
+  ]
+}

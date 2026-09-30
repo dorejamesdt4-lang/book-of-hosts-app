@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Host Console · Theatre — The Living Script v3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&amp;family=Cardo:ital,wght@0,400;0,700;1,400&amp;family=Silkscreen&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="ls.css">
+<style>
+  /* Not a mockup screen: the theatre Host Console (presenter view on the
+     laptop), built from the Stage's console bar, the Lobby's panels and
+     seat cards, and the parchment cards. */
+  .cx { display: grid; grid-template-columns: minmax(0, 1fr) 460px; gap: 24px; padding: 20px 28px 28px; min-height: calc(100vh - 90px); box-sizing: border-box; }
+  .cx-panel { background: #0F1E28; border: 1px solid #2A4A4A; border-radius: 12px; }
+  .cx-script { max-height: calc(100vh - 150px); overflow-y: auto; padding: 8px; display: flex; flex-direction: column; gap: 6px; }
+  .cx-row { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 12px; align-items: start; width: 100%; box-sizing: border-box; padding: 10px 12px; border: 1px solid transparent; border-radius: 10px; color: #EDE6D6; font-size: 16px; line-height: 1.35; }
+  .cx-row.is-now { border: 2px solid #5AA8A0; background: rgba(90,168,160,0.10); }
+  .cx-row.is-done { opacity: 0.55; }
+  .cx-num { font-family: 'Silkscreen', monospace; font-size: 11px; color: #D9A441; padding-top: 3px; }
+  .cx-kind { font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 2px; color: #5AA8A0; }
+  .cx-note { font-size: 14px; font-style: italic; color: #D9A441; }
+  .cx-btn { height: 44px; padding: 0 16px; border: 1px solid #2A4A4A; border-radius: 6px; background: transparent; color: #EDE6D6; font-family: 'Cinzel', serif; font-size: 13px; letter-spacing: 1px; cursor: pointer; }
+  .cx-next { height: 56px; padding: 0 26px; border: 1px solid #D9A441; border-radius: 6px; background: #D9A441; color: #0F1E28; font-family: 'Cinzel', serif; font-weight: 700; font-size: 16px; letter-spacing: 2px; cursor: pointer; }
+  .cx-label { font-family: 'Cinzel', serif; font-size: 12px; letter-spacing: 4px; color: #5AA8A0; }
+</style>
+</head>
+<body>
+<script src="js/tabbar.js" data-newtab></script>
+<header style="display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 28px; border-bottom: 1px solid #1E3A3A">
+<div style="display: flex; flex-direction: column; gap: 2px">
+<div style="font-family: 'Cinzel', serif; font-weight: 700; font-size: 18px; letter-spacing: 4px; color: #D9A441">HOST CONSOLE · THEATRE</div>
+<div id="gameTitle" style="font-style: italic; font-size: 15px; color: #A9C9C4"></div>
+</div>
+<div style="display: flex; gap: 10px; align-items: center">
+<div id="link" role="status" style="font-family: 'Silkscreen', monospace; font-size: 11px; letter-spacing: 1px; color: #8FA5A3; border: 1px solid #2A4A4A; border-radius: 999px; padding: 8px 14px">WAITING FOR THE STAGE</div>
+<button type="button" id="btnOpenStage" class="cx-btn">OPEN THE STAGE WINDOW</button>
+</div>
+</header>
+<!-- Not on the mockups: the NEXT STEP banner. One plain instruction at a
+     time, always visible, with a slow glow (off with "reduce motion"). -->
+<div id="nextStep" class="ls-glow" role="status" aria-live="assertive" style="margin: 18px 28px 0; display: flex; flex-direction: column; gap: 4px; padding: 16px 22px; background: #0F1E28; border: 2px solid #D9A441; border-radius: 12px">
+<div style="font-family: 'Cinzel', serif; font-weight: 700; font-size: 13px; letter-spacing: 5px; color: #D9A441">NEXT STEP</div>
+<div id="nextStepText" style="font-family: 'Cinzel', serif; font-weight: 700; font-size: 26px; line-height: 1.25; color: #EDE6D6"></div>
+</div>
+<main class="cx">
+<section aria-label="The full script" class="cx-panel" style="display: flex; flex-direction: column">
+<div style="display: flex; justify-content: space-between; align-items: baseline; padding: 14px 16px 6px"><div class="cx-label">THE FULL SCRIPT</div><div style="font-size: 14px; font-style: italic; color: #8FA5A3">Next moves one beat at a time; Back goes back one</div></div>
+<div id="script" class="cx-script"></div>
+</section>
+<aside style="display: flex; flex-direction: column; gap: 16px">
+<div id="now" style="position: relative; background: #EDE6D6; border-radius: 6px; box-shadow: inset 0 0 70px rgba(160,120,60,0.2); color: #1B2A36; box-sizing: border-box; padding: 26px 26px 22px; display: flex; flex-direction: column; gap: 10px"></div>
+<div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center">
+<button type="button" id="btnBack" class="cx-btn" style="height: 56px">‹ BACK</button>
+<button type="button" id="btnNext" class="cx-next" style="flex-grow: 1">NEXT ›</button>
+</div>
+<div style="display: flex; gap: 10px; flex-wrap: wrap">
+<button type="button" id="btnStandIn" class="cx-btn">STAND-IN</button>
+<button type="button" id="btnRepeat" class="cx-btn">REPEAT LINE</button>
+<button type="button" id="btnPause" class="cx-btn">PAUSE</button>
+</div>
+<div class="cx-panel" style="padding: 14px 16px; display: flex; flex-direction: column; gap: 10px">
+<div class="cx-label">NARRATION</div>
+<div id="narration" role="group" aria-label="Narration" style="display: flex; gap: 8px; flex-wrap: wrap"></div>
+</div>
+<div class="cx-panel" style="padding: 14px 16px; display: flex; flex-direction: column; gap: 8px">
+<div class="cx-label">UP NEXT</div>
+<div id="upNext" style="display: flex; flex-direction: column; gap: 6px; font-size: 15px; color: #A9C9C4"></div>
+</div>
+<div id="jukebox" class="cx-panel" style="padding: 14px 16px"></div>
+<div style="display: flex; gap: 10px; flex-wrap: wrap">
+<button type="button" id="btnScripts" class="cx-btn">PRINT THEATRE SCRIPTS</button>
+<button type="button" id="btnTale" class="cx-btn">DOWNLOAD THE TALE</button>
+</div>
+<div style="font-size: 14px; font-style: italic; color: #8FA5A3">Clicker: Page Down / → / Space = Next, Page Up / ← = Back. Works in this window and on the Stage window.</div>
+</aside>
+</main>
+<script type="module" src="js/console.js"></script>
+</body>
+</html>

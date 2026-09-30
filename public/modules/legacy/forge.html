@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Forge — Dore Trading UK</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  .fg-wrap { max-width: 1000px; margin: 0 auto; padding: 40px 24px 96px; position: relative; z-index: 2; }
+  .fg-wrap h1 { color: #ff9500; text-shadow: 0 0 10px rgba(255,149,0,0.6); font-size: 1.8rem; margin: 0 0 6px; text-align: center; }
+  .fg-wrap .sub { color: #cc9a5a; font-size: 0.85rem; margin-bottom: 32px; line-height: 1.5; text-align: center; }
+
+  /* ---- mechanical anvil/furnace scene ---- */
+  .fg-stage { display: flex; justify-content: center; margin-bottom: 8px; position: relative; }
+  .fg-stage::before {
+    content: '';
+    position: absolute; top: 50%; left: 50%; width: 320px; height: 220px;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(255,149,0,0.26) 0%, transparent 70%);
+    filter: blur(6px);
+    z-index: -1;
+  }
+  #fgSvg { width: 320px; height: auto; }
+
+  #fgGearLeft, #fgGearRight { transform-box: fill-box; transform-origin: 50% 50%; }
+  #fgGearLeft { animation: fgSpinCW 6s linear infinite; }
+  #fgGearRight { animation: fgSpinCCW 5s linear infinite; }
+  @keyframes fgSpinCW { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  @keyframes fgSpinCCW { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
+
+  #fgFurnaceGlow { transform-box: fill-box; transform-origin: 50% 50%; animation: fgFurnacePulse 2.2s ease-in-out infinite; }
+  @keyframes fgFurnacePulse {
+    0%, 100% { opacity: 0.55; }
+    50%      { opacity: 1; }
+  }
+
+  #fgSparks .fg-spark { opacity: 0; transform-box: fill-box; transform-origin: 50% 50%; }
+  #fgSparks.fg-sparking .fg-spark { animation: fgSparkFly 0.7s ease-out 1 both; }
+  #fgSparks .fg-spark:nth-child(2) { animation-delay: 0.02s; }
+  #fgSparks .fg-spark:nth-child(3) { animation-delay: 0.04s; }
+  #fgSparks .fg-spark:nth-child(4) { animation-delay: 0.01s; }
+  #fgSparks .fg-spark:nth-child(5) { animation-delay: 0.05s; }
+  #fgSparks .fg-spark:nth-child(6) { animation-delay: 0.03s; }
+  @keyframes fgSparkFly {
+    0%   { opacity: 1; transform: translate(0, 0) scale(1); }
+    100% { opacity: 0; transform: translate(var(--fg-dx), var(--fg-dy)) scale(0.3); }
+  }
+
+  /* ---- panels (amber, distinct from the Jester/Ruby magenta pages) ---- */
+  .fg-panel { background: #0d0d0d; border: 1px solid #ff9500; border-radius: 8px; padding: 24px; margin-bottom: 20px; box-shadow: 0 0 18px rgba(255,149,0,0.12); }
+  .fg-panel h2 { color: #ff9500; font-size: 0.95rem; letter-spacing: 1px; margin: 0 0 16px; text-shadow: 0 0 6px rgba(255,149,0,0.5); }
+  .fg-panel .fg-hint { color: #8a6b3a; font-size: 0.75rem; margin: -8px 0 16px; line-height: 1.5; }
+
+  .fg-forge-row { display: flex; align-items: flex-end; gap: 16px; flex-wrap: wrap; justify-content: center; }
+  .fg-forge-row label { display: block; color: #ffb347; font-size: 0.72rem; letter-spacing: 0.5px; margin-bottom: 5px; }
+  .fg-forge-row input[type="number"] {
+    width: 100px; background: #1a1206; border: 1px solid #6b4a1e; color: #ffd9a0;
+    font-family: 'Courier New', monospace; font-size: 0.9rem; padding: 9px 10px; border-radius: 4px; box-sizing: border-box; text-align: center;
+  }
+
+  .primary-btn { background: #ff9500; color: #1a1206; border: none; font-family: inherit; font-weight: bold; font-size: 0.85rem; padding: 10px 20px; border-radius: 4px; cursor: pointer; }
+  .primary-btn:hover { background: #ffb347; }
+  .ghost-btn { background: transparent; border: 1px solid #ff9500; color: #ff9500; font-family: inherit; font-size: 0.8rem; padding: 8px 16px; border-radius: 4px; cursor: pointer; margin-right: 10px; }
+  .ghost-btn:hover { background: rgba(255,149,0,0.1); }
+  .danger-btn { background: transparent; border: 1px solid #ff2e2e; color: #ff2e2e; font-family: inherit; font-size: 0.75rem; padding: 6px 12px; border-radius: 4px; cursor: pointer; }
+  .danger-btn:hover { background: rgba(255,46,46,0.1); }
+
+  .big-screen {
+    background: #140d04; border: 2px solid #ff9500; border-radius: 8px;
+    box-shadow: 0 0 30px rgba(255,149,0,0.2), inset 0 0 40px rgba(0,0,0,0.6);
+    padding: 20px; margin-bottom: 20px; min-height: 100px; position: relative; overflow: hidden;
+  }
+  .big-screen::before {
+    content: ''; position: absolute; inset: 0;
+    background: repeating-linear-gradient(0deg, rgba(255,149,0,0.04) 0px, rgba(255,149,0,0.04) 1px, transparent 1px, transparent 3px);
+    pointer-events: none;
+  }
+  .big-screen-header { display: flex; justify-content: space-between; color: #a8785a; font-size: 0.7rem; letter-spacing: 1px; margin-bottom: 12px; }
+  .big-screen-body { color: #ffd9a0; font-family: 'Courier New', monospace; font-size: 0.82rem; white-space: pre-wrap; line-height: 1.6; min-height: 60px; }
+  .big-screen-body .pass { color: #00ff66; }
+  .big-screen-body .fail { color: #ff2e88; }
+
+  /* ---- horizontal "conveyor" tray of cast cards ---- */
+  .fg-conveyor { display: flex; gap: 14px; overflow-x: auto; padding: 4px 4px 14px; }
+  .fg-conveyor:empty::after { content: 'No cast forged yet.'; color: #6b6b6b; font-size: 0.78rem; font-style: italic; }
+  .fg-card {
+    flex: 0 0 240px; background: #140d04; border: 1px solid #ff9500; border-radius: 6px; padding: 14px;
+    box-shadow: 0 0 12px rgba(255,149,0,0.1);
+  }
+  .fg-card.fg-culprit { border-color: #ff2e2e; box-shadow: 0 0 14px rgba(255,46,46,0.25); }
+  .fg-card-badge { font-size: 0.62rem; letter-spacing: 1px; color: #2ee6ff; text-transform: uppercase; margin-bottom: 6px; }
+  .fg-card-name { font-size: 1rem; color: #ff9500; font-weight: bold; margin-bottom: 4px; }
+  .fg-card-culprit-tag { display: inline-block; font-size: 0.6rem; letter-spacing: 1px; color: #ff2e2e; border: 1px solid #ff2e2e; border-radius: 3px; padding: 1px 5px; margin-bottom: 8px; }
+  .fg-card p { font-size: 0.76rem; color: #ffd9a0; line-height: 1.45; margin: 0 0 8px; }
+  .fg-card .fg-card-label { color: #ffb347; font-size: 0.65rem; letter-spacing: 0.5px; text-transform: uppercase; display: block; margin-bottom: 2px; }
+
+  /* ---- archetype admin ---- */
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+  @media (max-width: 700px) { .form-row { grid-template-columns: 1fr; } }
+  label { display: block; color: #ffb347; font-size: 0.72rem; letter-spacing: 0.5px; margin-bottom: 5px; }
+  input[type="text"], textarea, select {
+    width: 100%; background: #1a1206; border: 1px solid #6b4a1e; color: #ffd9a0;
+    font-family: 'Courier New', monospace; font-size: 0.82rem; padding: 9px 10px; border-radius: 4px; box-sizing: border-box;
+  }
+  textarea { min-height: 60px; resize: vertical; }
+  .fg-check { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: #ffd9a0; margin: 4px 0 14px; }
+  .fg-check input { width: auto; accent-color: #ff9500; }
+
+  .fg-variant-list { margin-bottom: 20px; }
+  .fg-variant-list:empty::after { content: 'No variants stored for this archetype yet.'; color: #6b6b6b; font-size: 0.78rem; font-style: italic; }
+  .fg-variant-tile { border: 1px solid #6b4a1e; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; background: #140d04; }
+  .fg-variant-tile-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .fg-variant-guilty-tag { font-size: 0.6rem; letter-spacing: 1px; color: #ff2e2e; border: 1px solid #ff2e2e; border-radius: 3px; padding: 1px 5px; }
+  .fg-variant-tile p { font-size: 0.76rem; color: #ffd9a0; line-height: 1.4; margin: 0 0 4px; }
+  .fg-variant-tile .fg-variant-actions { display: flex; gap: 8px; margin-top: 8px; }
+  .fg-variant-tile .fg-variant-edit { background: none; border: none; color: #2ee6ff; font-family: inherit; font-size: 0.7rem; cursor: pointer; }
+  .fg-variant-tile .fg-variant-edit:hover { text-shadow: 0 0 6px #2ee6ff; }
+</style>
+</head>
+<body>
+
+  <div id="matrixRain" class="matrix-rain" aria-hidden="true"></div>
+
+  <nav class="dashboard-header">
+    <div class="dashboard-title">DORE TRADING UK // THE FORGE</div>
+    <div class="nav-tabs">
+      <a href="index.html" class="tab-btn">Home</a>
+      <a href="index.html#dashboard" class="tab-btn">Dashboard</a>
+      <a href="seumas-engine.html" class="tab-btn">Seumas Engine</a>
+      <a href="print-preview.html" class="tab-btn">Print Preview</a>
+      <a href="compiler-engine-test.html" class="tab-btn">Compiler</a>
+      <a href="bridge-relay.html" class="tab-btn">Bridge Relay</a>
+      <a href="jester.html" class="tab-btn">Jester</a>
+      <a href="forge.html" class="tab-btn active">Forge</a>
+      <a href="image-converter.html" class="tab-btn">Images</a>
+    </div>
+  </nav>
+
+  <div class="fg-wrap">
+    <div class="fg-stage">
+      <svg id="fgSvg" viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
+        <g id="fgGearLeft" transform="translate(52,110)"></g>
+        <g id="fgGearRight" transform="translate(268,110)"></g>
+
+        <!-- anvil -->
+        <rect x="120" y="150" width="80" height="10" fill="#3a2a1a" />
+        <rect x="135" y="140" width="50" height="12" fill="#4a3520" />
+        <rect x="150" y="118" width="20" height="24" fill="#5a4326" />
+
+        <!-- furnace body -->
+        <rect x="110" y="70" width="100" height="52" rx="6" fill="#2a1d10" stroke="#5a4326" stroke-width="3" />
+        <rect id="fgFurnaceGlow" x="128" y="88" width="64" height="24" rx="4" fill="#ff9500" />
+
+        <g id="fgSparks">
+          <rect class="fg-spark" x="157" y="86" width="4" height="4" fill="#ffd400" style="--fg-dx:-30px; --fg-dy:-40px;" />
+          <rect class="fg-spark" x="160" y="86" width="4" height="4" fill="#ff9500" style="--fg-dx:10px; --fg-dy:-46px;" />
+          <rect class="fg-spark" x="163" y="86" width="4" height="4" fill="#ffd400" style="--fg-dx:36px; --fg-dy:-28px;" />
+          <rect class="fg-spark" x="155" y="86" width="4" height="4" fill="#ffb347" style="--fg-dx:-40px; --fg-dy:-16px;" />
+          <rect class="fg-spark" x="159" y="86" width="4" height="4" fill="#ff9500" style="--fg-dx:-6px; --fg-dy:-52px;" />
+          <rect class="fg-spark" x="162" y="86" width="4" height="4" fill="#ffd400" style="--fg-dx:26px; --fg-dy:-44px;" />
+        </g>
+      </svg>
+    </div>
+    <h1>THE FORGE</h1>
+    <p class="sub">A procedural cast generator -- no AI, just archetypes, variants, and slot-filling. Set a guest count and forge a full cast in an instant.</p>
+
+    <div class="fg-panel">
+      <h2>01 // FORGE THE CAST</h2>
+      <div class="fg-forge-row">
+        <div>
+          <label for="fgGuestCount">Guest Count (4-12)</label>
+          <input type="number" id="fgGuestCount" min="4" max="12" value="8">
+        </div>
+        <button type="button" class="primary-btn" id="fgForgeBtn">FORGE THE CAST</button>
+      </div>
+    </div>
+
+    <div class="big-screen">
+      <div class="big-screen-header">
+        <span>[ FORGE LOG ]</span>
+        <span id="fgScreenTimestamp">STANDBY</span>
+      </div>
+      <div class="big-screen-body" id="fgScreenBody">Waiting for input. Set a guest count and click FORGE THE CAST.<span class="cursor">_</span></div>
+    </div>
+
+    <div class="fg-panel">
+      <h2>02 // THE CAST</h2>
+      <div class="fg-conveyor" id="fgConveyor"></div>
+    </div>
+
+    <div class="fg-panel">
+      <h2>03 // ARCHETYPE FORGE — ADMIN</h2>
+      <p class="fg-hint">Manage the pre-written variants each archetype draws from. secret_template can use <code>{other_character}</code> and <code>{victim}</code> as slot placeholders.</p>
+
+      <label for="fgArchetypeSelect">Archetype</label>
+      <select id="fgArchetypeSelect"></select>
+
+      <div class="fg-variant-list" id="fgVariantList" style="margin-top:16px;"></div>
+
+      <h2 id="fgFormHeading" style="font-size:0.82rem;">Add Variant</h2>
+      <label for="fgVariantPersona">Persona Flavor Text</label>
+      <textarea id="fgVariantPersona" placeholder="e.g. Returned home after years away, still nursing old wounds."></textarea>
+      <div class="form-row" style="margin-top:14px;">
+        <div>
+          <label for="fgVariantTraits">Personality Traits</label>
+          <input type="text" id="fgVariantTraits" placeholder="e.g. guarded, sentimental, quick-tempered">
+        </div>
+        <div>
+          <label for="fgVariantSecret">Secret Template</label>
+          <input type="text" id="fgVariantSecret" placeholder="e.g. Forgave {victim} but never told anyone.">
+        </div>
+      </div>
+      <label class="fg-check"><input type="checkbox" id="fgVariantGuilty"> Guilty-flavored (reserved for the culprit when available)</label>
+
+      <div>
+        <button type="button" class="primary-btn" id="fgVariantSaveBtn">SAVE VARIANT</button>
+        <button type="button" class="ghost-btn" id="fgVariantCancelBtn" hidden>CANCEL EDIT</button>
+      </div>
+    </div>
+  </div>
+
+<script src="script.js"></script>
+<script type="module">
+import { ARCHETYPES } from './lib/archetype-labels.js';
+import { assembleCast } from './lib/forge-assembler.js';
+
+(function () {
+  var NS = 'http://www.w3.org/2000/svg';
+
+  var ARCHETYPE_LABELS = {};
+  ARCHETYPES.forEach(function (a) { ARCHETYPE_LABELS[a.slug] = a.label; });
+
+  function mkEl(tag, attrs) {
+    var el = document.createElementNS(NS, tag);
+    Object.keys(attrs).forEach(function (k) { el.setAttribute(k, attrs[k]); });
+    return el;
+  }
+
+  // ==================== Gears (static shape, animated via CSS rotate) ====================
+  function buildGear(groupId, radius, teeth) {
+    var g = document.getElementById(groupId);
+    g.appendChild(mkEl('circle', { cx: 0, cy: 0, r: radius * 0.7, fill: '#5a4326', stroke: '#8a6234', 'stroke-width': 2 }));
+    for (var i = 0; i < teeth; i++) {
+      var angle = (i / teeth) * Math.PI * 2;
+      var x1 = Math.cos(angle) * radius * 0.68;
+      var y1 = Math.sin(angle) * radius * 0.68;
+      var x2 = Math.cos(angle) * radius;
+      var y2 = Math.sin(angle) * radius;
+      g.appendChild(mkEl('line', { x1: x1, y1: y1, x2: x2, y2: y2, stroke: '#5a4326', 'stroke-width': radius * 0.32, 'stroke-linecap': 'round' }));
+    }
+    g.appendChild(mkEl('circle', { cx: 0, cy: 0, r: radius * 0.22, fill: '#1a1206' }));
+  }
+
+  buildGear('fgGearLeft', 34, 8);
+  buildGear('fgGearRight', 28, 6);
+
+  // ==================== Spark burst (one-shot, replayed each forge) ====================
+  function playSparkBurst() {
+    var sparks = document.getElementById('fgSparks');
+    sparks.classList.remove('fg-sparking');
+    void sparks.offsetWidth; // force reflow so re-adding the class restarts the animation
+    sparks.classList.add('fg-sparking');
+  }
+
+  // ==================== Terminal output ====================
+  var screenBody = document.getElementById('fgScreenBody');
+  var screenTimestamp = document.getElementById('fgScreenTimestamp');
+
+  function writeScreen(text, cls) {
+    screenTimestamp.textContent = new Date().toLocaleTimeString();
+    screenBody.innerHTML = cls ? '<span class="' + cls + '">' + text.replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</span>' : text;
+  }
+
+  // ==================== Cast forging ====================
+  function renderCast(characters) {
+    var conveyor = document.getElementById('fgConveyor');
+    conveyor.innerHTML = '';
+
+    characters.forEach(function (c) {
+      var card = document.createElement('div');
+      card.className = 'fg-card' + (c.is_culprit ? ' fg-culprit' : '');
+
+      var badge = document.createElement('div');
+      badge.className = 'fg-card-badge';
+      badge.textContent = c.archetype_label;
+      card.appendChild(badge);
+
+      var name = document.createElement('div');
+      name.className = 'fg-card-name';
+      name.textContent = c.name;
+      card.appendChild(name);
+
+      if (c.is_culprit) {
+        var tag = document.createElement('div');
+        tag.className = 'fg-card-culprit-tag';
+        tag.textContent = 'CULPRIT';
+        card.appendChild(tag);
+      }
+
+      function field(label, text) {
+        var wrap = document.createElement('p');
+        var lbl = document.createElement('span');
+        lbl.className = 'fg-card-label';
+        lbl.textContent = label;
+        wrap.appendChild(lbl);
+        wrap.appendChild(document.createTextNode(text));
+        card.appendChild(wrap);
+      }
+
+      field('Persona', c.persona_flavor_text);
+      field('Personality', c.personality_traits);
+      field('Secret', c.secret);
+
+      conveyor.appendChild(card);
+    });
+  }
+
+  document.getElementById('fgForgeBtn').addEventListener('click', function () {
+    var guestCountInput = document.getElementById('fgGuestCount');
+    var guestCount = parseInt(guestCountInput.value, 10) || 8;
+    guestCount = Math.max(4, Math.min(12, guestCount));
+    guestCountInput.value = guestCount;
+
+    playSparkBurst();
+    writeScreen('Forging ' + guestCount + ' characters...', null);
+
+    fetch('/api/archetype-list').then(function (res) {
+      if (!res.ok) throw new Error('request failed');
+      return res.json();
+    }).then(function (data) {
+      var result = assembleCast(data.variants || [], guestCount, ARCHETYPE_LABELS);
+      if (result.error) {
+        writeScreen(result.error, 'fail');
+        renderCast([]);
+        return;
+      }
+      renderCast(result.characters);
+      writeScreen('CAST FORGED\nGuests: ' + guestCount + '\nCulprit: ' + result.characters.filter(function (c) { return c.is_culprit; })[0].name, 'pass');
+    }).catch(function () {
+      writeScreen('Could not load archetype data -- check the connection and that ARCHETYPE_DB is deployed.', 'fail');
+    });
+  });
+
+  // ==================== Archetype admin ====================
+  var archetypeSelect = document.getElementById('fgArchetypeSelect');
+  ARCHETYPES.forEach(function (a) {
+    var opt = document.createElement('option');
+    opt.value = a.slug;
+    opt.textContent = a.label;
+    archetypeSelect.appendChild(opt);
+  });
+
+  var editingKey = null;
+
+  function resetForm() {
+    editingKey = null;
+    document.getElementById('fgFormHeading').textContent = 'Add Variant';
+    document.getElementById('fgVariantPersona').value = '';
+    document.getElementById('fgVariantTraits').value = '';
+    document.getElementById('fgVariantSecret').value = '';
+    document.getElementById('fgVariantGuilty').checked = false;
+    document.getElementById('fgVariantSaveBtn').textContent = 'SAVE VARIANT';
+    document.getElementById('fgVariantCancelBtn').hidden = true;
+  }
+
+  function loadVariantsForSelectedArchetype() {
+    var archetype = archetypeSelect.value;
+    var list = document.getElementById('fgVariantList');
+    list.innerHTML = '';
+
+    fetch('/api/archetype-list?archetype=' + encodeURIComponent(archetype)).then(function (res) {
+      return res.ok ? res.json() : { variants: [] };
+    }).then(function (data) {
+      (data.variants || []).forEach(function (v) {
+        var tile = document.createElement('div');
+        tile.className = 'fg-variant-tile';
+
+        var header = document.createElement('div');
+        header.className = 'fg-variant-tile-header';
+        var title = document.createElement('strong');
+        title.style.color = '#ff9500';
+        title.style.fontSize = '0.78rem';
+        title.textContent = v.personality_traits;
+        header.appendChild(title);
+        if (v.is_guilty) {
+          var guiltyTag = document.createElement('span');
+          guiltyTag.className = 'fg-variant-guilty-tag';
+          guiltyTag.textContent = 'GUILTY';
+          header.appendChild(guiltyTag);
+        }
+        tile.appendChild(header);
+
+        var persona = document.createElement('p');
+        persona.textContent = v.persona_flavor_text;
+        tile.appendChild(persona);
+
+        var secret = document.createElement('p');
+        secret.textContent = 'Secret: ' + v.secret_template;
+        tile.appendChild(secret);
+
+        var actions = document.createElement('div');
+        actions.className = 'fg-variant-actions';
+
+        var editBtn = document.createElement('button');
+        editBtn.className = 'fg-variant-edit';
+        editBtn.type = 'button';
+        editBtn.textContent = '[edit]';
+        editBtn.addEventListener('click', function () {
+          editingKey = v.key;
+          document.getElementById('fgFormHeading').textContent = 'Edit Variant';
+          document.getElementById('fgVariantPersona').value = v.persona_flavor_text;
+          document.getElementById('fgVariantTraits').value = v.personality_traits;
+          document.getElementById('fgVariantSecret').value = v.secret_template;
+          document.getElementById('fgVariantGuilty').checked = !!v.is_guilty;
+          document.getElementById('fgVariantSaveBtn').textContent = 'UPDATE VARIANT';
+          document.getElementById('fgVariantCancelBtn').hidden = false;
+          window.scrollTo({ top: document.getElementById('fgFormHeading').offsetTop - 20, behavior: 'smooth' });
+        });
+
+        var deleteBtn = document.createElement('button');
+        deleteBtn.className = 'danger-btn';
+        deleteBtn.type = 'button';
+        deleteBtn.textContent = '[delete]';
+        deleteBtn.addEventListener('click', function () {
+          fetch('/api/archetype-upload/' + encodeURIComponent(v.key), { method: 'DELETE' }).then(function () {
+            loadVariantsForSelectedArchetype();
+          });
+        });
+
+        actions.appendChild(editBtn);
+        actions.appendChild(deleteBtn);
+        tile.appendChild(actions);
+
+        list.appendChild(tile);
+      });
+    });
+  }
+
+  archetypeSelect.addEventListener('change', function () {
+    resetForm();
+    loadVariantsForSelectedArchetype();
+  });
+
+  document.getElementById('fgVariantCancelBtn').addEventListener('click', resetForm);
+
+  document.getElementById('fgVariantSaveBtn').addEventListener('click', function () {
+    var body = {
+      archetype: archetypeSelect.value,
+      persona_flavor_text: document.getElementById('fgVariantPersona').value.trim(),
+      personality_traits: document.getElementById('fgVariantTraits').value.trim(),
+      secret_template: document.getElementById('fgVariantSecret').value.trim(),
+      is_guilty: document.getElementById('fgVariantGuilty').checked,
+    };
+
+    if (!body.persona_flavor_text || !body.personality_traits || !body.secret_template) {
+      writeScreen('Fill in all three variant fields before saving.', 'fail');
+      return;
+    }
+
+    var url = editingKey ? '/api/archetype-upload/' + encodeURIComponent(editingKey) : '/api/archetype-upload';
+    var method = editingKey ? 'PUT' : 'POST';
+
+    fetch(url, {
+      method: method,
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(body),
+    }).then(function (res) {
+      return res.json().then(function (data) { return { ok: res.ok, data: data }; });
+    }).then(function (result) {
+      if (!result.ok) {
+        writeScreen('Could not save variant: ' + (result.data && result.data.error), 'fail');
+        return;
+      }
+      writeScreen(editingKey ? 'Variant updated.' : 'Variant added.', 'pass');
+      resetForm();
+      loadVariantsForSelectedArchetype();
+    }).catch(function () {
+      writeScreen('Could not reach the archetype API.', 'fail');
+    });
+  });
+
+  loadVariantsForSelectedArchetype();
+})();
+</script>
+</body>
+</html>

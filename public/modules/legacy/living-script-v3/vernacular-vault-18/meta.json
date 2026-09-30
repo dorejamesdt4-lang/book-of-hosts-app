@@ -1,0 +1,50 @@
+{
+  "id": "vernacular-vault-18",
+  "name": "Slang-O-Meter 18+",
+  "ageRating": "18+",
+  "players": {
+    "min": 2,
+    "max": 32
+  },
+  "type": "trivia",
+  "needsProps": false,
+  "modes": [
+    "online",
+    "in-person"
+  ],
+  "settings": {
+    "speedBonus": [
+      "off",
+      1.5,
+      2
+    ],
+    "timeLimit": [
+      10,
+      15,
+      20,
+      30
+    ],
+    "length": [
+      5,
+      10,
+      15
+    ],
+    "roundType": [
+      "slang",
+      "meaning",
+      "mixed"
+    ],
+    "forfeits": [
+      true,
+      false
+    ]
+  },
+  "pools": [
+    "pools/uk-slang-18.json"
+  ],
+  "lines": "lines.json",
+  "pitch": "Pub-quiz slang for grown-ups, chalked up on the board. Optional forfeits, always with a Pass.",
+  "testPage": "vault.html?module=vernacular-vault-18",
+  "rulesCard": null,
+  "printPage": "vault-print.html?module=vernacular-vault-18"
+}

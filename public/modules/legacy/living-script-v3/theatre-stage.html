@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Stage · Theatre — The Living Script v3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&amp;family=Cardo:ital,wght@0,400;0,700;1,400&amp;family=Silkscreen&amp;display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="preconnect" href="https://huggingface.co" crossorigin>
+<link rel="stylesheet" href="ls.css">
+</head>
+<body class="ls-tv-body">
+<!-- Theatre Mode's TV. Not a mockup screen of its own: built from the
+     approved Stage mockup's parts (header, act bar, book, arch, plate,
+     parchment cards). The Host Console bar is replaced by a caption
+     strip; the console itself runs in its own window (console.html). -->
+<div class="ls-board" id="board" style="width: 1440px; height: 1080px; box-sizing: border-box; background: #0B1620; overflow: hidden; font-family: 'Cardo', Georgia, serif; color: #EDE6D6">
+
+<div style="position: absolute; inset: 0; box-shadow: inset 0 0 200px rgba(0,0,0,0.7); pointer-events: none"></div>
+<div class="star" style="left: 952px; top: 160px; animation-delay: -1.12s; opacity: 0.6"></div><div class="star" style="left: 287px; top: 51px; animation-delay: -2.60s; opacity: 0.6"></div><div class="star" style="left: 17px; top: 90px; animation-delay: -1.51s; opacity: 0.6"></div><div class="star" style="left: 1242px; top: 24px; animation-delay: -1.00s; opacity: 0.6"></div><div class="star" style="left: 1266px; top: 183px; animation-delay: -0.12s; opacity: 0.6"></div><div class="star" style="left: 780px; top: 47px; animation-delay: -2.11s; opacity: 0.6"></div><div class="star" style="left: 929px; top: 247px; animation-delay: -2.18s; opacity: 0.6"></div><div class="star" style="left: 325px; top: 47px; animation-delay: -0.71s; opacity: 0.6"></div><div class="star" style="left: 231px; top: 37px; animation-delay: -1.52s; opacity: 0.6"></div><div class="star" style="left: 1213px; top: 20px; animation-delay: -2.32s; opacity: 0.6"></div><div class="star" style="left: 789px; top: 206px; animation-delay: -2.24s; opacity: 0.6"></div><div class="star" style="left: 212px; top: 239px; animation-delay: -0.87s; opacity: 0.6"></div><div class="star" style="left: 1384px; top: 61px; animation-delay: -2.18s; opacity: 0.6"></div><div class="star" style="left: 867px; top: 231px; animation-delay: -0.26s; opacity: 0.6"></div><div class="star" style="left: 550px; top: 237px; animation-delay: -0.63s; opacity: 0.6"></div><div class="star" style="left: 579px; top: 91px; animation-delay: -2.43s; opacity: 0.6"></div><div class="star" style="left: 412px; top: 185px; animation-delay: -2.66s; opacity: 0.6"></div><div class="star" style="left: 846px; top: 18px; animation-delay: -2.69s; opacity: 0.6"></div><div class="star" style="left: 1011px; top: 39px; animation-delay: -0.07s; opacity: 0.6"></div><div class="star" style="left: 873px; top: 192px; animation-delay: -2.72s; opacity: 0.6"></div><div class="star" style="left: 233px; top: 250px; animation-delay: -1.79s; opacity: 0.6"></div><div class="star" style="left: 252px; top: 199px; animation-delay: -1.74s; opacity: 0.6"></div><div class="star" style="left: 419px; top: 88px; animation-delay: -0.02s; opacity: 0.6"></div><div class="star" style="left: 175px; top: 38px; animation-delay: -1.62s; opacity: 0.6"></div><div class="star" style="left: 39px; top: 132px; animation-delay: -0.25s; opacity: 0.6"></div><div class="star" style="left: 1021px; top: 141px; animation-delay: -2.76s; opacity: 0.6"></div><div class="star" style="left: 864px; top: 21px; animation-delay: -1.19s; opacity: 0.6"></div><div class="star" style="left: 1312px; top: 199px; animation-delay: -0.28s; opacity: 0.6"></div><div class="star" style="left: 1191px; top: 41px; animation-delay: -0.52s; opacity: 0.6"></div><div class="star" style="left: 1251px; top: 188px; animation-delay: -2.87s; opacity: 0.6"></div>
+<header style="display: flex; align-items: center; justify-content: space-between; padding: 26px 64px; border-bottom: 1px solid #1E3A3A">
+<div style="display: flex; align-items: center; gap: 14px">
+<svg width="46" height="46" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 6 L34.5 13 L42 13 L36 17.5 L38.5 25 L32 20.5 L25.5 25 L28 17.5 L22 13 L29.5 13 Z" fill="#D9A441"></path><path d="M6 30 Q19 25 32 32 Q45 25 58 30 L58 54 Q45 49 32 56 Q19 49 6 54 Z" fill="none" stroke="#D9A441" stroke-width="2.2" stroke-linejoin="round"></path><path d="M32 32 L32 56" stroke="#D9A441" stroke-width="2"></path><path d="M11 36 Q20 33 27 37 M11 42 Q20 39 27 43 M37 37 Q44 33 53 36 M37 43 Q44 39 53 42" stroke="#5AA8A0" stroke-width="1.4" fill="none"></path></svg>
+<div style="display: flex; flex-direction: column; gap: 2px">
+<div style="font-family: 'Cinzel', serif; font-weight: 700; font-size: 20px; letter-spacing: 6px; color: #D9A441">THE BOOK OF HOSTS</div>
+<div id="actLabel" style="font-style: italic; font-size: 15px; color: #A9C9C4"></div>
+</div>
+</div>
+<h1 style="margin: 0; font-family: 'Cinzel', serif; font-weight: 700; font-size: 26px; letter-spacing: 3px; color: #EDE6D6">The Stage</h1>
+<div style="display: flex; gap: 10px"><div style="font-family: 'Silkscreen', monospace; font-size: 11px; letter-spacing: 1px; color: #A9C9C4; border: 1px solid #2A4A4A; border-radius: 999px; padding: 8px 14px">THEATRE</div><div id="beatBadge" style="font-family: 'Silkscreen', monospace; font-size: 11px; letter-spacing: 1px; color: #D9A441; border: 1px solid #6B5320; border-radius: 999px; padding: 8px 14px">BEAT 0 OF 0</div><div style="font-family: 'Silkscreen', monospace; font-size: 11px; letter-spacing: 1px; color: #5AA8A0; border: 1px solid #2A4A4A; border-radius: 999px; padding: 8px 14px">CAPTIONS ON</div></div>
+</header>
+<div style="padding: 20px 64px 0; display: flex; align-items: center; gap: 14px">
+<div id="actFirst" style="font-family: 'Cinzel', serif; font-size: 12px; letter-spacing: 3px; color: #8FA5A3">ACT I</div>
+<div style="flex-grow: 1; height: 6px; border-radius: 999px; background: #132A2A; border: 1px solid #1E3A3A; overflow: hidden"><div id="actFill" style="width: 0%; height: 100%; background: #D9A441"></div></div>
+<div id="actLast" style="font-family: 'Cinzel', serif; font-size: 12px; letter-spacing: 3px; color: #8FA5A3">ACT II</div>
+</div>
+<div style="margin: 22px auto 0; width: 1312px; box-sizing: border-box; padding: 14px; border-radius: 16px; background: #132A2A; border: 1px solid #2A4A4A; box-shadow: 0 40px 80px rgba(0,0,0,0.6), inset 0 0 0 5px #102424, inset 0 0 0 6px #B8923E">
+<div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 2px; height: 640px">
+<div style="position: relative; background: #EDE6D6; border-radius: 6px; box-shadow: inset 0 0 70px rgba(160,120,60,0.2); color: #1B2A36; box-sizing: border-box; padding: 40px 44px; display: flex; flex-direction: column; align-items: center; gap: 20px; border-radius: 6px 0 0 6px">
+<div style="position: absolute; inset: 14px; border: 1px solid #B8923E; border-radius: 4px; pointer-events: none"></div>
+<svg width="54" height="54" viewBox="0 0 54 54" aria-hidden="true" style="position: absolute; top: 10px; left: 10px; transform: none"><path d="M2 52 L2 14 Q2 2 14 2 L52 2" fill="none" stroke="#B8923E" stroke-width="1.5"></path><path d="M8 52 L8 18 Q8 8 18 8 L52 8" fill="none" stroke="#B8923E" stroke-width="0.8"></path><path d="M14 14 Q22 6 28 14 Q20 20 14 14 Z" fill="#B8923E"></path><circle cx="14" cy="14" r="2.4" fill="#8A6420"></circle></svg><svg width="54" height="54" viewBox="0 0 54 54" aria-hidden="true" style="position: absolute; top: 10px; right: 10px; transform: scaleX(-1)"><path d="M2 52 L2 14 Q2 2 14 2 L52 2" fill="none" stroke="#B8923E" stroke-width="1.5"></path><path d="M8 52 L8 18 Q8 8 18 8 L52 8" fill="none" stroke="#B8923E" stroke-width="0.8"></path><path d="M14 14 Q22 6 28 14 Q20 20 14 14 Z" fill="#B8923E"></path><circle cx="14" cy="14" r="2.4" fill="#8A6420"></circle></svg><svg width="54" height="54" viewBox="0 0 54 54" aria-hidden="true" style="position: absolute; bottom: 10px; left: 10px; transform: scaleY(-1)"><path d="M2 52 L2 14 Q2 2 14 2 L52 2" fill="none" stroke="#B8923E" stroke-width="1.5"></path><path d="M8 52 L8 18 Q8 8 18 8 L52 8" fill="none" stroke="#B8923E" stroke-width="0.8"></path><path d="M14 14 Q22 6 28 14 Q20 20 14 14 Z" fill="#B8923E"></path><circle cx="14" cy="14" r="2.4" fill="#8A6420"></circle></svg><svg width="54" height="54" viewBox="0 0 54 54" aria-hidden="true" style="position: absolute; bottom: 10px; right: 10px; transform: scale(-1, -1)"><path d="M2 52 L2 14 Q2 2 14 2 L52 2" fill="none" stroke="#B8923E" stroke-width="1.5"></path><path d="M8 52 L8 18 Q8 8 18 8 L52 8" fill="none" stroke="#B8923E" stroke-width="0.8"></path><path d="M14 14 Q22 6 28 14 Q20 20 14 14 Z" fill="#B8923E"></path><circle cx="14" cy="14" r="2.4" fill="#8A6420"></circle></svg>
+<div id="leftLabel" style="font-family: 'Cinzel', serif; font-size: 12px; letter-spacing: 6px; color: #8A6420">THE SPOTLIGHT</div>
+<div style="position: relative">
+<div id="pulse" class="pulse" hidden style="position: absolute; inset: 0; border-radius: 170px 170px 14px 14px"></div>
+<div style="position: relative; width: 320px; height: 400px; box-sizing: border-box; border-radius: 160px 160px 12px 12px; background: #0B1620; border: 4px solid #D9A441; box-shadow: 0 0 0 6px #EDE6D6, 0 0 0 8px #B8923E; overflow: hidden; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 40px">
+<div class="star" style="left: 271px; top: 110px; animation-delay: -2.42s; opacity: 0.6"></div><div class="star" style="left: 191px; top: 78px; animation-delay: -0.52s; opacity: 0.6"></div><div class="star" style="left: 280px; top: 173px; animation-delay: -0.83s; opacity: 0.6"></div><div class="star" style="left: 17px; top: 67px; animation-delay: -1.15s; opacity: 0.6"></div><div class="star" style="left: 218px; top: 68px; animation-delay: -2.58s; opacity: 0.6"></div><div class="star" style="left: 166px; top: 167px; animation-delay: -2.54s; opacity: 0.6"></div><div class="star" style="left: 209px; top: 39px; animation-delay: -3.00s; opacity: 0.6"></div><div class="star" style="left: 35px; top: 39px; animation-delay: -2.44s; opacity: 0.6"></div><div class="star" style="left: 104px; top: 42px; animation-delay: -2.65s; opacity: 0.6"></div><div class="star" style="left: 276px; top: 147px; animation-delay: -2.41s; opacity: 0.6"></div><div class="star" style="left: 111px; top: 88px; animation-delay: -1.62s; opacity: 0.6"></div><div class="star" style="left: 39px; top: 83px; animation-delay: -1.23s; opacity: 0.6"></div><div class="star" style="left: 263px; top: 125px; animation-delay: -1.92s; opacity: 0.6"></div><div class="star" style="left: 76px; top: 178px; animation-delay: -2.44s; opacity: 0.6"></div>
+<div style="position: absolute; left: 50%; bottom: 22px; width: 240px; height: 56px; transform: translateX(-50%); border-radius: 50%; background: radial-gradient(ellipse at center, rgba(90,168,160,0.55), rgba(90,168,160,0) 70%)"></div>
+<div class="ls-sprite is-empty" id="spriteBox" style="width: 232px; height: 232px">
+<iframe id="stageFrame" title="Character" sandbox="allow-scripts"></iframe>
+</div>
+<div style="position: absolute; inset: 0; background: repeating-linear-gradient(0deg, rgba(0,0,0,0.16) 0px, rgba(0,0,0,0.16) 1px, transparent 1px, transparent 4px); pointer-events: none"></div>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 10px 30px; background: #0F1E28; border: 1px solid #D9A441; border-radius: 6px">
+<div id="plateName" style="font-family: 'Cinzel', serif; font-weight: 700; font-size: 22px; color: #D9A441; text-align: center"></div>
+<div id="plateSub" style="font-style: italic; font-size: 15px; color: #A9C9C4"></div>
+</div>
+
+</div>
+<div style="position: relative; background: #EDE6D6; border-radius: 6px; box-shadow: inset 0 0 70px rgba(160,120,60,0.2); color: #1B2A36; box-sizing: border-box; padding: 40px 50px; display: flex; flex-direction: column; gap: 16px; border-radius: 0 6px 6px 0; min-height: 0">
+<div style="position: absolute; inset: 14px; border: 1px solid #B8923E; border-radius: 4px; pointer-events: none"></div>
+<svg width="54" height="54" viewBox="0 0 54 54" aria-hidden="true" style="position: absolute; top: 10px; left: 10px; transform: none"><path d="M2 52 L2 14 Q2 2 14 2 L52 2" fill="none" stroke="#B8923E" stroke-width="1.5"></path><path d="M8 52 L8 18 Q8 8 18 8 L52 8" fill="none" stroke="#B8923E" stroke-width="0.8"></path><path d="M14 14 Q22 6 28 14 Q20 20 14 14 Z" fill="#B8923E"></path><circle cx="14" cy="14" r="2.4" fill="#8A6420"></circle></svg><svg width="54" height="54" viewBox="0 0 54 54" aria-hidden="true" style="position: absolute; top: 10px; right: 10px; transform: scaleX(-1)"><path d="M2 52 L2 14 Q2 2 14 2 L52 2" fill="none" stroke="#B8923E" stroke-width="1.5"></path><path d="M8 52 L8 18 Q8 8 18 8 L52 8" fill="none" stroke="#B8923E" stroke-width="0.8"></path><path d="M14 14 Q22 6 28 14 Q20 20 14 14 Z" fill="#B8923E"></path><circle cx="14" cy="14" r="2.4" fill="#8A6420"></circle></svg><svg width="54" height="54" viewBox="0 0 54 54" aria-hidden="true" style="position: absolute; bottom: 10px; left: 10px; transform: scaleY(-1)"><path d="M2 52 L2 14 Q2 2 14 2 L52 2" fill="none" stroke="#B8923E" stroke-width="1.5"></path><path d="M8 52 L8 18 Q8 8 18 8 L52 8" fill="none" stroke="#B8923E" stroke-width="0.8"></path><path d="M14 14 Q22 6 28 14 Q20 20 14 14 Z" fill="#B8923E"></path><circle cx="14" cy="14" r="2.4" fill="#8A6420"></circle></svg><svg width="54" height="54" viewBox="0 0 54 54" aria-hidden="true" style="position: absolute; bottom: 10px; right: 10px; transform: scale(-1, -1)"><path d="M2 52 L2 14 Q2 2 14 2 L52 2" fill="none" stroke="#B8923E" stroke-width="1.5"></path><path d="M8 52 L8 18 Q8 8 18 8 L52 8" fill="none" stroke="#B8923E" stroke-width="0.8"></path><path d="M14 14 Q22 6 28 14 Q20 20 14 14 Z" fill="#B8923E"></path><circle cx="14" cy="14" r="2.4" fill="#8A6420"></circle></svg>
+<div id="rightLabel" style="align-self: center; font-family: 'Cinzel', serif; font-size: 12px; letter-spacing: 6px; color: #8A6420">THE SCENE</div>
+<div id="right" style="position: relative; display: flex; flex-direction: column; gap: 16px; flex: 1 1 auto; min-height: 0; overflow: hidden"></div>
+</div>
+</div>
+</div>
+
+<!-- Captions for narration and stand-in lines, where the online Stage has its console bar. -->
+<div id="captions" role="log" aria-live="polite" style="position: absolute; left: 64px; right: 64px; bottom: 26px; min-height: 72px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; gap: 2px; padding: 12px 20px; background: #0F1E28; border: 1px solid #6B5320; border-radius: 12px">
+<div id="capWho" style="font-family: 'Cinzel', serif; font-weight: 700; font-size: 13px; letter-spacing: 3px; color: #D9A441"></div>
+<div id="capText" style="font-size: 22px; line-height: 1.35; color: #EDE6D6"></div>
+</div>
+
+<!-- Full-board cards: act titles, envelope call-ups, clue reveals, the dice table, the curtain. -->
+<div id="overlay" hidden style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(11,22,32,0.9)">
+<div id="overlayCard" style="position: relative; width: 1000px; max-height: 900px; background: #EDE6D6; border-radius: 6px; box-shadow: inset 0 0 70px rgba(160,120,60,0.2), 0 40px 80px rgba(0,0,0,0.6); color: #1B2A36; box-sizing: border-box; padding: 64px 70px 58px; display: flex; flex-direction: column; align-items: center; gap: 20px; text-align: center">
+</div>
+<div id="overlayWide" hidden style="width: 1240px"></div>
+</div>
+
+<div id="cover" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(11,22,32,0.86)">
+<div style="position: relative; width: 820px; background: #EDE6D6; border-radius: 6px; box-shadow: inset 0 0 70px rgba(160,120,60,0.2), 0 40px 80px rgba(0,0,0,0.6); color: #1B2A36; box-sizing: border-box; padding: 56px 60px 50px; display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center">
+<div style="position: absolute; inset: 14px; border: 1px solid #B8923E; border-radius: 4px; pointer-events: none"></div>
+<div style="font-family: 'Cinzel', serif; font-size: 12px; letter-spacing: 5px; color: #8A6420">THEATRE · TONIGHT'S TALE</div>
+<div id="coverTitle" style="font-family: 'Cinzel', serif; font-weight: 700; font-size: 40px; line-height: 1.15; color: #0F1E28"></div>
+<div id="coverSub" style="font-style: italic; font-size: 19px; color: #3B4B57"></div>
+<button type="button" id="btnStart" class="pbtn" style="margin-top: 10px; width: 104px; height: 104px; border-radius: 50%; border: 3px solid #8A6420; background: #D9A441; box-shadow: inset 0 0 0 6px #E9BE62, inset 0 0 0 8px #8A6420, 0 14px 28px rgba(0,0,0,0.25); display: flex; align-items: center; justify-content: center; cursor: pointer" aria-label="Begin the tale"><svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5 L19 12 L8 19 Z" fill="#0F1E28"></path></svg></button>
+<div id="coverBeginLabel" style="font-family: 'Cinzel', serif; font-weight: 700; font-size: 22px; letter-spacing: 3px; color: #8A6420">BEGIN THE TALE</div>
+<!-- Show Packs only: every audio file is fetched before the show (built
+     from the Lobby's progress panel and buttons). -->
+<div id="packPrep" hidden style="position: relative; width: 100%; display: flex; flex-direction: column; gap: 14px; text-align: left">
+<div id="packWarn" role="alert" hidden style="padding: 12px 16px; border: 1px solid #9E3B3B; border-radius: 8px; font-size: 16px; line-height: 1.4; color: #9E3B3B"></div>
+<div style="display: flex; flex-direction: column; gap: 10px; padding: 20px 24px; background: #0F1E28; border: 1px solid #2A4A4A; border-radius: 10px">
+<div id="packPrepText" role="status" style="font-size: 16px; font-style: italic; color: #A9C9C4">Preparing the show…</div>
+<div style="height: 10px; border-radius: 999px; background: #132A2A; border: 1px solid #2A4A4A; overflow: hidden"><div id="packPrepBar" style="width: 0%; height: 100%; background: #5AA8A0"></div></div>
+<div id="packReport" style="font-size: 14px; line-height: 1.4; color: #8FA5A3"></div>
+</div>
+<div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap">
+<button type="button" id="btnPackStart" class="pbtn" disabled style="height: 44px; padding: 0 18px; border: 1px solid #8A6420; border-radius: 6px; background: #D9A441; color: #0F1E28; font-family: 'Cinzel', serif; font-weight: 700; font-size: 13px; letter-spacing: 2px; cursor: pointer">START SHOW</button>
+<button type="button" id="btnPackCaptions" class="pbtn" style="height: 44px; padding: 0 18px; border: 1px solid #8A6420; border-radius: 6px; background: transparent; color: #8A6420; font-family: 'Cinzel', serif; font-size: 13px; letter-spacing: 2px; cursor: pointer">START ANYWAY (CAPTIONS ONLY)</button>
+</div>
+</div>
+<div id="coverHint" style="font-size: 16px; font-style: italic; color: #3B4B57">Move this window to the TV and make it full screen (F11). Then click Begin here, or press your clicker once.</div>
+<button type="button" id="btnConsole" class="pbtn" style="height: 44px; padding: 0 18px; border: 1px solid #8A6420; border-radius: 6px; background: transparent; color: #8A6420; font-family: 'Cinzel', serif; font-size: 13px; letter-spacing: 2px; cursor: pointer">OPEN THE HOST CONSOLE</button>
+</div>
+</div>
+
+</div>
+<script type="module" src="js/theatre-stage.js"></script>
+</body>
+</html>

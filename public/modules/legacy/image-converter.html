@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Image to JSON — Dore Trading UK</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  .ic-wrap { max-width: 1000px; margin: 0 auto; padding: 40px 24px 96px; position: relative; z-index: 2; }
+  .ic-wrap h1 { color: #2ee6ff; text-shadow: 0 0 10px rgba(46,230,255,0.6); font-size: 1.8rem; margin: 0 0 6px; text-align: center; }
+  .ic-wrap .sub { color: #6b9aa8; font-size: 0.85rem; margin-bottom: 32px; line-height: 1.5; text-align: center; }
+
+  .ic-panel { background: #0d0d0d; border: 1px solid #2ee6ff; border-radius: 8px; padding: 24px; margin-bottom: 20px; box-shadow: 0 0 18px rgba(46,230,255,0.12); }
+  .ic-panel h2 { color: #2ee6ff; font-size: 0.95rem; letter-spacing: 1px; margin: 0 0 16px; text-shadow: 0 0 6px rgba(46,230,255,0.5); }
+  .ic-panel .ic-hint { color: #5a7f8a; font-size: 0.75rem; margin: -8px 0 16px; line-height: 1.5; }
+
+  label { display: block; color: #7fd8ff; font-size: 0.72rem; letter-spacing: 0.5px; margin-bottom: 5px; }
+  input[type="text"], select {
+    width: 100%; background: #061a1f; border: 1px solid #1e5a6b; color: #d8f7ff;
+    font-family: 'Courier New', monospace; font-size: 0.82rem; padding: 9px 10px; border-radius: 4px; box-sizing: border-box;
+  }
+
+  .primary-btn { background: #2ee6ff; color: #061a1f; border: none; font-family: inherit; font-weight: bold; font-size: 0.85rem; padding: 10px 20px; border-radius: 4px; cursor: pointer; }
+  .primary-btn:hover { background: #6bf0ff; }
+  .ghost-btn { background: transparent; border: 1px solid #2ee6ff; color: #2ee6ff; font-family: inherit; font-size: 0.8rem; padding: 8px 16px; border-radius: 4px; cursor: pointer; margin-right: 10px; }
+  .ghost-btn:hover { background: rgba(46,230,255,0.1); }
+  .danger-btn { background: transparent; border: 1px solid #ff2e2e; color: #ff2e2e; font-family: inherit; font-size: 0.72rem; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
+  .danger-btn:hover { background: rgba(255,46,46,0.1); }
+
+  .ic-upload-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+  .ic-file-name { font-size: 0.75rem; color: #6b9aa8; }
+
+  /* Responsive pixel-art SVG: viewBox is a fixed 32x32 grid, but the
+     element itself is width:100% of its container -- it scales down
+     for mobile and up for a wide desktop panel without ever being
+     cropped, per the brief. */
+  .ic-pixel-svg { width: 100%; height: auto; display: block; shape-rendering: crispEdges; background: #000; }
+
+  .ic-preview-row { display: flex; gap: 24px; flex-wrap: wrap; align-items: flex-start; }
+  .ic-preview-stage { flex: 0 0 220px; max-width: 100%; }
+  .ic-save-form { flex: 1 1 260px; min-width: 220px; }
+  .ic-preview-stage:empty::after { content: ''; }
+
+  .big-screen {
+    background: #04141a; border: 2px solid #2ee6ff; border-radius: 8px;
+    box-shadow: 0 0 30px rgba(46,230,255,0.2), inset 0 0 40px rgba(0,0,0,0.6);
+    padding: 20px; margin-bottom: 20px; min-height: 90px; position: relative; overflow: hidden;
+  }
+  .big-screen::before {
+    content: ''; position: absolute; inset: 0;
+    background: repeating-linear-gradient(0deg, rgba(46,230,255,0.04) 0px, rgba(46,230,255,0.04) 1px, transparent 1px, transparent 3px);
+    pointer-events: none;
+  }
+  .big-screen-header { display: flex; justify-content: space-between; color: #5a8a96; font-size: 0.7rem; letter-spacing: 1px; margin-bottom: 12px; }
+  .big-screen-body { color: #d8f7ff; font-family: 'Courier New', monospace; font-size: 0.82rem; white-space: pre-wrap; line-height: 1.6; min-height: 50px; }
+  .big-screen-body .pass { color: #00ff66; }
+  .big-screen-body .fail { color: #ff2e88; }
+
+  /* ---- gallery ---- */
+  .ic-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 16px; }
+  .ic-gallery:empty::after { content: 'No saved image recipes yet.'; color: #6b6b6b; font-size: 0.78rem; font-style: italic; grid-column: 1 / -1; }
+  .ic-gallery-tile { border: 1px solid #1e5a6b; border-radius: 6px; padding: 10px; background: #061a1f; }
+  .ic-gallery-tile .ic-gallery-name { font-size: 0.7rem; color: #7fd8ff; margin: 8px 0 6px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+</style>
+</head>
+<body>
+
+  <div id="matrixRain" class="matrix-rain" aria-hidden="true"></div>
+
+  <nav class="dashboard-header">
+    <div class="dashboard-title">DORE TRADING UK // IMAGE TO JSON</div>
+    <div class="nav-tabs">
+      <a href="index.html" class="tab-btn">Home</a>
+      <a href="index.html#dashboard" class="tab-btn">Dashboard</a>
+      <a href="seumas-engine.html" class="tab-btn">Seumas Engine</a>
+      <a href="print-preview.html" class="tab-btn">Print Preview</a>
+      <a href="compiler-engine-test.html" class="tab-btn">Compiler</a>
+      <a href="bridge-relay.html" class="tab-btn">Bridge Relay</a>
+      <a href="jester.html" class="tab-btn">Jester</a>
+      <a href="forge.html" class="tab-btn">Forge</a>
+      <a href="image-converter.html" class="tab-btn active">Images</a>
+    </div>
+  </nav>
+
+  <div class="ic-wrap">
+    <h1>IMAGE TO JSON</h1>
+    <p class="sub">Upload a PNG or JPG, downsample it to a 32x32 pixel-art grid client-side, and save the result as a small JSON "recipe" in the training store. No server, no external API -- just a canvas doing the averaging.</p>
+
+    <div class="ic-panel">
+      <h2>01 // CONVERT AN IMAGE</h2>
+      <div class="ic-upload-row">
+        <input type="file" id="icFileInput" accept="image/png,image/jpeg">
+        <span class="ic-file-name" id="icFileName"></span>
+      </div>
+      <canvas id="icHiddenCanvas" hidden></canvas>
+
+      <div class="ic-preview-row">
+        <div class="ic-preview-stage" id="icPreviewStage"></div>
+        <div class="ic-save-form">
+          <label for="icRecipeName">Recipe Name</label>
+          <input type="text" id="icRecipeName" placeholder="e.g. sunset-mug-art">
+          <label for="icCategory" style="margin-top:12px;">Category</label>
+          <select id="icCategory">
+            <option value="game_modes">Game Modes</option>
+            <option value="historical_events">Historical Events</option>
+            <option value="words">Words</option>
+            <option value="swear_words">Swear Words</option>
+            <option value="inspiring_events">Inspiring Events</option>
+            <option value="inspiration">Inspiration</option>
+            <option value="image_recipes" selected>Image Recipes</option>
+          </select>
+          <div style="margin-top:14px;">
+            <button type="button" class="primary-btn" id="icSaveBtn" disabled>SAVE TO DATABASE</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="big-screen">
+      <div class="big-screen-header">
+        <span>[ CONVERTER LOG ]</span>
+        <span id="icScreenTimestamp">STANDBY</span>
+      </div>
+      <div class="big-screen-body" id="icScreenBody">Waiting for input. Choose a PNG or JPG to convert.<span class="cursor">_</span></div>
+    </div>
+
+    <div class="ic-panel">
+      <h2>02 // GALLERY</h2>
+      <p class="ic-hint">Every saved recipe in the Image Recipes category, rendered back from its stored JSON with the exact same renderer used above.</p>
+      <div class="ic-gallery" id="icGallery"></div>
+    </div>
+  </div>
+
+<script src="script.js"></script>
+<script type="module">
+import { GRID_SIZE, downsampleToGrid, encodeGrid, decodeGrid, renderGridSvg } from './lib/image-grid.js';
+
+(function () {
+  var screenBody = document.getElementById('icScreenBody');
+  var screenTimestamp = document.getElementById('icScreenTimestamp');
+
+  function writeScreen(text, cls) {
+    screenTimestamp.textContent = new Date().toLocaleTimeString();
+    screenBody.innerHTML = cls ? '<span class="' + cls + '">' + text.replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</span>' : text;
+  }
+
+  var currentGrid = null; // the last converted image's hex-color array, ready to save
+
+  function showPreview(hexColors) {
+    var stage = document.getElementById('icPreviewStage');
+    stage.innerHTML = '';
+    stage.appendChild(renderGridSvg(hexColors, GRID_SIZE));
+  }
+
+  document.getElementById('icFileInput').addEventListener('change', function (event) {
+    var file = event.target.files && event.target.files[0];
+    if (!file) return;
+
+    document.getElementById('icFileName').textContent = file.name;
+    document.getElementById('icRecipeName').value = file.name.replace(/\.[^.]+$/, '');
+    document.getElementById('icSaveBtn').disabled = true;
+
+    var img = new Image();
+    img.onload = function () {
+      var canvas = document.getElementById('icHiddenCanvas');
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+      var ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+
+      var imageData;
+      try {
+        imageData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+      } catch (e) {
+        writeScreen('Could not read pixel data from that image: ' + e.message, 'fail');
+        return;
+      }
+
+      currentGrid = downsampleToGrid(imageData, canvas.width, canvas.height, GRID_SIZE);
+      showPreview(currentGrid);
+      document.getElementById('icSaveBtn').disabled = false;
+
+      var encoded = encodeGrid(currentGrid, GRID_SIZE);
+      writeScreen('Converted to a ' + GRID_SIZE + 'x' + GRID_SIZE + ' grid (' + JSON.stringify(encoded).length + ' bytes as JSON). Review the preview, then save.', 'pass');
+      URL.revokeObjectURL(img.src);
+    };
+    img.onerror = function () {
+      writeScreen('Could not load that file as an image.', 'fail');
+    };
+    img.src = URL.createObjectURL(file);
+  });
+
+  document.getElementById('icSaveBtn').addEventListener('click', function () {
+    if (!currentGrid) return;
+
+    var name = document.getElementById('icRecipeName').value.trim() || 'image-recipe';
+    var category = document.getElementById('icCategory').value;
+    var encoded = encodeGrid(currentGrid, GRID_SIZE);
+    var content = JSON.stringify(encoded);
+    var filename = name.replace(/\.json$/i, '') + '.json';
+
+    fetch('/api/training-upload', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ filename: filename, content: content, category: category, type: 'application/json' }),
+    }).then(function (res) {
+      return res.json().then(function (data) { return { ok: res.ok, data: data }; });
+    }).then(function (result) {
+      if (!result.ok) {
+        writeScreen('Could not save: ' + (result.data && result.data.error), 'fail');
+        return;
+      }
+      writeScreen('Saved "' + filename + '" to ' + category + '.', 'pass');
+      loadGallery();
+    }).catch(function () {
+      writeScreen('Could not reach the training-upload API.', 'fail');
+    });
+  });
+
+  // ==================== Gallery ====================
+  function loadGallery() {
+    var gallery = document.getElementById('icGallery');
+    gallery.innerHTML = '';
+
+    fetch('/api/training-list?category=image_recipes').then(function (res) {
+      return res.ok ? res.json() : { files: [] };
+    }).then(function (data) {
+      (data.files || []).forEach(function (file) {
+        var hexColors;
+        try {
+          hexColors = decodeGrid(file.content);
+        } catch (e) {
+          return; // skip anything that isn't a valid pixel-grid recipe
+        }
+
+        var tile = document.createElement('div');
+        tile.className = 'ic-gallery-tile';
+        tile.appendChild(renderGridSvg(hexColors, GRID_SIZE));
+
+        var name = document.createElement('div');
+        name.className = 'ic-gallery-name';
+        name.textContent = file.name;
+        tile.appendChild(name);
+
+        var deleteBtn = document.createElement('button');
+        deleteBtn.className = 'danger-btn';
+        deleteBtn.type = 'button';
+        deleteBtn.textContent = '[delete]';
+        deleteBtn.addEventListener('click', function () {
+          fetch('/api/training-upload/' + encodeURIComponent(file.key), { method: 'DELETE' }).then(function () {
+            loadGallery();
+          });
+        });
+        tile.appendChild(deleteBtn);
+
+        gallery.appendChild(tile);
+      });
+    }).catch(function () {
+      writeScreen('Could not load the gallery.', 'fail');
+    });
+  }
+
+  loadGallery();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seumas Engine — Dore Trading UK</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Full-page matrix rain background -->
+  <div id="matrixRain" class="matrix-rain" aria-hidden="true"></div>
+
+  <!-- ================= NAV ================= -->
+  <nav class="dashboard-header">
+    <div class="dashboard-title">DORE TRADING UK // SEUMAS ENGINE</div>
+    <div class="nav-tabs">
+      <a href="index.html" class="tab-btn">Home</a>
+      <a href="index.html#dashboard" class="tab-btn">Dashboard</a>
+      <a href="seumas-engine.html" class="tab-btn active">Seumas Engine</a>
+      <a href="print-preview.html" class="tab-btn">Print Preview</a>
+      <a href="compiler-engine-test.html" class="tab-btn">Compiler</a>
+      <a href="bridge-relay.html" class="tab-btn">Bridge Relay</a>
+      <a href="jester.html" class="tab-btn">Jester</a>
+      <a href="forge.html" class="tab-btn">Forge</a>
+      <a href="image-converter.html" class="tab-btn">Images</a>
+    </div>
+  </nav>
+
+  <!-- ================= PYRAMID HERO ================= -->
+  <header class="pyramid-hero">
+
+    <div class="pyramid-hero-content">
+      <h1>Seumas Engine</h1>
+      <p>Command Console // Six Modules Online</p>
+    </div>
+
+    <!-- random background flashes -->
+    <div class="glow-spots">
+      <div class="glow-spot" style="top: 8%;  left: 10%;  width: 220px; height: 220px; background: #ff2e88; animation-duration: 7s;   animation-delay: 0s;"></div>
+      <div class="glow-spot" style="top: 55%; left: 4%;   width: 180px; height: 180px; background: #b26bff; animation-duration: 9s;   animation-delay: 1.4s;"></div>
+      <div class="glow-spot" style="top: 12%; right: 8%;  width: 240px; height: 240px; background: #2ee6ff; animation-duration: 8s;   animation-delay: 2.6s;"></div>
+      <div class="glow-spot" style="top: 50%; right: 6%;  width: 190px; height: 190px; background: #ff2e88; animation-duration: 10s;  animation-delay: 0.8s;"></div>
+      <div class="glow-spot" style="top: 30%; left: 40%;  width: 260px; height: 260px; background: #7c3aed; animation-duration: 11s;  animation-delay: 3.5s;"></div>
+      <div class="glow-spot" style="top: 65%; left: 60%;  width: 200px; height: 200px; background: #2ee6ff; animation-duration: 6.5s; animation-delay: 2s;"></div>
+    </div>
+
+    <!-- city skyline silhouettes -->
+    <div class="city-skyline">
+      <div class="skyline-b" style="left: 2%;  width: 26px; height: 90px;"></div>
+      <div class="skyline-b" style="left: 6%;  width: 34px; height: 130px;"></div>
+      <div class="skyline-b" style="left: 11%; width: 22px; height: 70px;"></div>
+      <div class="skyline-b" style="left: 15%; width: 30px; height: 110px;"></div>
+      <div class="skyline-b" style="right: 2%;  width: 26px; height: 95px;"></div>
+      <div class="skyline-b" style="right: 6%;  width: 34px; height: 135px;"></div>
+      <div class="skyline-b" style="right: 11%; width: 22px; height: 75px;"></div>
+      <div class="skyline-b" style="right: 15%; width: 30px; height: 105px;"></div>
+    </div>
+
+    <!-- pyramid + wireframe orb -->
+    <div class="pyramid-graphic">
+      <div class="orb"></div>
+      <svg viewBox="0 0 1000 400" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
+        <defs>
+          <linearGradient id="pyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#ff2e88"/>
+            <stop offset="55%" stop-color="#b26bff"/>
+            <stop offset="100%" stop-color="#2ee6ff"/>
+          </linearGradient>
+        </defs>
+
+        <!-- flanking pyramids -->
+        <polygon points="40,380 130,380 85,300" fill="rgba(10,5,20,0.85)" stroke="#ff2e88" stroke-width="2"/>
+        <polygon points="140,380 230,380 185,320" fill="rgba(10,5,20,0.85)" stroke="#b26bff" stroke-width="2"/>
+        <polygon points="770,380 860,380 815,320" fill="rgba(10,5,20,0.85)" stroke="#b26bff" stroke-width="2"/>
+        <polygon points="870,380 960,380 915,300" fill="rgba(10,5,20,0.85)" stroke="#2ee6ff" stroke-width="2"/>
+
+        <!-- central pyramid -->
+        <polygon points="500,20 850,380 150,380" fill="rgba(8,4,16,0.65)" stroke="url(#pyGrad)" stroke-width="4"/>
+
+        <!-- nested chevrons -->
+        <polyline points="350,220 500,60 650,220" fill="none" stroke="#ff2e88" stroke-width="2.5" opacity="0.9"/>
+        <polyline points="380,260 500,140 620,260" fill="none" stroke="#b26bff" stroke-width="2.5" opacity="0.9"/>
+        <polyline points="420,300 500,220 580,300" fill="none" stroke="#2ee6ff" stroke-width="2.5" opacity="0.9"/>
+      </svg>
+    </div>
+
+    <div class="pyramid-grid-floor"></div>
+
+    <!-- retro pager -->
+    <div class="retro-pager">
+      <div class="pager-brand">DORE-BEEP // MODEL 1992</div>
+      <div class="pager-screen">
+        <div class="pager-text-scroll">&#9834; PLAY MP3 NOW - SYNTHWAVE_MIX.MP3 &#9834;</div>
+      </div>
+      <div class="pager-led"></div>
+    </div>
+  </header>
+
+  <!-- ================= SIX GREEN CONSOLES ================= -->
+  <section class="console-section">
+    <div class="section-heading">SELECT A CONSOLE</div>
+    <div class="console-grid">
+
+      <div class="console">
+        <div class="console-label">01 // INTAKE FORM</div>
+        <div class="console-screen">
+          <div class="console-grid-anim"></div>
+          <div class="console-scanlines"></div>
+          <div class="console-readout">AWAITING_INPUT<span class="cursor">_</span></div>
+        </div>
+      </div>
+
+      <a class="console console-link" href="compiler-engine-test.html">
+        <div class="console-label">02 // COMPILER</div>
+        <div class="console-screen">
+          <div class="console-grid-anim"></div>
+          <div class="console-scanlines"></div>
+          <div class="console-readout">COMPILER_ACTIVE<span class="cursor">_</span></div>
+        </div>
+      </a>
+
+      <div class="console">
+        <div class="console-label">03 // MATRIX GRID</div>
+        <div class="console-screen">
+          <div class="console-grid-anim"></div>
+          <div class="console-scanlines"></div>
+          <div class="console-readout">GRID_SYNCED<span class="cursor">_</span></div>
+        </div>
+      </div>
+
+      <a class="console console-link" href="bridge-relay.html">
+        <div class="console-label">04 // BRIDGE RELAY</div>
+        <div class="console-screen">
+          <div class="console-grid-anim"></div>
+          <div class="console-scanlines"></div>
+          <div class="console-readout">BRIDGE_ACTIVE<span class="cursor">_</span></div>
+        </div>
+      </a>
+
+      <div class="console">
+        <div class="console-label">05 // CARD ARCHIVE</div>
+        <div class="console-screen">
+          <div class="console-grid-anim"></div>
+          <div class="console-scanlines"></div>
+          <div class="console-readout">1024_BLOCKS_INDEXED<span class="cursor">_</span></div>
+        </div>
+      </div>
+
+      <div class="console">
+        <div class="console-label">06 // DECK PREVIEW</div>
+        <div class="console-screen">
+          <div class="console-grid-anim"></div>
+          <div class="console-scanlines"></div>
+          <div class="console-readout">STANDBY<span class="cursor">_</span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= TEST SCREENS ================= -->
+  <section class="test-screens-section">
+    <div class="section-heading">TEST SCREENS</div>
+    <div class="section-note">(watch each animation exactly as its original file -- nothing plays until you pick PLAY)</div>
+    <div class="test-screens-source-row">
+      <label for="tsSourceFolder">SOURCE FOLDER</label>
+      <input type="text" id="tsSourceFolder" value="C:\Users\doret\Documents\dore-animation-library\_inbox">
+    </div>
+    <div class="test-screen-grid">
+
+      <div class="console test-screen" data-screen="01" data-slug="bookanime" data-file="test-screens/bookanime/index.html">
+        <div class="console-screen">
+          <div class="test-screen-viewport">
+            <div class="test-screen-paused">PAUSED</div>
+          </div>
+        </div>
+        <div class="test-screen-label">TEST SCREEN 01 — BOOKANIME</div>
+        <div class="test-screen-play-row">
+          <label class="test-screen-play-label">
+            <input type="radio" name="tsPlay" class="ts-play-radio"> PLAY
+          </label>
+          <button type="button" class="cyber-btn ts-action-btn ts-view-full-btn">VIEW FULL</button>
+        </div>
+        <div class="test-screen-controls">
+          <input type="file" class="ts-file-input" hidden accept=".html,.htm,.gif,.png,.webp,.svg,.mp4,.webm">
+          <input type="file" class="ts-folder-input" hidden webkitdirectory directory multiple>
+          <div class="test-screen-btn-row">
+            <button type="button" class="cyber-btn ts-action-btn ts-upload-file-btn">UPLOAD FILE</button>
+            <button type="button" class="cyber-btn ts-action-btn ts-upload-folder-btn">UPLOAD FOLDER</button>
+            <button type="button" class="cyber-btn ts-action-btn ts-reset-btn">RESET</button>
+          </div>
+          <div class="test-screen-send-row">
+            <label>SEND TO</label>
+            <select class="ts-send-to">
+              <option value="">-- select --</option>
+              <option value="jester">Jester</option>
+              <option value="knight">Knight</option>
+              <option value="oracle">Oracle</option>
+              <option value="wizard">Wizard</option>
+              <option value="dungeon-master">Dungeon Master</option>
+              <option value="tavern-story-teller">Tavern Story Teller</option>
+              <option value="illusionist">Illusionist</option>
+              <option value="king">King</option>
+              <option value="queen">Queen</option>
+              <option value="magician">Magician</option>
+              <option value="detective">Detective</option>
+            </select>
+          </div>
+          <button type="button" class="cyber-btn ts-get-commands-btn">GET COMMANDS</button>
+        </div>
+      </div>
+
+      <div class="console test-screen" data-screen="02" data-slug="detective" data-file="test-screens/detective/index.html" data-file-v2="test-screens/detective/v2/index.html" data-file-v3="test-screens/detective/v3/index.html">
+        <div class="console-screen">
+          <div class="test-screen-viewport">
+            <div class="test-screen-paused">PAUSED</div>
+          </div>
+        </div>
+        <div class="test-screen-label">TEST SCREEN 02 — DETECTIVE</div>
+        <div class="test-screen-play-row">
+          <label class="test-screen-play-label">
+            <input type="radio" name="tsPlay" class="ts-play-radio"> PLAY
+          </label>
+          <button type="button" class="cyber-btn ts-action-btn ts-view-full-btn">VIEW FULL</button>
+        </div>
+        <div class="test-screen-version-row">
+          <label class="test-screen-version-label">
+            <input type="radio" name="tsVersion-02" class="ts-version-radio" value="v1" checked> V1
+          </label>
+          <label class="test-screen-version-label">
+            <input type="radio" name="tsVersion-02" class="ts-version-radio" value="v2"> V2 (TALKING)
+          </label>
+          <label class="test-screen-version-label">
+            <input type="radio" name="tsVersion-02" class="ts-version-radio" value="v3"> V3 (KIT)
+          </label>
+          <button type="button" class="cyber-btn ts-action-btn ts-test-talk-btn" disabled>TEST TALK</button>
+        </div>
+        <div class="test-screen-controls">
+          <input type="file" class="ts-file-input" hidden accept=".html,.htm,.gif,.png,.webp,.svg,.mp4,.webm">
+          <input type="file" class="ts-folder-input" hidden webkitdirectory directory multiple>
+          <div class="test-screen-btn-row">
+            <button type="button" class="cyber-btn ts-action-btn ts-upload-file-btn">UPLOAD FILE</button>
+            <button type="button" class="cyber-btn ts-action-btn ts-upload-folder-btn">UPLOAD FOLDER</button>
+            <button type="button" class="cyber-btn ts-action-btn ts-reset-btn">RESET</button>
+          </div>
+          <div class="test-screen-send-row">
+            <label>SEND TO</label>
+            <select class="ts-send-to">
+              <option value="">-- select --</option>
+              <option value="jester">Jester</option>
+              <option value="knight">Knight</option>
+              <option value="oracle">Oracle</option>
+              <option value="wizard">Wizard</option>
+              <option value="dungeon-master">Dungeon Master</option>
+              <option value="tavern-story-teller">Tavern Story Teller</option>
+              <option value="illusionist">Illusionist</option>
+              <option value="king">King</option>
+              <option value="queen">Queen</option>
+              <option value="magician">Magician</option>
+              <option value="detective" selected>Detective</option>
+            </select>
+          </div>
+          <button type="button" class="cyber-btn ts-get-commands-btn">GET COMMANDS</button>
+        </div>
+      </div>
+
+      <div class="console test-screen" data-screen="03" data-slug="illusionist" data-file="test-screens/illusionist/index.html">
+        <div class="console-screen">
+          <div class="test-screen-viewport">
+            <div class="test-screen-paused">PAUSED</div>
+          </div>
+        </div>
+        <div class="test-screen-label">TEST SCREEN 03 — ILLUSIONIST</div>
+        <div class="test-screen-play-row">
+          <label class="test-screen-play-label">
+            <input type="radio" name="tsPlay" class="ts-play-radio"> PLAY
+          </label>
+          <button type="button" class="cyber-btn ts-action-btn ts-view-full-btn">VIEW FULL</button>
+        </div>
+        <div class="test-screen-controls">
+          <input type="file" class="ts-file-input" hidden accept=".html,.htm,.gif,.png,.webp,.svg,.mp4,.webm">
+          <input type="file" class="ts-folder-input" hidden webkitdirectory directory multiple>
+          <div class="test-screen-btn-row">
+            <button type="button" class="cyber-btn ts-action-btn ts-upload-file-btn">UPLOAD FILE</button>
+            <button type="button" class="cyber-btn ts-action-btn ts-upload-folder-btn">UPLOAD FOLDER</button>
+            <button type="button" class="cyber-btn ts-action-btn ts-reset-btn">RESET</button>
+          </div>
+          <div class="test-screen-send-row">
+            <label>SEND TO</label>
+            <select class="ts-send-to">
+              <option value="">-- select --</option>
+              <option value="jester">Jester</option>
+              <option value="knight">Knight</option>
+              <option value="oracle">Oracle</option>
+              <option value="wizard">Wizard</option>
+              <option value="dungeon-master">Dungeon Master</option>
+              <option value="tavern-story-teller">Tavern Story Teller</option>
+              <option value="illusionist" selected>Illusionist</option>
+              <option value="king">King</option>
+              <option value="queen">Queen</option>
+              <option value="magician">Magician</option>
+              <option value="detective">Detective</option>
+            </select>
+          </div>
+          <button type="button" class="cyber-btn ts-get-commands-btn">GET COMMANDS</button>
+        </div>
+      </div>
+
+      <div class="console test-screen" data-screen="04" data-slug="jester" data-file="test-screens/jester/index.html" data-file-v3="test-screens/jester/v3/index.html">
+        <div class="console-screen">
+          <div class="test-screen-viewport">
+            <div class="test-screen-paused">PAUSED</div>
+          </div>
+        </div>
+        <div class="test-screen-label">TEST SCREEN 04 — JESTER (HEAD)</div>
+        <div class="test-screen-play-row">
+          <label class="test-screen-play-label">
+            <input type="radio" name="tsPlay" class="ts-play-radio"> PLAY
+          </label>
+          <button type="button" class="cyber-btn ts-action-btn ts-view-full-btn">VIEW FULL</button>
+        </div>
+        <div class="test-screen-version-row">
+          <label class="test-screen-version-label">
+            <input type="radio" name="tsVersion-04" class="ts-version-radio" value="v1" checked> V1
+          </label>
+          <label class="test-screen-version-label">
+            <input type="radio" name="tsVersion-04" class="ts-version-radio" value="v3"> V3 (KIT)
+          </label>
+          <button type="button" class="cyber-btn ts-action-btn ts-test-talk-btn" disabled>TEST TALK</button>
+        </div>
+        <div class="test-screen-controls">
+          <input type="file" class="ts-file-input" hidden accept=".html,.htm,.gif,.png,.webp,.svg,.mp4,.webm">
+          <input type="file" class="ts-folder-input" hidden webkitdirectory directory multiple>
+          <div class="test-screen-btn-row">
+            <button type="button" class="cyber-btn ts-action-btn ts-upload-file-btn">UPLOAD FILE</button>
+            <button type="button" class="cyber-btn ts-action-btn ts-upload-folder-btn">UPLOAD FOLDER</button>
+            <button type="button" class="cyber-btn ts-action-btn ts-reset-btn">RESET</button>
+          </div>
+          <div class="test-screen-send-row">
+            <label>SEND TO</label>
+            <select class="ts-send-to">
+              <option value="">-- select --</option>
+              <option value="jester" selected>Jester</option>
+              <option value="knight">Knight</option>
+              <option value="oracle">Oracle</option>
+              <option value="wizard">Wizard</option>
+              <option value="dungeon-master">Dungeon Master</option>
+              <option value="tavern-story-teller">Tavern Story Teller</option>
+              <option value="illusionist">Illusionist</option>
+              <option value="king">King</option>
+              <option value="queen">Queen</option>
+              <option value="magician">Magician</option>
+              <option value="detective">Detective</option>
+            </select>
+          </div>
+          <button type="button" class="cyber-btn ts-get-commands-btn">GET COMMANDS</button>
+        </div>
+      </div>
+
+      <div class="console test-screen" data-screen="05" data-slug="king" data-file="test-screens/king/index.html" data-file-v3="test-screens/king/v3/index.html">
+        <div class="console-screen">
+          <div class="test-screen-viewport">
+            <div class="test-screen-paused">PAUSED</div>
+          </div>
+        </div>
+        <div class="test-screen-label">TEST SCREEN 05 — KING</div>
+        <div class="test-screen-play-row">
+          <label class="test-screen-play-label">
+            <input type="radio" name="tsPlay" class="ts-play-radio"> PLAY
+          </label>
+          <button type="button" class="cyber-btn ts-action-btn ts-view-full-btn">VIEW FULL</button>
+        </div>
+        <div class="test-screen-version-row">
+          <label class="test-screen-version-label">
+            <input type="radio" name="tsVersion-05" class="ts-version-radio" value="v1" checked> V1
+          </label>
+          <label class="test-screen-version-label">
+            <input type="radio" name="tsVersion-05" class="ts-version-radio" value="v3"> V3 (KIT)
+          </label>
+          <button type="button" class="cyber-btn ts-action-btn ts-test-talk-btn" disabled>TEST TALK</button>
+        </div>
+        <div class="test-screen-controls">
+          <input type="file" class="ts-file-input" hidden accept=".html,.htm,.gif,.png,.webp,.svg,.mp4,.webm">
+          <input type="file" class="ts-folder-input" hidden webkitdirectory directory multiple>
+          <div class="test-screen-btn-row">
+            <button type="button" class="cyber-btn ts-action-btn ts-upload-file-btn">UPLOAD FILE</button>
+            <button type="button" class="cyber-btn ts-action-btn ts-upload-folder-btn">UPLOAD FOLDER</button>
+            <button type="button" class="cyber-btn ts-action-btn ts-reset-btn">RESET</button>
+          </div>
+          <div class="test-screen-send-row">
+            <label>SEND TO</label>
+            <select class="ts-send-to">
+              <option value="">-- select --</option>
+              <option value="jester">Jester</option>
+              <option value="knight">Knight</option>
+              <option value="oracle">Oracle</option>
+              <option value="wizard">Wizard</option>
+              <option value="dungeon-master">Dungeon Master</option>
+              <option value="tavern-story-teller">Tavern Story Teller</option>
+              <option value="illusionist">Illusionist</option>
+              <option value="king" selected>King</option>
+              <option value="queen">Queen</option>
+              <option value="magician">Magician</option>
+              <option value="detective">Detective</option>
+            </select>
+          </div>
+          <button type="button" class="cyber-btn ts-get-commands-btn">GET COMMANDS</button>
+        </div>
+      </div>
+
+      <div class="console test-screen" data-screen="06" data-slug="knight" data-file="test-screens/knight/index.html" data-file-v2="test-screens/knight/v2/index.html" data-file-v3="test-screens/knight/v3/index.html">
+        <div class="console-screen">
+          <div class="test-screen-viewport">
+            <div class="test-screen-paused">PAUSED</div>
+          </div>
+        </div>
+        <div class="test-screen-label">TEST SCREEN 06 — KNIGHT</div>
+        <div class="test-screen-play-row">
+          <label class="test-screen-play-label">
+            <input type="radio" name="tsPlay" class="ts-play-radio"> PLAY
+          </label>
+          <button type="button" class="cyber-btn ts-action-btn ts-view-full-btn">VIEW FULL</button>
+        </div>
+        <div class="test-screen-version-row">
+          <label class="test-screen-version-label">
+            <input type="radio" name="tsVersion-06" class="ts-version-radio" value="v1" checked> V1
+          </label>
+          <label class="test-screen-version-label">
+            <input type="radio" name="tsVersion-06" class="ts-version-radio" value="v2"> V2 (TALKING)
+          </label>
+          <label class="test-screen-version-label">
+            <input type="radio" name="tsVersion-06" class="ts-version-radio" value="v3"> V3 (KIT)
+          </label>
+          <button type="button" class="cyber-btn ts-action-btn ts-test-talk-btn" disabled>TEST TALK</button>
+        </div>
+        <div class="test-screen-controls">
+          <input type="file" class="ts-file-input" hidden accept=".html,.htm,.gif,.png,.webp,.svg,.mp4,.webm">
+          <input type="file" class="ts-folder-input" hidden webkitdirectory directory multiple>
+          <div class="test-screen-btn-row">
+            <button type="button" class="cyber-btn ts-action-btn ts-upload-file-btn">UPLOAD FILE</button>
+            <button type="button" class="cyber-btn ts-action-btn ts-upload-folder-btn">UPLOAD FOLDER</button>
+            <button type="button" class="cyber-btn ts-action-btn ts-reset-btn">RESET</button>
+          </div>
+          <div class="test-screen-send-row">
+            <label>SEND TO</label>
+            <select class="ts-send-to">
+              <option value="">-- select --</option>
+              <option value="jester">Jester</option>
+              <option value="knight" selected>Knight</option>
+              <option value="oracle">Oracle</option>
+              <option value="wizard">Wizard</option>
+              <option value="dungeon-master">Dungeon Master</option>
+              <option value="tavern-story-teller">Tavern Story Teller</option>
+              <option value="illusionist">Illusionist</option>
+              <option value="king">King</option>
+              <option value="queen">Queen</option>
+              <option value="magician">Magician</option>
+              <option value="detective">Detective</option>
+            </select>
+          </div>
+          <button type="button" class="cyber-btn ts-get-commands-btn">GET COMMANDS</button>
+        </div>
+      </div>
+
+      <div class="console test-screen" data-screen="07" data-slug="magician" data-file="test-screens/magician/index.html" data-file-v2="test-screens/magician/v2/index.html" data-file-v3="test-screens/magician/v3/index.html">
+        <div class="console-screen">
+          <div class="test-screen-viewport">
+            <div class="test-screen-paused">PAUSED</div>
+          </div>
+        </div>
+        <div class="test-screen-label">TEST SCREEN 07 — MAGICIAN</div>
+        <div class="test-screen-play-row">
+          <label class="test-screen-play-label">
+            <input type="radio" name="tsPlay" class="ts-play-radio"> PLAY
+          </label>
+          <button type="button" class="cyber-btn ts-action-btn ts-view-full-btn">VIEW FULL</button>
+        </div>
+        <div class="test-screen-version-row">
+          <label class="test-screen-version-label">
+            <input type="radio" name="tsVersion-07" class="ts-version-radio" value="v1" checked> V1
+          </label>
+          <label class="test-screen-version-label">
+            <input type="radio" name="tsVersion-07" class="ts-version-radio" value="v2"> V2 (TALKING)
+          </label>
+          <label class="test-screen-version-label">
+            <input type="radio" name="tsVersion-07" class="ts-version-radio" value="v3"> V3 (KIT)
+          </label>
+          <button type="button" class="cyber-btn ts-action-btn ts-test-talk-btn" disabled>TEST TALK</button>
+        </div>
+        <div class="test-screen-controls">
+          <input type="file" class="ts-file-input" hidden accept=".html,.htm,.gif,.png,.webp,.svg,.mp4,.webm">
+          <input type="file" class="ts-folder-input" hidden webkitdirectory directory multiple>
+          <div class="test-screen-btn-row">
+            <button type="button" class="cyber-btn ts-action-btn ts-upload-file-btn">UPLOAD FILE</button>
+            <button type="button" class="cyber-btn ts-action-btn ts-upload-folder-btn">UPLOAD FOLDER</button>
+            <button type="button" class="cyber-btn ts-action-btn ts-reset-btn">RESET</button>
+          </div>
+          <div class="test-screen-send-row">
+            <label>SEND TO</label>
+            <select class="ts-send-to">
+              <option value="">-- select --</option>
+              <option value="jester">Jester</option>
+              <option value="knight">Knight</option>
+              <option value="oracle">Oracle</option>
+              <option value="wizard">Wizard</option>
+              <option value="dungeon-master">Dungeon Master</option>
+              <option value="tavern-story-teller">Tavern Story Teller</option>
+              <option value="illusionist">Illusionist</option>
+              <option value="king">King</option>
+              <option value="queen">Queen</option>
+              <option value="magician" selected>Magician</option>
+              <option value="detective">Detective</option>
+            </select>
+          </div>
+          <button type="button" class="cyber-btn ts-get-commands-btn">GET COMMANDS</button>
+        </div>
+      </div>
+
+      <div class="console test-screen" data-screen="08" data-slug="oracle" data-file="test-screens/oracle/index.html" data-file-v2="test-screens/oracle/v2/index.html" data-file-v3="test-screens/oracle/v3/index.html">
+        <div class="console-screen">
+          <div class="test-screen-viewport">
+            <div class="test-screen-paused">PAUSED</div>
+          </div>
+        </div>
+        <div class="test-screen-label">TEST SCREEN 08 — ORACLE</div>
+        <div class="test-screen-play-row">
+          <label class="test-screen-play-label">
+            <input type="radio" name="tsPlay" class="ts-play-radio"> PLAY
+          </label>
+          <button type="button" class="cyber-btn ts-action-btn ts-view-full-btn">VIEW FULL</button>
+        </div>
+        <div class="test-screen-version-row">
+          <label class="test-screen-version-label">
+            <input type="radio" name="tsVersion-08" class="ts-version-radio" value="v1" checked> V1
+          </label>
+          <label class="test-screen-version-label">
+            <input type="radio" name="tsVersion-08" class="ts-version-radio" value="v2"> V2 (TALKING)
+          </label>
+          <label class="test-screen-version-label">
+            <input type="radio" name="tsVersion-08" class="ts-version-radio" value="v3"> V3 (KIT)
+          </label>
+          <button type="button" class="cyber-btn ts-action-btn ts-test-talk-btn" disabled>TEST TALK</button>
+        </div>
+        <div class="test-screen-controls">
+          <input type="file" class="ts-file-input" hidden accept=".html,.htm,.gif,.png,.webp,.svg,.mp4,.webm">
+          <input type="file" class="ts-folder-input" hidden webkitdirectory directory multiple>
+          <div class="test-screen-btn-row">
+            <button type="button" class="cyber-btn ts-action-btn ts-upload-file-btn">UPLOAD FILE</button>
+            <button type="button" class="cyber-btn ts-action-btn ts-upload-folder-btn">UPLOAD FOLDER</button>
+            <button type="button" class="cyber-btn ts-action-btn ts-reset-btn">RESET</button>
+          </div>
+          <div class="test-screen-send-row">
+            <label>SEND TO</label>
+            <select class="ts-send-to">
+              <option value="">-- select --</option>
+              <option value="jester">Jester</option>
+              <option value="knight">Knight</option>
+              <option value="oracle" selected>Oracle</option>
+              <option value="wizard">Wizard</option>
+              <option value="dungeon-master">Dungeon Master</option>
+              <option value="tavern-story-teller">Tavern Story Teller</option>
+              <option value="illusionist">Illusionist</option>
+              <option value="king">King</option>
+              <option value="queen">Queen</option>
+              <option value="magician">Magician</option>
+              <option value="detective">Detective</option>
+            </select>
+          </div>
+          <button type="button" class="cyber-btn ts-get-commands-btn">GET COMMANDS</button>
+        </div>
+      </div>
+
+      <div class="console test-screen" data-screen="09" data-slug="q" data-file="test-screens/q/index.html" data-file-v2="test-screens/q/v2/index.html">
+        <div class="console-screen">
+          <div class="test-screen-viewport">
+            <div class="test-screen-paused">PAUSED</div>
+          </div>
+        </div>
+        <div class="test-screen-label">TEST SCREEN 09 — Q</div>
+        <div class="test-screen-play-row">
+          <label class="test-screen-play-label">
+            <input type="radio" name="tsPlay" class="ts-play-radio"> PLAY
+          </label>
+          <button type="button" class="cyber-btn ts-action-btn ts-view-full-btn">VIEW FULL</button>
+        </div>
+        <div class="test-screen-version-row">
+          <label class="test-screen-version-label">
+            <input type="radio" name="tsVersion-09" class="ts-version-radio" value="v1" checked> V1
+          </label>
+          <label class="test-screen-version-label">
+            <input type="radio" name="tsVersion-09" class="ts-version-radio" value="v2"> V2 (TALKING)
+          </label>
+          <button type="button" class="cyber-btn ts-action-btn ts-test-talk-btn" disabled>TEST TALK</button>
+        </div>
+        <div class="test-screen-controls">
+          <input type="file" class="ts-file-input" hidden accept=".html,.htm,.gif,.png,.webp,.svg,.mp4,.webm">
+          <input type="file" class="ts-folder-input" hidden webkitdirectory directory multiple>
+          <div class="test-screen-btn-row">
+            <button type="button" class="cyber-btn ts-action-btn ts-upload-file-btn">UPLOAD FILE</button>
+            <button type="button" class="cyber-btn ts-action-btn ts-upload-folder-btn">UPLOAD FOLDER</button>
+            <button type="button" class="cyber-btn ts-action-btn ts-reset-btn">RESET</button>
+          </div>
+          <div class="test-screen-send-row">
+            <label>SEND TO</label>
+            <select class="ts-send-to">
+              <option value="">-- select --</option>
+              <option value="jester">Jester</option>
+              <option value="knight">Knight</option>
+              <option value="oracle">Oracle</option>
+              <option value="wizard">Wizard</option>
+              <option value="dungeon-master">Dungeon Master</option>
+              <option value="tavern-story-teller">Tavern Story Teller</option>
+              <option value="illusionist">Illusionist</option>
+              <option value="king">King</option>
+              <option value="queen">Queen</option>
+              <option value="magician">Magician</option>
+              <option value="detective">Detective</option>
+            </select>
+          </div>
+          <button type="button" class="cyber-btn ts-get-commands-btn">GET COMMANDS</button>
+        </div>
+      </div>
+
+      <div class="console test-screen" data-screen="10" data-slug="tavern-story-teller" data-file="test-screens/tavern-story-teller/index.html" data-file-v2="test-screens/tavern-story-teller/v2/index.html" data-file-v3="test-screens/storyteller/v3/index.html">
+        <div class="console-screen">
+          <div class="test-screen-viewport">
+            <div class="test-screen-paused">PAUSED</div>
+          </div>
+        </div>
+        <div class="test-screen-label">TEST SCREEN 10 — TAVERN STORY TELLER</div>
+        <div class="test-screen-play-row">
+          <label class="test-screen-play-label">
+            <input type="radio" name="tsPlay" class="ts-play-radio"> PLAY
+          </label>
+          <button type="button" class="cyber-btn ts-action-btn ts-view-full-btn">VIEW FULL</button>
+        </div>
+        <div class="test-screen-version-row">
+          <label class="test-screen-version-label">
+            <input type="radio" name="tsVersion-10" class="ts-version-radio" value="v1" checked> V1
+          </label>
+          <label class="test-screen-version-label">
+            <input type="radio" name="tsVersion-10" class="ts-version-radio" value="v2"> V2 (TALKING)
+          </label>
+          <label class="test-screen-version-label">
+            <input type="radio" name="tsVersion-10" class="ts-version-radio" value="v3"> V3 (KIT)
+          </label>
+          <button type="button" class="cyber-btn ts-action-btn ts-test-talk-btn" disabled>TEST TALK</button>
+        </div>
+        <div class="test-screen-controls">
+          <input type="file" class="ts-file-input" hidden accept=".html,.htm,.gif,.png,.webp,.svg,.mp4,.webm">
+          <input type="file" class="ts-folder-input" hidden webkitdirectory directory multiple>
+          <div class="test-screen-btn-row">
+            <button type="button" class="cyber-btn ts-action-btn ts-upload-file-btn">UPLOAD FILE</button>
+            <button type="button" class="cyber-btn ts-action-btn ts-upload-folder-btn">UPLOAD FOLDER</button>
+            <button type="button" class="cyber-btn ts-action-btn ts-reset-btn">RESET</button>
+          </div>
+          <div class="test-screen-send-row">
+            <label>SEND TO</label>
+            <select class="ts-send-to">
+              <option value="">-- select --</option>
+              <option value="jester">Jester</option>
+              <option value="knight">Knight</option>
+              <option value="oracle">Oracle</option>
+              <option value="wizard">Wizard</option>
+              <option value="dungeon-master">Dungeon Master</option>
+              <option value="tavern-story-teller" selected>Tavern Story Teller</option>
+              <option value="illusionist">Illusionist</option>
+              <option value="king">King</option>
+              <option value="queen">Queen</option>
+              <option value="magician">Magician</option>
+              <option value="detective">Detective</option>
+            </select>
+          </div>
+          <button type="button" class="cyber-btn ts-get-commands-btn">GET COMMANDS</button>
+        </div>
+      </div>
+
+      <div class="console test-screen" data-screen="11" data-slug="wizard" data-file="test-screens/wizard/index.html" data-file-v2="test-screens/wizard/v2/index.html" data-file-v2-1="test-screens/wizard/v2.1/index.html" data-file-v3="test-screens/wizard/v3/index.html">
+        <div class="console-screen">
+          <div class="test-screen-viewport">
+            <div class="test-screen-paused">PAUSED</div>
+          </div>
+        </div>
+        <div class="test-screen-label">TEST SCREEN 11 — WIZARD</div>
+        <div class="test-screen-play-row">
+          <label class="test-screen-play-label">
+            <input type="radio" name="tsPlay" class="ts-play-radio"> PLAY
+          </label>
+          <button type="button" class="cyber-btn ts-action-btn ts-view-full-btn">VIEW FULL</button>
+        </div>
+        <div class="test-screen-version-row">
+          <label class="test-screen-version-label">
+            <input type="radio" name="tsVersion-11" class="ts-version-radio" value="v1" checked> V1
+          </label>
+          <label class="test-screen-version-label">
+            <input type="radio" name="tsVersion-11" class="ts-version-radio" value="v2"> V2 (TALKING)
+          </label>
+          <label class="test-screen-version-label">
+            <input type="radio" name="tsVersion-11" class="ts-version-radio" value="v2.1"> V2.1 (TALKING)
+          </label>
+          <label class="test-screen-version-label">
+            <input type="radio" name="tsVersion-11" class="ts-version-radio" value="v3"> V3 (TALKING)
+          </label>
+          <button type="button" class="cyber-btn ts-action-btn ts-test-talk-btn" disabled>TEST TALK</button>
+        </div>
+        <div class="test-screen-controls">
+          <input type="file" class="ts-file-input" hidden accept=".html,.htm,.gif,.png,.webp,.svg,.mp4,.webm">
+          <input type="file" class="ts-folder-input" hidden webkitdirectory directory multiple>
+          <div class="test-screen-btn-row">
+            <button type="button" class="cyber-btn ts-action-btn ts-upload-file-btn">UPLOAD FILE</button>
+            <button type="button" class="cyber-btn ts-action-btn ts-upload-folder-btn">UPLOAD FOLDER</button>
+            <button type="button" class="cyber-btn ts-action-btn ts-reset-btn">RESET</button>
+          </div>
+          <div class="test-screen-send-row">
+            <label>SEND TO</label>
+            <select class="ts-send-to">
+              <option value="">-- select --</option>
+              <option value="jester">Jester</option>
+              <option value="knight">Knight</option>
+              <option value="oracle">Oracle</option>
+              <option value="wizard" selected>Wizard</option>
+              <option value="dungeon-master">Dungeon Master</option>
+              <option value="tavern-story-teller">Tavern Story Teller</option>
+              <option value="illusionist">Illusionist</option>
+              <option value="king">King</option>
+              <option value="queen">Queen</option>
+              <option value="magician">Magician</option>
+              <option value="detective">Detective</option>
+            </select>
+          </div>
+          <button type="button" class="cyber-btn ts-get-commands-btn">GET COMMANDS</button>
+        </div>
+      </div>
+
+      <div class="console test-screen" data-screen="12" data-slug="jester" data-file="test-screens/jester-animation/index.html">
+        <div class="console-screen">
+          <div class="test-screen-viewport">
+            <div class="test-screen-paused">PAUSED</div>
+          </div>
+        </div>
+        <div class="test-screen-label">TEST SCREEN 12 — JESTER (ANIMATION)</div>
+        <div class="test-screen-play-row">
+          <label class="test-screen-play-label">
+            <input type="radio" name="tsPlay" class="ts-play-radio"> PLAY
+          </label>
+          <button type="button" class="cyber-btn ts-action-btn ts-view-full-btn">VIEW FULL</button>
+        </div>
+        <div class="test-screen-controls">
+          <input type="file" class="ts-file-input" hidden accept=".html,.htm,.gif,.png,.webp,.svg,.mp4,.webm">
+          <input type="file" class="ts-folder-input" hidden webkitdirectory directory multiple>
+          <div class="test-screen-btn-row">
+            <button type="button" class="cyber-btn ts-action-btn ts-upload-file-btn">UPLOAD FILE</button>
+            <button type="button" class="cyber-btn ts-action-btn ts-upload-folder-btn">UPLOAD FOLDER</button>
+            <button type="button" class="cyber-btn ts-action-btn ts-reset-btn">RESET</button>
+          </div>
+          <div class="test-screen-send-row">
+            <label>SEND TO</label>
+            <select class="ts-send-to">
+              <option value="">-- select --</option>
+              <option value="jester" selected>Jester</option>
+              <option value="knight">Knight</option>
+              <option value="oracle">Oracle</option>
+              <option value="wizard">Wizard</option>
+              <option value="dungeon-master">Dungeon Master</option>
+              <option value="tavern-story-teller">Tavern Story Teller</option>
+              <option value="illusionist">Illusionist</option>
+              <option value="king">King</option>
+              <option value="queen">Queen</option>
+              <option value="magician">Magician</option>
+              <option value="detective">Detective</option>
+            </select>
+          </div>
+          <button type="button" class="cyber-btn ts-get-commands-btn">GET COMMANDS</button>
+        </div>
+      </div>
+
+      <div class="console test-screen" data-screen="13" data-slug="queen" data-file="test-screens/queen/v3/index.html" data-file-v3="test-screens/queen/v3/index.html">
+        <div class="console-screen">
+          <div class="test-screen-viewport">
+            <div class="test-screen-paused">PAUSED</div>
+          </div>
+        </div>
+        <div class="test-screen-label">TEST SCREEN 13 — QUEEN</div>
+        <div class="test-screen-play-row">
+          <label class="test-screen-play-label">
+            <input type="radio" name="tsPlay" class="ts-play-radio"> PLAY
+          </label>
+          <button type="button" class="cyber-btn ts-action-btn ts-view-full-btn">VIEW FULL</button>
+        </div>
+        <div class="test-screen-version-row">
+          <label class="test-screen-version-label">
+            <input type="radio" name="tsVersion-13" class="ts-version-radio" value="v1" checked> V1
+          </label>
+          <label class="test-screen-version-label">
+            <input type="radio" name="tsVersion-13" class="ts-version-radio" value="v3"> V3 (KIT)
+          </label>
+          <button type="button" class="cyber-btn ts-action-btn ts-test-talk-btn" disabled>TEST TALK</button>
+        </div>
+        <div class="test-screen-controls">
+          <input type="file" class="ts-file-input" hidden accept=".html,.htm,.gif,.png,.webp,.svg,.mp4,.webm">
+          <input type="file" class="ts-folder-input" hidden webkitdirectory directory multiple>
+          <div class="test-screen-btn-row">
+            <button type="button" class="cyber-btn ts-action-btn ts-upload-file-btn">UPLOAD FILE</button>
+            <button type="button" class="cyber-btn ts-action-btn ts-upload-folder-btn">UPLOAD FOLDER</button>
+            <button type="button" class="cyber-btn ts-action-btn ts-reset-btn">RESET</button>
+          </div>
+          <div class="test-screen-send-row">
+            <label>SEND TO</label>
+            <select class="ts-send-to">
+              <option value="">-- select --</option>
+              <option value="jester">Jester</option>
+              <option value="knight">Knight</option>
+              <option value="oracle">Oracle</option>
+              <option value="wizard">Wizard</option>
+              <option value="dungeon-master">Dungeon Master</option>
+              <option value="tavern-story-teller">Tavern Story Teller</option>
+              <option value="illusionist">Illusionist</option>
+              <option value="king">King</option>
+              <option value="queen" selected>Queen</option>
+              <option value="magician">Magician</option>
+              <option value="detective">Detective</option>
+            </select>
+          </div>
+          <button type="button" class="cyber-btn ts-get-commands-btn">GET COMMANDS</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================= GET COMMANDS MODAL ================= -->
+  <div class="ts-commands-modal" id="tsCommandsModal" hidden>
+    <div class="ts-commands-panel">
+      <div class="ts-commands-header">
+        <span>POWERSHELL COMMANDS</span>
+        <button type="button" class="ts-commands-close" id="tsCommandsClose">CLOSE</button>
+      </div>
+      <div class="ts-commands-list" id="tsCommandsList"></div>
+    </div>
+  </div>
+
+  <!-- ================= THREE DIALS ================= -->
+  <section class="dial-section">
+    <div class="section-heading">SWEAR METER</div>
+    <div class="section-note">(dials are visual only for now — wire up as buttons later)</div>
+    <div class="dial-row">
+
+      <button type="button" class="dial" style="--dial-color:#ffcf4d; --dial-glow:#ffcf4d; --angle:-50deg;">
+        <div class="dial-knob"></div>
+        <div class="dial-label">Mild</div>
+      </button>
+
+      <button type="button" class="dial" style="--dial-color:#ff8c1a; --dial-glow:#ff8c1a; --angle:0deg;">
+        <div class="dial-knob"></div>
+        <div class="dial-label">Naughty</div>
+      </button>
+
+      <button type="button" class="dial" style="--dial-color:#b26bff; --dial-glow:#b26bff; --angle:55deg;">
+        <div class="dial-knob"></div>
+        <div class="dial-label">Filthy</div>
+      </button>
+
+    </div>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="site-footer">
+    <div class="status-line">
+      <span class="status-dot"></span>
+      SEUMAS ENGINE — ALL MODULES ONLINE
+    </div>
+    <div class="copyright">DORE TRADING UK &copy; 2026</div>
+  </footer>
+
+  <script src="lib/game-compiler-engine.js"></script>
+  <script src="script.js"></script>
+  <script src="lib/test-screen-uploader.js"></script>
+</body>
+</html>

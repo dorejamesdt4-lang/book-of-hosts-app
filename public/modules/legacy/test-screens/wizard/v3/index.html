@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wizard V3</title>
+<style>
+    .wizv3-stage {
+        margin: 0;
+        padding: 0;
+        background-color: transparent;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+    }
+    .wizv3-canvas {
+        display: block;
+        width: 384px;
+        height: 384px;
+        image-rendering: pixelated;
+        image-rendering: crisp-edges;
+    }
+</style>
+</head>
+<body class="wizv3-stage">
+
+<canvas id="wizardV3Canvas" class="wizv3-canvas" width="64" height="64"></canvas>
+
+<!-- character-kit.js (inlined copy — master in dore-animation-library/kit/character-kit.js) -->
+<script>
+(function () {
+  var config = {
+    mouthSmoothing: 0.3,
+    mouthDropHoldFrames: 4,
+    mouthStage1Threshold: 0.15,
+    mouthStage2Threshold: 0.55,
+    idleBobAmplitude: 1,
+    idleBobSpeed: 0.06,
+    propWobbleMinMs: 300,
+    propWobbleMaxMs: 600,
+    propWobbleEase: 0.06,
+    propWobbleMaxAngle: 0.3,   // radians either side of the prop's own rest angle
+    propWobbleMaxOffset: 1.5   // px either side of the prop's own pivot point
+  };
+
+  // ---- talk-receiver: same message contract as the original standalone file ----
+  var levelHandlers = [];
+  var startHandlers = [];
+  var stopHandlers = [];
+
+  function clamp01(n) {
+    n = Number(n);
+    if (!isFinite(n)) return 0;
+    return Math.max(0, Math.min(1, n));
+  }
+
+  var TalkReceiver = {
+    level: 0,
+    talking: false,
+    onLevel: function (fn) { if (typeof fn === 'function') levelHandlers.push(fn); },
+    onStart: function (fn) { if (typeof fn === 'function') startHandlers.push(fn); },
+    onStop: function (fn) { if (typeof fn === 'function') stopHandlers.push(fn); }
+  };
+
+  window.addEventListener('message', function (event) {
+    // The iframe's own origin is opaque ("null"), so event.origin on an
+    // incoming message can't be checked meaningfully either way.
+    // Identity is instead verified by exact window reference (must be
+    // our real parent) plus an explicit message tag.
+    if (event.source !== window.parent) return;
+    var data = event.data;
+    if (!data || data.source !== 'dore-narrator-talk') return;
+
+    if (data.type === 'talk-start') {
+      TalkReceiver.talking = true;
+      TalkReceiver.level = clamp01(data.level || 0);
+      startHandlers.forEach(function (fn) { fn(); });
+    } else if (data.type === 'talk-level') {
+      TalkReceiver.level = clamp01(data.level);
+      if (TalkReceiver.talking) {
+        levelHandlers.forEach(function (fn) { fn(TalkReceiver.level); });
+      }
+    } else if (data.type === 'talk-stop') {
+      TalkReceiver.talking = false;
+      TalkReceiver.level = 0;
+      stopHandlers.forEach(function (fn) { fn(); });
+    } else if (data.type === 'mouth-position') {
+      // Per-character mouth rect (sprite pixels on the 64x64 grid), sent
+      // by the host page from its MOUTH_POSITIONS table.
+      var w = Math.round(Number(data.width)), h = Math.round(Number(data.height));
+      var x = Math.round(Number(data.x)), y = Math.round(Number(data.y));
+      if (![x, y, w, h].every(isFinite) || w < 1 || h < 1) return;
+      w = Math.min(64, w);
+      h = Math.min(64, h);
+      CharacterKit.mouth = {
+        x: Math.max(0, Math.min(64 - w, x)),
+        y: Math.max(0, Math.min(64 - h, y)),
+        width: w,
+        height: h
+      };
+    }
+  });
+
+  // Kept on window for compatibility with the older per-character
+  // hookup style used by v2/v2.1 (before this kit existed) -- new,
+  // kit-built characters should prefer CharacterKit's own state below
+  // instead of reading TalkReceiver directly.
+  window.TalkReceiver = TalkReceiver;
+
+  // ---- kit-owned animation state ----
+  var frameCount = 0;
+  var mouthSmoothed = 0, mouthStage = 0, mouthDropHold = 0;
+  var propAngle = 0, propTargetAngle = 0;
+  var propOffsetX = 0, propOffsetY = 0, propTargetOffsetX = 0, propTargetOffsetY = 0;
+  var propNextPickTime = 0;
+
+  var CharacterKit = {
+    idleY: 0,
+    mouthStage: 0,
+    talking: false,
+    level: 0,
+    prop: { angle: 0, offsetX: 0, offsetY: 0 },
+    // Fully-open mouth rect in sprite pixels. Defaults to the Wizard's;
+    // the host page overrides it per character via a 'mouth-position'
+    // message. The half-open mouth and tongue are derived from it.
+    mouth: { x: 27, y: 26, width: 10, height: 4 },
+    mouthRects: function () {
+      var m = CharacterKit.mouth;
+      var halfH = Math.max(1, Math.round(m.height / 2));
+      var inset = m.width > 2 ? 1 : 0;
+      return {
+        half: { x: m.x + inset, y: m.y + Math.floor((m.height - halfH) / 2), w: m.width - inset * 2, h: halfH },
+        open: { x: m.x, y: m.y, w: m.width, h: m.height },
+        tongue: (m.width >= 4 && m.height >= 3)
+          ? { x: m.x + Math.max(1, Math.floor((m.width - 2) / 2) - 1), y: m.y + m.height - 2, w: 2, h: 2 }
+          : null
+      };
+    },
+    configure: function (overrides) {
+      if (!overrides) return;
+      for (var key in overrides) {
+        if (Object.prototype.hasOwnProperty.call(overrides, key)) config[key] = overrides[key];
+      }
+    }
+  };
+
+  function tick() {
+    frameCount++;
+    CharacterKit.talking = TalkReceiver.talking;
+    CharacterKit.level = TalkReceiver.level;
+
+    // Idle breathing bob.
+    CharacterKit.idleY = Math.sin(frameCount * config.idleBobSpeed) * config.idleBobAmplitude;
+
+    // Mouth: EMA-smooth the raw level, threshold into 3 stages, hold a
+    // louder stage briefly before dropping to a quieter one so brief
+    // dips near a threshold don't flicker the mouth. Rising is instant.
+    mouthSmoothed += (TalkReceiver.level - mouthSmoothed) * config.mouthSmoothing;
+    var targetStage = mouthSmoothed < config.mouthStage1Threshold ? 0
+      : (mouthSmoothed < config.mouthStage2Threshold ? 1 : 2);
+
+    if (targetStage > mouthStage) {
+      mouthStage = targetStage;
+      mouthDropHold = 0;
+    } else if (targetStage < mouthStage) {
+      mouthDropHold++;
+      if (mouthDropHold >= config.mouthDropHoldFrames) {
+        mouthStage = targetStage;
+        mouthDropHold = 0;
+      }
+    } else {
+      mouthDropHold = 0;
+    }
+    CharacterKit.mouthStage = mouthStage;
+
+    // Prop wobble: while talking, pick a new small random angle/offset
+    // target every ~300-600ms and ease smoothly towards it (a gentle
+    // wave, not a jitter); ease back to exactly 0 -- completely still
+    // -- as soon as speech stops.
+    var now = performance.now();
+    if (TalkReceiver.talking) {
+      if (now >= propNextPickTime) {
+        propTargetAngle = (Math.random() - 0.5) * 2 * config.propWobbleMaxAngle;
+        propTargetOffsetX = (Math.random() - 0.5) * 2 * config.propWobbleMaxOffset;
+        propTargetOffsetY = (Math.random() - 0.5) * 2 * config.propWobbleMaxOffset;
+        propNextPickTime = now + config.propWobbleMinMs + Math.random() * (config.propWobbleMaxMs - config.propWobbleMinMs);
+      }
+    } else {
+      propTargetAngle = 0;
+      propTargetOffsetX = 0;
+      propTargetOffsetY = 0;
+    }
+    propAngle += (propTargetAngle - propAngle) * config.propWobbleEase;
+    propOffsetX += (propTargetOffsetX - propOffsetX) * config.propWobbleEase;
+    propOffsetY += (propTargetOffsetY - propOffsetY) * config.propWobbleEase;
+    CharacterKit.prop.angle = propAngle;
+    CharacterKit.prop.offsetX = propOffsetX;
+    CharacterKit.prop.offsetY = propOffsetY;
+
+    requestAnimationFrame(tick);
+  }
+  tick();
+
+  window.CharacterKit = CharacterKit;
+})();
+</script>
+<!-- end inlined character-kit.js -->
+
+<script>
+(function () {
+    // ==================== Wizard V3 (kit-built) ====================
+    // Purely the drawing side now: palette, body/hand/wand rendering
+    // and the sparkle particle system. All talking-animation state
+    // (idle bob, mouth stage, wand wobble) comes from CharacterKit
+    // above -- see dore-animation-library/kit/STYLE.md for the shared
+    // conventions this follows.
+
+    var canvas = document.getElementById('wizardV3Canvas');
+    var ctx = canvas.getContext('2d');
+
+    var PALETTE = {
+        hat: '#3a1f63',
+        hatShade: '#2a1548',
+        trim: '#f5c518',
+        skin: '#f0c9a0',
+        skinShade: '#d8ac82',
+        beard: '#f4f6fa',
+        beardShade: '#c9ccd6',
+        robe: '#4c2885',
+        robeShade: '#331b5c',
+        wand: '#7a4a26',
+        sparkle: '#4be8ff',
+        sparkleAlt: '#38b6ff',
+        sparkleCore: '#ffffff',
+        eye: '#1c1420',
+        mouthDark: '#171015',
+        tongue: '#ff4d6d'
+    };
+
+    function px(x, y, w, h, color) {
+        ctx.fillStyle = color;
+        ctx.fillRect(Math.round(x), Math.round(y), Math.round(w), Math.round(h));
+    }
+
+    // ---- Body: hat, face, beard, robe (everything except the animated
+    // hand/wand and the mouth, which are drawn separately/last) ----
+    function drawBody(idleY) {
+        // Robe
+        px(16, 34 + idleY, 32, 24, PALETTE.robeShade);
+        px(19, 34 + idleY, 26, 24, PALETTE.robe);
+        px(30, 34 + idleY, 4, 24, PALETTE.trim);
+
+        // Face
+        px(25, 18 + idleY, 14, 10, PALETTE.skinShade);
+        px(26, 17 + idleY, 12, 10, PALETTE.skin);
+        // Eyes
+        px(28, 20 + idleY, 2, 2, PALETTE.eye);
+        px(34, 20 + idleY, 2, 2, PALETTE.eye);
+
+        // Beard (cascading, front-facing)
+        px(23, 25 + idleY, 18, 6, PALETTE.beardShade);
+        px(25, 24 + idleY, 14, 7, PALETTE.beard);
+        px(25, 30 + idleY, 14, 6, PALETTE.beardShade);
+        px(27, 29 + idleY, 10, 7, PALETTE.beard);
+        px(29, 36 + idleY, 6, 5, PALETTE.beard);
+
+        // Hat (pointed, tapering tiers) + brim band
+        px(30, 1 + idleY, 4, 3, PALETTE.hat);
+        px(28, 4 + idleY, 8, 3, PALETTE.hat);
+        px(25, 7 + idleY, 14, 4, PALETTE.hat);
+        px(21, 11 + idleY, 22, 4, PALETTE.hatShade);
+        px(22, 11 + idleY, 20, 4, PALETTE.hat);
+        px(16, 15 + idleY, 32, 2, PALETTE.trim);
+
+        // Left hand (static resting posture)
+        px(13, 38 + idleY, 6, 6, PALETTE.skin);
+    }
+
+    // ---- Right hand + wand: idle-still, wobbles gently while talking
+    // (via CharacterKit.prop, added to the wand's own rest angle/pivot) ----
+    function drawHandAndWand(idleY, wandAngle, wandOffsetX, wandOffsetY) {
+        var handBaseX = 44;
+        var handBaseY = 36 + idleY;
+        var handX = handBaseX + wandOffsetX;
+        var handY = handBaseY + wandOffsetY;
+
+        // Sleeve
+        px(38, 34 + idleY, 8, 8, PALETTE.robe);
+        // Hand
+        px(handX, handY, 6, 6, PALETTE.skin);
+
+        // Wand: rest direction points up-and-right; wandAngle adds a
+        // small wobble on top of that when talking.
+        var restAngle = -0.7;
+        var angle = restAngle + wandAngle;
+        var length = 16;
+        var originX = handX + 3;
+        var originY = handY + 3;
+        var tipX = originX + Math.cos(angle) * length;
+        var tipY = originY + Math.sin(angle) * length;
+
+        ctx.strokeStyle = PALETTE.wand;
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(originX, originY);
+        ctx.lineTo(tipX, tipY);
+        ctx.stroke();
+
+        px(tipX - 1, tipY - 1, 2, 2, PALETTE.sparkleCore);
+
+        return { x: tipX, y: tipY };
+    }
+
+    // ---- Sparkle particles: drift a bit more while talking (kit
+    // doesn't own particles -- see STYLE.md) ----
+    var sparkles = [];
+    function spawnSparkle(x, y, talking) {
+        var spawnChance = talking ? 0.5 : 0.15;
+        if (Math.random() >= spawnChance) return;
+        var speedMul = talking ? 1.6 : 0.8;
+        sparkles.push({
+            x: x,
+            y: y,
+            vx: (Math.random() - 0.3) * 1.2 * speedMul,
+            vy: (Math.random() - 0.6) * 1.2 * speedMul,
+            size: Math.random() > 0.5 ? 1 : 2,
+            color: Math.random() > 0.4 ? PALETTE.sparkle : PALETTE.sparkleAlt,
+            alpha: 1
+        });
+    }
+    function updateAndDrawSparkles() {
+        for (var i = sparkles.length - 1; i >= 0; i--) {
+            var s = sparkles[i];
+            s.x += s.vx;
+            s.y += s.vy;
+            s.vy += 0.02;
+            s.alpha -= 0.02;
+            if (s.alpha <= 0) { sparkles.splice(i, 1); continue; }
+            ctx.fillStyle = s.color;
+            ctx.globalAlpha = s.alpha;
+            ctx.fillRect(Math.round(s.x), Math.round(s.y), s.size, s.size);
+        }
+        ctx.globalAlpha = 1;
+    }
+
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        var idleY = CharacterKit.idleY;
+        var talking = CharacterKit.talking;
+
+        drawBody(idleY);
+        var tip = drawHandAndWand(idleY, CharacterKit.prop.angle, CharacterKit.prop.offsetX, CharacterKit.prop.offsetY);
+        spawnSparkle(tip.x, tip.y, talking);
+        updateAndDrawSparkles();
+
+        // Mouth -- drawn last so nothing (beard included) covers it.
+        var mouthStage = CharacterKit.mouthStage;
+        var mouth = CharacterKit.mouthRects();
+        if (mouthStage === 1) {
+            px(mouth.half.x, mouth.half.y + idleY, mouth.half.w, mouth.half.h, PALETTE.mouthDark);
+        } else if (mouthStage === 2) {
+            px(mouth.open.x, mouth.open.y + idleY, mouth.open.w, mouth.open.h, PALETTE.mouthDark);
+            if (mouth.tongue) px(mouth.tongue.x, mouth.tongue.y + idleY, mouth.tongue.w, mouth.tongue.h, PALETTE.tongue);
+        }
+
+        requestAnimationFrame(animate);
+    }
+
+    animate();
+})();
+</script>
+
+</body>
+</html>

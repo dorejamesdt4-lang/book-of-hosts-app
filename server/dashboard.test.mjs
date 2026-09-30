@@ -1,0 +1,10 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {stat,readFile} from 'node:fs/promises';
+import path from 'node:path';
+import {server,root,resolvePath} from './index.mjs';
+import {catalogue} from '../public/scripts/catalogue.js';
+test('every available dashboard feature has a real entry point',async()=>{for(const f of catalogue.filter(f=>f.target)){assert.ok((await stat(path.join(root,'modules/legacy',f.target.split('?')[0]))).isFile(),f.name)}});
+test('static server serves dashboard and isolated feature assets, and rejects writes',async()=>{await new Promise(r=>server.listen(0,'127.0.0.1',r));const base='http://127.0.0.1:'+server.address().port;try{for(const p of ['/','/scripts/catalogue.js','/styles/dashboard.css','/modules/ruby/','/modules/feature/?id=manor','/modules/legacy/manor-lab/manor-engine.js']){const r=await fetch(base+p);assert.equal(r.status,200,p);assert.ok((await r.text()).length>0)}assert.equal((await fetch(base+'/api/sessions',{method:'POST'})).status,405);assert.equal((await fetch(base+'/missing')).status,404);assert.equal((await fetch(base+'/',{method:'HEAD'})).status,200)}finally{await new Promise(r=>server.close(r))}});
+test('server cannot resolve encoded traversal outside public',()=>{assert.equal(resolvePath('/%2e%2e%2fpackage.json'),null);assert.equal(resolvePath('/%00'),null);assert.ok(resolvePath('/styles/dashboard.css').startsWith(root))});
+test('membership remains informational and uses the approved tier names',async()=>{const html=await readFile(path.join(root,'index.html'),'utf8');assert.match(html,/Emerald/);assert.match(html,/Sapphire/);assert.doesNotMatch(html,/stripe|checkout|Buy now/i)});

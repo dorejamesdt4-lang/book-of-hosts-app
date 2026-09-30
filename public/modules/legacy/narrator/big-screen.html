@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Big Screen — Narrator Engine — Dore Trading UK</title>
+<link rel="stylesheet" href="tools.css">
+<style>
+  .bigscreen-main { max-width: 720px; margin: 0 auto; padding: 50px 24px 80px; text-align: center; }
+  .bigscreen-stage-wrap { display: flex; justify-content: center; margin-bottom: 24px; }
+  .bigscreen-empty { color: #888; font-size: 0.85rem; line-height: 1.6; margin-top: 40px; }
+  .bigscreen-empty a { color: var(--cyan); text-decoration: underline; }
+  .bigscreen-thumbs { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 20px; }
+  .bigscreen-thumb {
+    background: var(--panel-dark); border: 1px solid #2a2a32; border-radius: 6px;
+    padding: 8px; width: 90px; cursor: pointer; transition: all 0.2s;
+  }
+  .bigscreen-thumb:hover, .bigscreen-thumb.active { border-color: var(--cyan); box-shadow: 0 0 10px rgba(46,230,255,0.4); }
+  .bigscreen-thumb svg { width: 100%; height: auto; margin-bottom: 4px; }
+  .bigscreen-thumb .name { font-size: 0.65rem; color: #ccc; }
+  .bigscreen-session-meta { font-size: 0.68rem; color: #666; margin-top: 24px; letter-spacing: 0.5px; }
+</style>
+</head>
+<body>
+
+  <div id="matrixRain" class="matrix-rain" aria-hidden="true"></div>
+
+  <header class="nar-header">
+    <div class="nar-title">NARRATOR ENGINE <span>// BIG SCREEN</span></div>
+    <nav class="nar-nav">
+      <a href="index.html">Narrator</a>
+      <a href="../index.html">Dashboard</a>
+    </nav>
+  </header>
+
+  <main class="bigscreen-main">
+    <p class="nar-subtitle">LIVE CAST DISPLAY <span class="blink">_</span></p>
+
+    <div class="bigscreen-stage-wrap" id="bigscreenStageWrap"></div>
+
+    <div id="bigscreenThumbs" class="bigscreen-thumbs"></div>
+    <div id="bigscreenMeta" class="bigscreen-session-meta"></div>
+    <div id="bigscreenEmpty" class="bigscreen-empty" hidden>
+      No saved session yet. Set up players and click ASSIGN CHARACTERS, then SAVE SESSION,
+      on the <a href="index.html#assignPlayerRows">Narrator page's Player Assignment panel</a>.
+    </div>
+  </main>
+
+  <footer class="nar-footer">DORE TRADING UK &copy; 2026 — NARRATOR ENGINE v1</footer>
+
+  <script>
+    // Matrix rain background -- duplicated from narrator.js's own copy
+    // rather than shared, matching the existing pattern here (narrator.js
+    // itself duplicates the root site's script.js version rather than
+    // importing it, since this whole folder is meant to stay a
+    // self-contained "app"). Deliberately not loading narrator.js on
+    // this page: its top-level code expects the MiniDisc transport's
+    // elements (mdDisc, btnRec, etc.), which don't exist here.
+    (function () {
+      var GLYPHS = [
+        'ᚁ','ᚂ','ᚃ','ᚄ','ᚅ','ᚆ','ᚇ','ᚈ','ᚉ','ᚊ','ᚋ','ᚌ','ᚍ','ᚎ','ᚏ',
+        'ᚐ','ᚑ','ᚒ','ᚓ','ᚔ','ᚕ','ᚖ','ᚗ','ᚘ','ᚙ','ᚚ','᚛','᚜',
+        '𓀀','𓁐','𓂀','𓆑','𓆓','𓇳','𓊪','𓋴','𓏏','𓅓','𓊃','𓋹','𓁹','𓆗',
+        '𒀭','𒁍','𒂗','𒃵','𒄿','𒅆','𒆠','𒇷','𒈗','𒉺','𒊑','𒋼','𒀸','𒌷',
+        '✺','❖','◆','▲','⟁','✦','☉','◈','⬡','✷','◭','◬'
+      ];
+      var COLORS = ['rgba(0,255,102,0.18)', 'rgba(46,230,255,0.14)', 'rgba(255,0,127,0.12)'];
+      var COLUMN_COUNT = 20;
+      var LINES_PER_COLUMN = 80;
+
+      function randomGlyphString(lines) {
+        var out = [];
+        for (var i = 0; i < lines; i++) out.push(GLYPHS[Math.floor(Math.random() * GLYPHS.length)]);
+        return out.join('\n');
+      }
+
+      function buildRain() {
+        var container = document.getElementById('matrixRain');
+        if (!container) return;
+        for (var i = 0; i < COLUMN_COUNT; i++) {
+          var col = document.createElement('div');
+          col.className = 'rain-col';
+          col.style.left = (2 + i * (96 / (COLUMN_COUNT - 1))).toFixed(1) + '%';
+          col.style.color = COLORS[i % COLORS.length];
+          col.style.animationDuration = (7 + (i % 6) * 1.6).toFixed(1) + 's';
+          col.textContent = randomGlyphString(LINES_PER_COLUMN);
+          container.appendChild(col);
+        }
+      }
+      document.addEventListener('DOMContentLoaded', buildRain);
+    })();
+  </script>
+  <script type="module">
+    import { createConsoleSlideshow, renderPuppetIcon } from '../lib/console-slideshow.js';
+
+    var stage = createConsoleSlideshow(document.getElementById('bigscreenStageWrap'), {
+      accentColor: '#2ee6ff',
+      maxWidth: '420px',
+    });
+    stage.setPuppet('voice-placeholder', { label: 'NO SESSION LOADED' });
+
+    function selectPlayer(player, thumbEl) {
+      document.querySelectorAll('.bigscreen-thumb').forEach(function (t) { t.classList.remove('active'); });
+      thumbEl.classList.add('active');
+      stage.setPuppet(player.avatar_kind, {
+        label: 'PLAYER ' + (player.player_index + 1) + ' — ' + player.character_label.toUpperCase(),
+      });
+    }
+
+    fetch('/api/sessions').then(function (res) {
+      return res.ok ? res.json() : { sessions: [] };
+    }).then(function (data) {
+      var sessions = data.sessions || [];
+      if (!sessions.length) {
+        document.getElementById('bigscreenEmpty').hidden = false;
+        return;
+      }
+
+      sessions.sort(function (a, b) { return new Date(b.createdAt) - new Date(a.createdAt); });
+      var latest = sessions[0];
+
+      var thumbsEl = document.getElementById('bigscreenThumbs');
+      latest.players.forEach(function (player, i) {
+        var thumb = document.createElement('div');
+        thumb.className = 'bigscreen-thumb';
+        thumb.innerHTML = renderPuppetIcon(player.avatar_kind) +
+          '<div class="name">P' + (player.player_index + 1) + ' · ' + player.character_label + '</div>';
+        thumb.addEventListener('click', function () { selectPlayer(player, thumb); });
+        thumbsEl.appendChild(thumb);
+        if (i === 0) selectPlayer(player, thumb);
+      });
+
+      document.getElementById('bigscreenMeta').textContent =
+        latest.players.length + ' players · saved ' + new Date(latest.createdAt).toLocaleString();
+    }).catch(function () {
+      document.getElementById('bigscreenEmpty').hidden = false;
+      document.getElementById('bigscreenEmpty').textContent = 'Could not load a saved session.';
+    });
+  </script>
+</body>
+</html>

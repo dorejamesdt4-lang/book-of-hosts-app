@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Player's Hand — The Living Script</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&amp;family=Cardo:ital,wght@0,400;0,700;1,400&amp;family=Silkscreen&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="ls.css">
+</head>
+<body>
+<div class="ls-phone" style="background: #0B1620; font-family: 'Cardo', Georgia, serif; color: #EDE6D6; padding-bottom: 76px">
+
+<div class="star" style="left: 199px; top: 46px; animation-delay: -0.69s; opacity: 0.6"></div><div class="star" style="left: 89px; top: 53px; animation-delay: -1.73s; opacity: 0.6"></div><div class="star" style="left: 357px; top: 40px; animation-delay: -1.66s; opacity: 0.6"></div><div class="star" style="left: 200px; top: 97px; animation-delay: -2.29s; opacity: 0.6"></div><div class="star" style="left: 8px; top: 103px; animation-delay: -0.75s; opacity: 0.6"></div><div class="star" style="left: 13px; top: 60px; animation-delay: -2.85s; opacity: 0.6"></div><div class="star" style="left: 80px; top: 96px; animation-delay: -0.96s; opacity: 0.6"></div><div class="star" style="left: 135px; top: 87px; animation-delay: -2.07s; opacity: 0.6"></div><div class="star" style="left: 302px; top: 11px; animation-delay: -0.36s; opacity: 0.6"></div><div class="star" style="left: 304px; top: 8px; animation-delay: -1.30s; opacity: 0.6"></div>
+<header style="position: relative; display: flex; align-items: center; gap: 12px; padding: 16px 18px; border-bottom: 1px solid #1E3A3A">
+<div style="width: 58px; height: 64px; flex-shrink: 0; box-sizing: border-box; border-radius: 29px 29px 6px 6px; background: #0F1E28; border: 1.5px solid #D9A441; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 5px; overflow: hidden">
+<img id="meThumb" class="ls-thumb" alt="" style="width: 46px; height: 46px; flex-shrink: 0">
+</div>
+<div style="display: flex; flex-direction: column; gap: 2px; flex-grow: 1">
+<div style="font-style: italic; font-size: 13px; color: #A9C9C4">You are</div>
+<div id="meTitle" style="font-family: 'Cinzel', serif; font-weight: 700; font-size: 17px; color: #D9A441"></div>
+</div>
+<svg id="timer" hidden width="46" height="46" viewBox="0 0 52 52" role="img" aria-label=""><circle cx="26" cy="26" r="22" fill="none" stroke="#1E3A3A" stroke-width="5"></circle><circle id="timerArc" cx="26" cy="26" r="22" fill="none" stroke="#D9A441" stroke-width="5" stroke-dasharray="138" stroke-dashoffset="0" transform="rotate(-90 26 26)" stroke-linecap="round"></circle><text id="timerText" x="26" y="31" text-anchor="middle" font-family="Cinzel, serif" font-size="14" fill="#EDE6D6">30</text></svg>
+</header>
+<!-- Not on the mockup: the "what to do now" prompt, on every tab. -->
+<div id="prompt" role="status" aria-live="assertive" style="position: relative; margin: 12px 16px 0; padding: 12px 14px; border-radius: 10px; font-family: 'Cinzel', serif; font-weight: 700; font-size: 17px; line-height: 1.3"></div>
+<main id="view" aria-live="polite" style="position: relative; padding: 14px 16px 0; display: flex; flex-direction: column; gap: 10px"></main>
+
+<nav aria-label="Player sections" style="position: fixed; left: 50%; bottom: 0; transform: translateX(-50%); width: 100%; max-width: 390px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid #1E3A3A; background: #0F1E28; z-index: 2">
+<button type="button" class="pbtn" data-tab="lines" style="height: 60px; border: none; background: transparent; font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 1px; cursor: pointer">LINES</button>
+<button type="button" class="pbtn" data-tab="secrets" style="height: 60px; border: none; background: transparent; font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 1px; display: flex; align-items: center; justify-content: center; gap: 4px; cursor: pointer"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="2"></rect><path d="M8 11 V7 a4 4 0 0 1 8 0 V11" fill="none" stroke="currentColor" stroke-width="2"></path></svg>SECRETS<span id="secretBadge" hidden style="font-family: 'Silkscreen', monospace; font-size: 9px; color: #0F1E28; background: #5AA8A0; border-radius: 999px; padding: 2px 5px">0</span></button>
+<button type="button" class="pbtn" data-tab="character" style="height: 60px; border: none; background: transparent; font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 1px; cursor: pointer">CHARACTER</button>
+<button type="button" class="pbtn" data-tab="clues" style="height: 60px; border: none; background: transparent; font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 1px; cursor: pointer">CLUES</button>
+</nav>
+
+</div>
+<script type="module" src="js/hand.js"></script>
+</body>
+</html>

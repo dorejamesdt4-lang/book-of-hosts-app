@@ -1,0 +1,605 @@
+{
+  "meta": {
+    "name": "seumas-database",
+    "description": "Reference/source material for Seumas Engine card-deck generation — dinner table games and historical/cultural lore to draw on for question, icebreaker, trivia and wildcard cards.",
+    "version": 1
+  },
+  "dinner_table_games": [
+    {
+      "category": "Word & Language",
+      "name": "20 Questions",
+      "description": "Ask yes/no questions to guess a hidden item"
+    },
+    {
+      "category": "Word & Language",
+      "name": "The Alphabet Game",
+      "description": "Go around the table naming items from A to Z based on a topic"
+    },
+    {
+      "category": "Word & Language",
+      "name": "Association",
+      "description": "Say the first word that pops into your head based on the previous player's word"
+    },
+    {
+      "category": "Word & Language",
+      "name": "Contact",
+      "description": "A word-guessing game where clues trigger sub-guesses to reveal letters"
+    },
+    {
+      "category": "Word & Language",
+      "name": "Fortunately, Unfortunately",
+      "description": "Alternate story sentences starting with those two words"
+    },
+    {
+      "category": "Word & Language",
+      "name": "I'm Going on a Picnic",
+      "description": "Memory game where players add items in alphabetical order"
+    },
+    {
+      "category": "Word & Language",
+      "name": "Rhyme Time",
+      "description": "Quickly say a rhyming word in turn"
+    },
+    {
+      "category": "Word & Language",
+      "name": "Shouting Taboo",
+      "description": "Describe a secret word without using five common related words"
+    },
+    {
+      "category": "Word & Language",
+      "name": "The Minister's Cat",
+      "description": "Alphabetical adjective game (\"The minister's cat is an...\")"
+    },
+    {
+      "category": "Word & Language",
+      "name": "Word Ladder",
+      "description": "Change one letter of a four-letter word to make a new word"
+    },
+    {
+      "category": "Word & Language",
+      "name": "Categories",
+      "description": "Name a category; players must name one within 3 seconds"
+    },
+    {
+      "category": "Word & Language",
+      "name": "Words Within Words",
+      "description": "Write down smaller words found within a long word"
+    },
+    {
+      "category": "Word & Language",
+      "name": "The Dictionary Game",
+      "description": "Write down fake definitions for an obscure word to fool others"
+    },
+    {
+      "category": "Word & Language",
+      "name": "One Word Story",
+      "description": "Build a coherent story with each person contributing one word"
+    },
+    {
+      "category": "Word & Language",
+      "name": "Ghost",
+      "description": "Add letters to a word without completing a legal word"
+    },
+    {
+      "category": "Word & Language",
+      "name": "Tom Swiftly",
+      "description": "Make puns using adverbs"
+    },
+    {
+      "category": "Word & Language",
+      "name": "Pictionary in the Air",
+      "description": "Draw a word in the air with your finger for others to guess"
+    },
+    {
+      "category": "Word & Language",
+      "name": "Syllable Countdown",
+      "description": "Speak only in sentences matching a rolled die number"
+    },
+    {
+      "category": "Word & Language",
+      "name": "Foreign Counterparts",
+      "description": "Guess the English meaning of obscure foreign idioms"
+    },
+    {
+      "category": "Word & Language",
+      "name": "Compound Words",
+      "description": "Start a word with the ending of the previous compound word"
+    },
+    {
+      "category": "Trivia & Mind",
+      "name": "Two Truths and a Lie",
+      "description": "Share three statements; table guesses the fake one"
+    },
+    {
+      "category": "Trivia & Mind",
+      "name": "Would You Rather",
+      "description": "Vote on funny, difficult dilemmas"
+    },
+    {
+      "category": "Trivia & Mind",
+      "name": "Fact or Fiction",
+      "description": "Table decides if a bizarre trivia fact is made up"
+    },
+    {
+      "category": "Trivia & Mind",
+      "name": "Six Degrees of Separation",
+      "description": "Link two random actors through shared movies"
+    },
+    {
+      "category": "Trivia & Mind",
+      "name": "The Name Game",
+      "description": "Name a celebrity whose first name starts with the previous last name"
+    },
+    {
+      "category": "Trivia & Mind",
+      "name": "Hum That Tune",
+      "description": "Hum a popular song and have others guess"
+    },
+    {
+      "category": "Trivia & Mind",
+      "name": "Pub Quiz (No Tech)",
+      "description": "One person acts as trivia master using their phone"
+    },
+    {
+      "category": "Trivia & Mind",
+      "name": "Who Am I?",
+      "description": "Guess a famous name stuck to your forehead using yes/no questions"
+    },
+    {
+      "category": "Trivia & Mind",
+      "name": "Movie Mashup",
+      "description": "Describe the plot of two combined movies"
+    },
+    {
+      "category": "Trivia & Mind",
+      "name": "Hot Seat",
+      "description": "Be interviewed by the table for 2 minutes without hesitation"
+    },
+    {
+      "category": "Trivia & Mind",
+      "name": "The Memory Tray",
+      "description": "Remember items placed on a napkin and covered up"
+    },
+    {
+      "category": "Trivia & Mind",
+      "name": "Guesstimate",
+      "description": "Closest wins a massive numerical estimation question"
+    },
+    {
+      "category": "Trivia & Mind",
+      "name": "Reverse Trivia",
+      "description": "Guess the original question given an answer"
+    },
+    {
+      "category": "Trivia & Mind",
+      "name": "Badly Explain a Movie",
+      "description": "Describe a famous film plot as terribly as possible"
+    },
+    {
+      "category": "Trivia & Mind",
+      "name": "Alibi",
+      "description": "Interrogate two suspects separately to find alibi inconsistencies"
+    },
+    {
+      "category": "Trivia & Mind",
+      "name": "Celebrity Dinner Party",
+      "description": "Choose three dead or alive people to invite and explain why"
+    },
+    {
+      "category": "Trivia & Mind",
+      "name": "Timeline",
+      "description": "Guess chronological order of major life events or birth years"
+    },
+    {
+      "category": "Trivia & Mind",
+      "name": "Tabloid Headlines",
+      "description": "Make up a sensationalist headline about the person to your left"
+    },
+    {
+      "category": "Trivia & Mind",
+      "name": "Who is Most Likely To...",
+      "description": "Point to a player on three based on a prompt"
+    },
+    {
+      "category": "Trivia & Mind",
+      "name": "The Price is Right",
+      "description": "Guess the exact cost of the dinner bill or table item"
+    },
+    {
+      "category": "Imagination & Roleplay",
+      "name": "Mafia / Werewolf",
+      "description": "Classic hidden-role game of deception and accusation"
+    },
+    {
+      "category": "Imagination & Roleplay",
+      "name": "Spyfall",
+      "description": "Find out who the secret spy is through vague questions"
+    },
+    {
+      "category": "Imagination & Roleplay",
+      "name": "Psychiatrist",
+      "description": "Diagnose a shared secret mental trait adopted by the table"
+    },
+    {
+      "category": "Imagination & Roleplay",
+      "name": "Superpower Trade-Off",
+      "description": "Propose a superpower with a terrible minor side effect"
+    },
+    {
+      "category": "Imagination & Roleplay",
+      "name": "The Invention Game",
+      "description": "Combine two items on the table to pitch a fake product"
+    },
+    {
+      "category": "Imagination & Roleplay",
+      "name": "Fictional Character Diner",
+      "description": "Act like a famous character throughout the main course"
+    },
+    {
+      "category": "Imagination & Roleplay",
+      "name": "The Murderer (Wink Murder)",
+      "description": "Catch the secret murderer who kills by winking"
+    },
+    {
+      "category": "Imagination & Roleplay",
+      "name": "If I Were King/Queen",
+      "description": "State three rules you would enforce if you ruled the world"
+    },
+    {
+      "category": "Imagination & Roleplay",
+      "name": "Shark Tank",
+      "description": "Pitch a terrible business idea using plate ingredients"
+    },
+    {
+      "category": "Imagination & Roleplay",
+      "name": "The Oracle",
+      "description": "Three players act as a three-headed oracle answering one word at a time"
+    },
+    {
+      "category": "Napkin & Pen",
+      "name": "Consequences",
+      "description": "Fold paper to pass along and create a collaborative story"
+    },
+    {
+      "category": "Napkin & Pen",
+      "name": "Dots and Boxes",
+      "description": "Draw lines on a grid of dots to complete and claim boxes"
+    },
+    {
+      "category": "Napkin & Pen",
+      "name": "Tic-Tac-Toe",
+      "description": "Classic noughts and crosses on a napkin"
+    },
+    {
+      "category": "Napkin & Pen",
+      "name": "Hangman",
+      "description": "Quick word-guessing game with pen and paper"
+    },
+    {
+      "category": "Napkin & Pen",
+      "name": "Caterpillar",
+      "description": "Take turns adding body segments to a line without crossing"
+    },
+    {
+      "category": "Napkin & Pen",
+      "name": "Folded Drawing",
+      "description": "Pass folded paper to draw a combined monster"
+    },
+    {
+      "category": "Napkin & Pen",
+      "name": "MASH",
+      "description": "Childhood fortune-telling paper game"
+    },
+    {
+      "category": "Napkin & Pen",
+      "name": "Sprouts",
+      "description": "Mathematical game drawing lines between dots without crossing"
+    },
+    {
+      "category": "Napkin & Pen",
+      "name": "The Signature Challenge",
+      "description": "Sign name with non-dominant hand or eyes closed"
+    },
+    {
+      "category": "Napkin & Pen",
+      "name": "Blind Portrait",
+      "description": "Sketch the person opposite without looking down"
+    },
+    {
+      "category": "Table Objects",
+      "name": "The Salt Shaker Gamble",
+      "description": "Hide a coin under upturned cups and shuffle"
+    },
+    {
+      "category": "Table Objects",
+      "name": "Sugar Packet House",
+      "description": "Stack sugar packets without knocking them over"
+    },
+    {
+      "category": "Table Objects",
+      "name": "The Spoon Balancing Act",
+      "description": "Balance a dessert spoon on your nose"
+    },
+    {
+      "category": "Table Objects",
+      "name": "Coin Spin",
+      "description": "Flick a spinning coin to keep it going"
+    },
+    {
+      "category": "Table Objects",
+      "name": "Drop the Coin",
+      "description": "Drop a coin from forehead height into a water glass"
+    },
+    {
+      "category": "Table Objects",
+      "name": "The Glass Marimba",
+      "description": "Tap water glasses filled to different levels to play a tune"
+    },
+    {
+      "category": "Table Objects",
+      "name": "Napkin Origami",
+      "description": "Fold napkins into impressive shapes quickly"
+    },
+    {
+      "category": "Table Objects",
+      "name": "Steal the Cork",
+      "description": "Grab a wine cork before someone slaps your hand"
+    },
+    {
+      "category": "Table Objects",
+      "name": "The Fork Balance",
+      "description": "Balance interlocked forks on a toothpick or glass edge"
+    },
+    {
+      "category": "Table Objects",
+      "name": "The Missing Item",
+      "description": "Guess what piece of cutlery or glass was removed"
+    },
+    {
+      "category": "Action & Behavioral",
+      "name": "The Forbidden Word",
+      "description": "Ban a common word for 15 minutes"
+    },
+    {
+      "category": "Action & Behavioral",
+      "name": "The Accent Dinner",
+      "description": "Speak in a specific accent until dessert"
+    },
+    {
+      "category": "Action & Behavioral",
+      "name": "Medusa",
+      "description": "Look up on three; if you make eye contact, you are out"
+    },
+    {
+      "category": "Action & Behavioral",
+      "name": "No Thumbs",
+      "description": "Eat three bites without using thumbs"
+    },
+    {
+      "category": "Action & Behavioral",
+      "name": "The Straight Face Test",
+      "description": "Make the table laugh using only facial expressions in 30 seconds"
+    },
+    {
+      "category": "Action & Behavioral",
+      "name": "The Slow-Motion Race",
+      "description": "Last person to pick up their drink and sip wins"
+    },
+    {
+      "category": "Action & Behavioral",
+      "name": "The Copycat",
+      "description": "Mirror someone's movements secretly until noticed"
+    },
+    {
+      "category": "Action & Behavioral",
+      "name": "The Whispering Game",
+      "description": "Conduct conversation in a dramatic whisper"
+    },
+    {
+      "category": "Action & Behavioral",
+      "name": "The Gesture Infection",
+      "description": "Copy a subtle gesture as you notice it"
+    },
+    {
+      "category": "Action & Behavioral",
+      "name": "The Question Game",
+      "description": "Talk only in questions; statements lose"
+    },
+    {
+      "category": "Icebreakers",
+      "name": "High, Low, Buffalo",
+      "description": "Share best part, worst part, and something weird about your day"
+    },
+    {
+      "category": "Icebreakers",
+      "name": "The Time Capsule",
+      "description": "Choose one object from this year for a 100-year time capsule"
+    },
+    {
+      "category": "Icebreakers",
+      "name": "Desert Island Discs",
+      "description": "Choose one album, book, and luxury item for a desert island"
+    },
+    {
+      "category": "Icebreakers",
+      "name": "First / Worst Concert",
+      "description": "Share your first live music experience and worst one"
+    },
+    {
+      "category": "Icebreakers",
+      "name": "The Lottery Plan",
+      "description": "Explain how you would spend £10 million"
+    },
+    {
+      "category": "Icebreakers",
+      "name": "Strangest Celebrity Encounter",
+      "description": "Share a weird run-in with someone famous"
+    },
+    {
+      "category": "Icebreakers",
+      "name": "The Worst Job",
+      "description": "Compare notes on the most bizarre job held"
+    },
+    {
+      "category": "Icebreakers",
+      "name": "Guilty Pleasures",
+      "description": "Reveal embarrassing favorite TV shows, songs, or snacks"
+    },
+    {
+      "category": "Icebreakers",
+      "name": "Superpower Choice",
+      "description": "Choose between flight and invisibility and debate"
+    },
+    {
+      "category": "Icebreakers",
+      "name": "Dinner Guest Wishlist",
+      "description": "Replace a table member with a historical figure for 5 minutes"
+    },
+    {
+      "category": "Quick & Simple",
+      "name": "Thumb War",
+      "description": "Classic hand game across the table corner"
+    },
+    {
+      "category": "Quick & Simple",
+      "name": "Rock, Paper, Scissors",
+      "description": "Bracket-style tournament over plates"
+    },
+    {
+      "category": "Quick & Simple",
+      "name": "Odds On",
+      "description": "Shout a number between 1 and 10 to match a dare value"
+    },
+    {
+      "category": "Quick & Simple",
+      "name": "The Silent Minute",
+      "description": "Closest to guessing when 60 seconds have passed wins"
+    },
+    {
+      "category": "Quick & Simple",
+      "name": "Chopstick Challenge",
+      "description": "Pick up a tiny object with chopsticks using non-dominant hand"
+    },
+    {
+      "category": "Quick & Simple",
+      "name": "The Compliment Train",
+      "description": "Say a genuine nice thing to the person on your right"
+    },
+    {
+      "category": "Quick & Simple",
+      "name": "Syllable Clap",
+      "description": "Clap out syllables of a tricky phrase for others to guess"
+    },
+    {
+      "category": "Quick & Simple",
+      "name": "Count to 20",
+      "description": "Count collectively; overlapping speech restarts the count"
+    },
+    {
+      "category": "Quick & Simple",
+      "name": "Never Have I Ever",
+      "description": "Lower a finger for every named activity you have done"
+    },
+    {
+      "category": "Quick & Simple",
+      "name": "The Last Word",
+      "description": "Say the final word right before food arrives for bragging rights"
+    }
+  ],
+  "ancient_civilizations": [
+    {
+      "name": "Minoan Civilization",
+      "era": "c. 3500 – 1400 BCE",
+      "description": "Europe's first advanced civilization based on Crete; built multi-story palaces with advanced plumbing; used undeciphered Linear A script; dominated Mediterranean trade"
+    },
+    {
+      "name": "Neburu (Planet X / Nibiru)",
+      "era": "Mythological Lore",
+      "description": "Larger planet home to the Amunaki race; collided with Earth creating the Grand Canyon and the Moon; survivors became pharaohs and kings before building spaceships and leaving"
+    },
+    {
+      "name": "Murder at the Gates of Uruk",
+      "era": "Mesopotamian Setting",
+      "description": "Epic of Gilgamesh murder mystery party game featuring 9 elite suspects where King Gilgamesh is poisoned by the Black Lotus toxin"
+    }
+  ],
+  "historical_migrations": [
+    {
+      "name": "The Gothic War",
+      "era": "376–382 AD",
+      "description": "Thervingi Goths crossed into Roman Thrace fleeing Huns, weaponizing internal placement after abuse; destroyed eastern Roman army at Adrianople and killed the Emperor"
+    },
+    {
+      "name": "Anglo-Saxon Conquest",
+      "era": "5th–6th Century AD",
+      "description": "Germanic settlers migrated across North Sea as family units, pushing Celtic Britons into Wales and Cornwall to create \"England\""
+    },
+    {
+      "name": "Yayoi-Jōmon Displacement",
+      "era": "c. 300 BC – 300 AD",
+      "description": "Wet-rice farmers migrated from Korean Peninsula into Japan with bronze weapons, outbreeding and replacing native Jōmon hunter-gatherers"
+    },
+    {
+      "name": "Amorite Infiltration",
+      "era": "c. 2100–1900 BC",
+      "description": "Nomadic Semitic groups entered Sumer and Akkad due to global drought, overthrew the Sumerian state, and founded the first Babylonian Empire"
+    },
+    {
+      "name": "Yuezhi Conquest",
+      "era": "c. 130–120 BC",
+      "description": "Nomadic pastoralists forced west by Xiongnu into Greco-Bactrian Kingdom, later building the Kushan Empire"
+    },
+    {
+      "name": "Vandal Conquest of North Africa",
+      "era": "429–439 AD",
+      "description": "80,000 Vandals and Alans crossed the Straits of Gibraltar, captured Carthage, and established a maritime kingdom"
+    },
+    {
+      "name": "Doric Invasions of Greece",
+      "era": "c. 1100–1000 BC",
+      "description": "Greek-speaking northern tribes migrated en masse into the Peloponnese, laying the cultural foundation for ancient Sparta"
+    },
+    {
+      "name": "Thule Displacement",
+      "era": "c. 1000–1300 AD",
+      "description": "Thule people migrated eastward from Alaska to Greenland, replacing the Paleo-Inuit Dorset culture"
+    },
+    {
+      "name": "Philistine Settlement",
+      "era": "c. 1175 BC",
+      "description": "Aegean migrants settled southern Canaan with iron-working technology, establishing a powerful pentapolis"
+    },
+    {
+      "name": "Magna Graecia Colonisation",
+      "era": "8th–6th Century BC",
+      "description": "Greek citizens migrated to southern Italy and Sicily, converting the region into a cultural powerhouse"
+    },
+    {
+      "name": "Slavic Migration into Balkans",
+      "era": "6th–7th Century AD",
+      "description": "Decentralized Slavic families migrated southward toward the Danube River, resulting in the permanent Slavicisation of Southeastern Europe"
+    },
+    {
+      "name": "Mixtec Infiltration",
+      "era": "c. 1000–1350 AD",
+      "description": "Mixtec families migrated into the Valley of Oaxaca using armed settlement and royal marriage alliances to take over Zapotec urban centers"
+    }
+  ],
+  "american_military_contributions": [
+    {
+      "name": "American Revolution",
+      "era": "1775–1783",
+      "description": "Relied on foreign military leaders and immigrant volunteers (e.g., Marquis de Lafayette, Friedrich von Steuben) to transform raw colonial militias into a disciplined force"
+    },
+    {
+      "name": "American Civil War",
+      "era": "1861–1865",
+      "description": "Roughly one in four Union soldiers (543,000 men) was foreign-born, providing the North with an insurmountable numerical and industrial advantage"
+    },
+    {
+      "name": "World War II",
+      "era": "1939–1945",
+      "description": "Hundreds of thousands of first- and second-generation immigrants served in Allied armed forces and supplied vital wartime labor"
+    }
+  ]
+}

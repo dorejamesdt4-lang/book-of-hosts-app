@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ruby Compiler — Dore Trading UK</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  .rb-wrap { max-width: 1000px; margin: 0 auto; padding: 40px 24px 96px; position: relative; z-index: 2; }
+  .rb-wrap h1 { color: #ff007f; text-shadow: 0 0 10px rgba(255,0,127,0.6); font-size: 1.8rem; margin: 0 0 6px; text-align: center; }
+  .rb-wrap .sub { color: #cc7fa8; font-size: 0.85rem; margin-bottom: 32px; line-height: 1.5; text-align: center; }
+
+  /* ---- canvas-based animated fortune teller ---- */
+  .ft-stage { display: flex; justify-content: center; margin-bottom: 8px; position: relative; }
+  .ft-stage::before {
+    content: '';
+    position: absolute; top: 50%; left: 50%; width: 280px; height: 320px;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(255,0,127,0.24) 0%, transparent 70%);
+    filter: blur(6px);
+    z-index: -1;
+  }
+  #ftCanvas { width: 220px; height: 220px; image-rendering: pixelated; image-rendering: crisp-edges; }
+
+  /* ---- panels (magenta, matching the site's existing accent / the Jester page) ---- */
+  .rb-panel { background: #0d0d0d; border: 1px solid #ff007f; border-radius: 8px; padding: 24px; margin-bottom: 20px; box-shadow: 0 0 18px rgba(255,0,127,0.12); }
+  .rb-panel h2 { color: #ff007f; font-size: 0.95rem; letter-spacing: 1px; margin: 0 0 16px; text-shadow: 0 0 6px rgba(255,0,127,0.5); }
+  .rb-panel .rb-hint { color: #8a6b78; font-size: 0.75rem; margin: -8px 0 16px; line-height: 1.5; }
+  .rb-subhead { color: #ff8fc4; font-size: 0.78rem; letter-spacing: 1px; margin: 20px 0 10px; text-transform: uppercase; }
+  .rb-subhead:first-child { margin-top: 0; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+  .form-row.rb-row-3 { grid-template-columns: 1fr 1fr 1fr; }
+  @media (max-width: 700px) { .form-row, .form-row.rb-row-3 { grid-template-columns: 1fr; } }
+  label { display: block; color: #ff8fc4; font-size: 0.72rem; letter-spacing: 0.5px; margin-bottom: 5px; }
+  input[type="text"], input[type="number"], textarea, select {
+    width: 100%; background: #1a0a12; border: 1px solid #6b1e45; color: #ffd8ec;
+    font-family: 'Courier New', monospace; font-size: 0.82rem; padding: 9px 10px; border-radius: 4px; box-sizing: border-box;
+  }
+  textarea { min-height: 60px; resize: vertical; }
+  textarea.rb-mono-output { min-height: 240px; font-size: 0.76rem; line-height: 1.5; }
+  textarea.rb-reply-input { min-height: 160px; }
+
+  .rb-check { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: #ffd8ec; margin: 0 0 12px; }
+  .rb-check input { width: auto; accent-color: #ff007f; }
+  .rb-disabled { opacity: 0.4; }
+
+  .rb-mini-games-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 4px; }
+  @media (max-width: 700px) { .rb-mini-games-grid { grid-template-columns: repeat(2, 1fr); } }
+  .rb-mini-check { display: flex; align-items: center; gap: 6px; font-size: 0.78rem; color: #d8ffe6; }
+  .rb-mini-check input { width: auto; accent-color: #ff007f; }
+
+  .rb-host-fields, .rb-adult-confirm-row { display: none; margin-top: 10px; }
+  .rb-host-fields.rb-visible, .rb-adult-confirm-row.rb-visible { display: block; }
+
+  .rb-guest-block { border: 1px solid #4a1a33; border-radius: 6px; padding: 16px; margin-bottom: 14px; background: #140810; }
+  .rb-guest-block-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .rb-guest-block-header span { color: #ff8fc4; font-size: 0.78rem; letter-spacing: 1px; }
+  .rb-remove-guest-btn { background: none; border: none; color: #ff2e88; font-family: inherit; font-size: 0.72rem; cursor: pointer; }
+  .rb-remove-guest-btn:hover { text-shadow: 0 0 6px #ff2e88; }
+
+  .primary-btn { background: #ff007f; color: #1a0a12; border: none; font-family: inherit; font-weight: bold; font-size: 0.85rem; padding: 10px 20px; border-radius: 4px; cursor: pointer; }
+  .primary-btn:hover { background: #ff4da0; }
+  .ghost-btn { background: transparent; border: 1px solid #ff007f; color: #ff007f; font-family: inherit; font-size: 0.8rem; padding: 8px 16px; border-radius: 4px; cursor: pointer; margin-right: 10px; }
+  .ghost-btn:hover { background: rgba(255,0,127,0.1); }
+
+  .rb-copy-row { display: flex; align-items: center; gap: 14px; margin-top: 10px; }
+  .rb-copy-status { font-size: 0.72rem; color: #ff007f; letter-spacing: 1px; }
+
+  .big-screen {
+    background: #12040a; border: 2px solid #ff007f; border-radius: 8px;
+    box-shadow: 0 0 30px rgba(255,0,127,0.2), inset 0 0 40px rgba(0,0,0,0.6);
+    padding: 20px; margin-bottom: 20px; min-height: 140px; position: relative; overflow: hidden;
+  }
+  .big-screen::before {
+    content: ''; position: absolute; inset: 0;
+    background: repeating-linear-gradient(0deg, rgba(255,0,127,0.04) 0px, rgba(255,0,127,0.04) 1px, transparent 1px, transparent 3px);
+    pointer-events: none;
+  }
+  .big-screen-header { display: flex; justify-content: space-between; color: #a85a78; font-size: 0.7rem; letter-spacing: 1px; margin-bottom: 12px; }
+  .big-screen-body { color: #ffd8ec; font-family: 'Courier New', monospace; font-size: 0.82rem; white-space: pre-wrap; line-height: 1.6; min-height: 90px; }
+  .big-screen-body .pass { color: #00ff66; }
+  .big-screen-body .fail { color: #ff2e88; }
+
+  /* ---- rendered event card, matching the site's existing card style ---- */
+  .rb-card-badge { font-size: 0.65rem; letter-spacing: 1px; color: #2ee6ff; margin-bottom: 8px; text-transform: uppercase; }
+  .rb-card-title { font-size: 1.3rem; color: #ff007f; font-weight: bold; margin-bottom: 10px; text-shadow: 0 0 6px rgba(255,0,127,0.5); }
+  .rb-card-meta { display: flex; gap: 16px; flex-wrap: wrap; font-size: 0.72rem; color: #cc7fa8; margin-bottom: 16px; }
+  .rb-card-section { margin-bottom: 18px; }
+  .rb-card-section h3 { font-size: 0.72rem; letter-spacing: 1px; color: #ff8fc4; text-transform: uppercase; margin: 0 0 8px; }
+  .rb-card-section p { font-size: 0.82rem; color: #ffd8ec; line-height: 1.5; margin: 0; }
+
+  .rb-character-tile { border: 1px solid #4a1a33; border-radius: 6px; padding: 14px; margin-bottom: 10px; background: #140810; }
+  .rb-character-name { font-size: 0.9rem; color: #00ff66; font-weight: bold; margin-bottom: 4px; }
+  .rb-character-role { font-size: 0.72rem; color: #2ee6ff; margin-bottom: 8px; }
+  .rb-character-line { font-size: 0.78rem; color: #ffd8ec; line-height: 1.5; margin: 0 0 4px; }
+  .rb-character-secret { font-size: 0.75rem; color: #ffcf4d; margin-top: 6px; }
+
+  .rb-act-tile { border: 1px solid #4a1a33; border-radius: 6px; padding: 14px; margin-bottom: 10px; background: #140810; }
+  .rb-act-tile h4 { color: #ff007f; font-size: 0.82rem; margin: 0 0 8px; }
+  .rb-act-tile p, .rb-act-tile li { font-size: 0.78rem; color: #ffd8ec; line-height: 1.5; }
+  .rb-act-tile ul { margin: 6px 0 0; padding-left: 18px; }
+
+  .rb-solution-box { border: 1px solid #ffcf4d; border-radius: 6px; padding: 16px; background: rgba(255,207,77,0.06); }
+  .rb-solution-box h3 { color: #ffcf4d; }
+  .rb-solution-box p { font-size: 0.82rem; color: #ffe6b0; line-height: 1.5; margin: 0 0 8px; }
+  .rb-empty { color: #6b6b6b; font-size: 0.78rem; font-style: italic; }
+</style>
+</head>
+<body>
+
+  <div id="matrixRain" class="matrix-rain" aria-hidden="true"></div>
+
+  <nav class="dashboard-header">
+    <div class="dashboard-title">DORE TRADING UK // RUBY COMPILER</div>
+    <div class="nav-tabs">
+      <a href="index.html" class="tab-btn">Home</a>
+      <a href="index.html#dashboard" class="tab-btn">Dashboard</a>
+      <a href="seumas-engine.html" class="tab-btn">Seumas Engine</a>
+      <a href="print-preview.html" class="tab-btn">Print Preview</a>
+      <a href="compiler-engine-test.html" class="tab-btn active">Compiler</a>
+      <a href="bridge-relay.html" class="tab-btn">Bridge Relay</a>
+      <a href="jester.html" class="tab-btn">Jester</a>
+      <a href="forge.html" class="tab-btn">Forge</a>
+      <a href="image-converter.html" class="tab-btn">Images</a>
+    </div>
+  </nav>
+
+  <div class="rb-wrap">
+    <div class="ft-stage">
+      <canvas id="ftCanvas" width="256" height="256"></canvas>
+    </div>
+    <h1>RUBY COMPILER</h1>
+    <p class="sub">Ruby reads the room, weaves a full murder-mystery cast from your guests, and hands you an act-by-act script. Fill in the intake, summon her prompt, run it through Claude, then bring the finished event back here.</p>
+
+    <div class="rb-panel">
+      <h2>01 // EVENT INTAKE</h2>
+
+      <p class="rb-subhead">Event</p>
+      <div class="form-row">
+        <div>
+          <label for="rbTheme">Event Theme</label>
+          <input type="text" id="rbTheme" placeholder="e.g. 1920s speakeasy, haunted manor, Hollywood premiere">
+        </div>
+        <div>
+          <label for="rbTimeline">Timeline / Era</label>
+          <input type="text" id="rbTimeline" placeholder="e.g. 1920s, present day, Victorian">
+        </div>
+      </div>
+      <label for="rbBackstory">Backstory</label>
+      <textarea id="rbBackstory" placeholder="The mystery's premise -- who died, where, and what the guests are walking into."></textarea>
+
+      <p class="rb-subhead">Format &amp; Scale</p>
+      <div class="form-row rb-row-3">
+        <div>
+          <label for="rbFormat">Format</label>
+          <select id="rbFormat">
+            <option value="live" selected>Live (in-person)</option>
+            <option value="virtual">Virtual (video call)</option>
+          </select>
+        </div>
+        <div>
+          <label for="rbGameLength">Game Length</label>
+          <input type="text" id="rbGameLength" placeholder="e.g. 2-3 hours">
+        </div>
+        <div>
+          <label for="rbDifficulty">Difficulty</label>
+          <select id="rbDifficulty">
+            <option value="easy">Easy</option>
+            <option value="medium" selected>Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div>
+          <label for="rbGuestCount">Guest Count</label>
+          <input type="number" id="rbGuestCount" min="1" max="40" value="8">
+        </div>
+        <div>
+          <label for="rbHostCount">Number Of Hosts</label>
+          <input type="number" id="rbHostCount" min="1" max="10" value="1">
+        </div>
+      </div>
+
+      <label class="rb-check"><input type="checkbox" id="rbVoiceNarrator"> Voice AI narrator (spoken act intros)</label>
+
+      <p class="rb-subhead">Age Rating</p>
+      <div class="form-row">
+        <div>
+          <label for="rbAgeRating">Age Rating</label>
+          <select id="rbAgeRating">
+            <option value="12">12+ Clean</option>
+            <option value="18" selected>18+</option>
+          </select>
+        </div>
+        <div class="rb-adult-confirm-row" id="rbAdultConfirmRow">
+          <label class="rb-check" style="margin-top:20px;"><input type="checkbox" id="rbAdultConfirm"> I confirm this is for an 18+ audience — enable adult comedy mode</label>
+        </div>
+      </div>
+
+      <p class="rb-subhead">Mini-Games</p>
+      <div class="rb-mini-games-grid">
+        <label class="rb-mini-check"><input type="checkbox" id="rbMini_bards"> Bards (rhyme/poetry)</label>
+        <label class="rb-mini-check"><input type="checkbox" id="rbMini_pops"> Pops (pop quiz)</label>
+        <label class="rb-mini-check"><input type="checkbox" id="rbMini_rap"> Rap Battle</label>
+        <label class="rb-mini-check"><input type="checkbox" id="rbMini_gfactor"> G-Factor (talent showcase)</label>
+      </div>
+
+      <p class="rb-subhead">Host</p>
+      <label class="rb-check"><input type="checkbox" id="rbHostPlaying"> The host is playing a character too</label>
+      <div class="rb-host-fields" id="rbHostFields">
+        <div class="form-row">
+          <div>
+            <label for="rbHostRole">Host's Role / Inspiration</label>
+            <input type="text" id="rbHostRole" placeholder="e.g. the disgraced lounge singer">
+          </div>
+          <div>
+            <label for="rbHostPersonality">Host's Personality</label>
+            <input type="text" id="rbHostPersonality" placeholder="e.g. dramatic, self-important, secretly kind">
+          </div>
+        </div>
+        <label for="rbHostSecret">Host's Secret</label>
+        <textarea id="rbHostSecret" placeholder="Something the host's character is hiding."></textarea>
+      </div>
+
+      <p class="rb-subhead">Guests</p>
+      <div id="rbGuestList"></div>
+      <button type="button" class="ghost-btn" id="rbAddGuestBtn">+ ADD GUEST</button>
+
+      <div style="margin-top:20px;">
+        <button type="button" class="primary-btn" id="rbGenerateBtn">GENERATE PROMPT</button>
+      </div>
+    </div>
+
+    <div class="rb-panel">
+      <h2>02 // PROMPT FOR CLAUDE</h2>
+      <p class="rb-hint">Copy this whole thing and paste it into Claude (claude.ai or the app). Then copy Claude's full JSON reply and paste it into the box below.</p>
+      <textarea id="rbPromptOutput" class="rb-mono-output" readonly placeholder="Click GENERATE PROMPT above to build this."></textarea>
+      <div class="rb-copy-row">
+        <button type="button" class="ghost-btn" id="rbCopyBtn">COPY PROMPT</button>
+        <span class="rb-copy-status" id="rbCopyStatus"></span>
+      </div>
+    </div>
+
+    <div class="rb-panel">
+      <h2>03 // PASTE CLAUDE'S REPLY</h2>
+      <textarea id="rbReplyInput" class="rb-reply-input" placeholder="Paste Claude's JSON event reply here..."></textarea>
+      <div style="margin-top:14px;">
+        <button type="button" class="primary-btn" id="rbRenderBtn">COMPILE EVENT</button>
+      </div>
+    </div>
+
+    <div class="big-screen">
+      <div class="big-screen-header">
+        <span>[ RUBY'S LEDGER ]</span>
+        <span id="rbScreenTimestamp">STANDBY</span>
+      </div>
+      <div class="big-screen-body" id="rbScreenBody">Waiting for input. Fill in the intake, summon a prompt, run it through Claude, then paste the reply above.<span class="cursor">_</span></div>
+    </div>
+
+    <div class="rb-panel">
+      <h2>04 // THE EVENT</h2>
+      <div id="rbSlideshowStage" style="margin-bottom: 18px;"></div>
+      <div id="rbEventCard">
+        <p class="rb-empty">No event compiled yet.</p>
+      </div>
+    </div>
+  </div>
+
+<script src="script.js"></script>
+<script type="module">
+import { RUBY_GENERATE_PROMPT } from './lib/ruby-prompt.js';
+import { fetchTrainingSample, buildInspirationSection } from './lib/training-sample.js';
+import { createConsoleSlideshow } from './lib/console-slideshow.js';
+
+(function () {
+  // ==================== Console Slideshow: mystery-narrator playback ====================
+  // Ruby has no recorded/synthesized audio pipeline of its own (no TTS
+  // service, nothing like the Narrator page's Kokoro model), so
+  // narration here uses the browser's built-in Web Speech API --
+  // real, audible speech with no new dependency -- and drives the
+  // shared slideshow's talking state from that utterance's own
+  // start/end events. One generic mystery-narrator puppet is reused
+  // for every act and the solution reveal; there's no per-game art.
+  var rbSlideshowContainer = document.getElementById('rbSlideshowStage');
+  var rbSlideshow = rbSlideshowContainer ? createConsoleSlideshow(rbSlideshowContainer, { accentColor: '#ff007f' }) : null;
+  if (rbSlideshow) rbSlideshow.setPuppet('mystery-narrator', { label: 'RUBY' });
+
+  function narrate(text, statusEl) {
+    if (!text) return;
+    if (!window.speechSynthesis || typeof SpeechSynthesisUtterance === 'undefined') {
+      if (statusEl) statusEl.textContent = 'Speech synthesis not supported in this browser.';
+      return;
+    }
+    window.speechSynthesis.cancel(); // stop any prior narration before starting new
+    if (rbSlideshow) rbSlideshow.setPuppet('mystery-narrator', { label: 'RUBY' });
+    var utterance = new SpeechSynthesisUtterance(text);
+    if (rbSlideshow) rbSlideshow.attachUtterance(utterance);
+    if (statusEl) {
+      statusEl.textContent = 'NARRATING...';
+      utterance.addEventListener('end', function () { statusEl.textContent = ''; });
+      utterance.addEventListener('error', function () { statusEl.textContent = 'Narration failed.'; });
+    }
+    window.speechSynthesis.speak(utterance);
+  }
+
+  function narrateButton(text) {
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'ghost-btn';
+    btn.textContent = '▶ NARRATE';
+    btn.style.marginTop = '6px';
+    var status = document.createElement('span');
+    status.style.fontSize = '0.7rem';
+    status.style.color = '#ff8fc4';
+    status.style.marginLeft = '8px';
+    btn.addEventListener('click', function () { narrate(text, status); });
+    var wrap = document.createElement('div');
+    wrap.appendChild(btn);
+    wrap.appendChild(status);
+    return wrap;
+  }
+
+  // ==================== Canvas-based animated fortune teller ====================
+  function buildFortuneTellerCanvas() {
+    var canvas = document.getElementById('ftCanvas');
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+    var frameCount = 0;
+    var particles = [];
+
+    var PALETTE = {
+      robe: '#4a154b', robeShadow: '#300c31',
+      skin: '#e0a96d', skinShadow: '#b87d4b',
+      hair: '#d3d3d3',
+      crystal: '#a6fafc', mist: '#6bf2da',
+      table: '#5c3a21',
+    };
+
+    function drawPixelRect(x, y, w, h, color) {
+      ctx.fillStyle = color;
+      ctx.fillRect(Math.floor(x), Math.floor(y), Math.floor(w), Math.floor(h));
+    }
+
+    function createParticle() {
+      if (particles.length < 20 && Math.random() < 0.1) {
+        particles.push({
+          x: 128 + (Math.random() * 40 - 20),
+          y: 180 + (Math.random() * 10 - 5),
+          vx: (Math.random() - 0.5) * 0.5,
+          vy: -Math.random() * 0.8 - 0.2,
+          size: Math.random() > 0.5 ? 2 : 3,
+          alpha: 1,
+        });
+      }
+    }
+
+    function updateAndDrawParticles() {
+      for (var i = particles.length - 1; i >= 0; i--) {
+        var p = particles[i];
+        p.x += p.vx; p.y += p.vy; p.alpha -= 0.015;
+        if (p.alpha <= 0) { particles.splice(i, 1); continue; }
+        ctx.fillStyle = 'rgba(107, 242, 218, ' + p.alpha + ')';
+        ctx.fillRect(Math.floor(p.x), Math.floor(p.y), p.size, p.size);
+      }
+    }
+
+    function animate() {
+      frameCount++;
+
+      // Transparent background so the site's own dark page shows through
+      // (the standalone reference painted an opaque bg here instead).
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      var pulseGlow = 35 + Math.sin(frameCount * 0.08) * 5;
+      var gradient = ctx.createRadialGradient(128, 185, 5, 128, 185, pulseGlow);
+      gradient.addColorStop(0, 'rgba(0, 255, 204, 0.15)');
+      gradient.addColorStop(1, 'rgba(20, 12, 36, 0)');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Robe base
+      drawPixelRect(56, 110, 144, 90, PALETTE.robeShadow);
+      drawPixelRect(64, 100, 128, 100, PALETTE.robe);
+      drawPixelRect(80, 110, 96, 40, PALETTE.robe);
+
+      // Head / face
+      drawPixelRect(104, 60, 48, 48, PALETTE.skinShadow);
+      drawPixelRect(108, 56, 40, 48, PALETTE.skin);
+      drawPixelRect(100, 76, 56, 24, PALETTE.skin);
+      drawPixelRect(104, 92, 48, 12, PALETTE.skinShadow);
+
+      drawPixelRect(116, 72, 8, 2, PALETTE.skinShadow);
+      drawPixelRect(132, 72, 8, 2, PALETTE.skinShadow);
+      drawPixelRect(118, 76, 4, 4, '#301c00');
+      drawPixelRect(134, 76, 4, 4, '#301c00');
+      drawPixelRect(124, 78, 8, 10, PALETTE.skinShadow);
+      drawPixelRect(122, 90, 12, 3, '#804040');
+
+      drawPixelRect(96, 52, 64, 12, PALETTE.hair);
+      drawPixelRect(96, 64, 12, 32, PALETTE.hair);
+      drawPixelRect(148, 64, 12, 32, PALETTE.hair);
+
+      // Waving hands
+      var handYOffsetL = Math.sin(frameCount * 0.07) * 8;
+      var handXOffsetL = Math.cos(frameCount * 0.05) * 6;
+      var handYOffsetR = Math.sin(frameCount * 0.07 + Math.PI) * 8;
+      var handXOffsetR = Math.cos(frameCount * 0.05 + Math.PI) * 6;
+
+      drawPixelRect(64, 120 + handYOffsetL * 0.5, 32, 16, PALETTE.robeShadow);
+      drawPixelRect(86 + handXOffsetL, 135 + handYOffsetL, 16, 14, PALETTE.skin);
+      drawPixelRect(90 + handXOffsetL, 145 + handYOffsetL, 6, 4, PALETTE.skinShadow);
+
+      drawPixelRect(160, 120 + handYOffsetR * 0.5, 32, 16, PALETTE.robeShadow);
+      drawPixelRect(154 + handXOffsetR, 135 + handYOffsetR, 16, 14, PALETTE.skin);
+      drawPixelRect(160 + handXOffsetR, 145 + handYOffsetR, 6, 4, PALETTE.skinShadow);
+
+      // Table and crystal ball stand
+      drawPixelRect(48, 190, 160, 66, PALETTE.table);
+      drawPixelRect(112, 182, 32, 10, '#3a1e05');
+
+      // Crystal ball with swirling interior
+      ctx.fillStyle = '#4488aa';
+      ctx.beginPath();
+      ctx.arc(128, 165, 21, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = PALETTE.crystal;
+      ctx.beginPath();
+      ctx.arc(128, 165, 19, 0, Math.PI * 2);
+      ctx.fill();
+
+      var swirlX = 128 + Math.sin(frameCount * 0.1) * 8;
+      var swirlY = 165 + Math.cos(frameCount * 0.15) * 6;
+      ctx.fillStyle = PALETTE.mist;
+      ctx.beginPath();
+      ctx.arc(swirlX, swirlY, 6, 0, Math.PI * 2);
+      ctx.fill();
+
+      var swirlX2 = 128 + Math.sin(frameCount * 0.08 + Math.PI) * 10;
+      var swirlY2 = 165 + Math.cos(frameCount * 0.12 + Math.PI) * 5;
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath();
+      ctx.arc(swirlX2, swirlY2, 4, 0, Math.PI * 2);
+      ctx.fill();
+
+      drawPixelRect(115, 152, 6, 4, '#ffffff');
+      drawPixelRect(113, 156, 3, 3, '#ffffff');
+
+      createParticle();
+      updateAndDrawParticles();
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  }
+
+  buildFortuneTellerCanvas();
+
+  // ==================== Age rating -> adult comedy mode gate ====================
+  var ageRating = document.getElementById('rbAgeRating');
+  var adultConfirmRow = document.getElementById('rbAdultConfirmRow');
+  var adultConfirm = document.getElementById('rbAdultConfirm');
+
+  function refreshAdultGate() {
+    var show = ageRating.value === '18';
+    adultConfirmRow.classList.toggle('rb-visible', show);
+    if (!show) adultConfirm.checked = false;
+  }
+  ageRating.addEventListener('change', refreshAdultGate);
+  refreshAdultGate();
+
+  // ==================== Host-playing conditional fields ====================
+  var hostPlaying = document.getElementById('rbHostPlaying');
+  var hostFields = document.getElementById('rbHostFields');
+  hostPlaying.addEventListener('change', function () {
+    hostFields.classList.toggle('rb-visible', hostPlaying.checked);
+  });
+
+  // ==================== Repeatable guest blocks ====================
+  var guestList = document.getElementById('rbGuestList');
+  var guestCounter = 0;
+
+  function addGuestBlock() {
+    guestCounter++;
+    var block = document.createElement('div');
+    block.className = 'rb-guest-block';
+    block.innerHTML =
+      '<div class="rb-guest-block-header">' +
+        '<span>GUEST ' + guestCounter + '</span>' +
+        '<button type="button" class="rb-remove-guest-btn">[remove]</button>' +
+      '</div>' +
+      '<div class="form-row">' +
+        '<div><label>Age</label><input type="text" class="rb-guest-age" placeholder="e.g. 32"></div>' +
+        '<div><label>Gender</label>' +
+          '<select class="rb-guest-gender">' +
+            '<option value="">Prefer not to say</option>' +
+            '<option value="female">Female</option>' +
+            '<option value="male">Male</option>' +
+            '<option value="other">Other</option>' +
+          '</select>' +
+        '</div>' +
+      '</div>' +
+      '<label>Role / Inspiration</label>' +
+      '<input type="text" class="rb-guest-role" placeholder="e.g. loves true crime podcasts, competitive board gamer">' +
+      '<label style="margin-top:10px;">Personality</label>' +
+      '<input type="text" class="rb-guest-personality" placeholder="e.g. dry humour, fiercely competitive">' +
+      '<label style="margin-top:10px;">Secret</label>' +
+      '<textarea class="rb-guest-secret" placeholder="Something fun for their character to be hiding."></textarea>' +
+      '<label class="rb-check" style="margin-top:10px;"><input type="checkbox" class="rb-guest-optout"> Opted out of jokes about them</label>';
+
+    block.querySelector('.rb-remove-guest-btn').addEventListener('click', function () {
+      block.remove();
+    });
+    guestList.appendChild(block);
+  }
+
+  document.getElementById('rbAddGuestBtn').addEventListener('click', addGuestBlock);
+  addGuestBlock();
+
+  function collectGuests() {
+    return Array.prototype.map.call(guestList.querySelectorAll('.rb-guest-block'), function (block) {
+      return {
+        age: block.querySelector('.rb-guest-age').value.trim(),
+        gender: block.querySelector('.rb-guest-gender').value,
+        role_inspiration: block.querySelector('.rb-guest-role').value.trim(),
+        personality: block.querySelector('.rb-guest-personality').value.trim(),
+        secret: block.querySelector('.rb-guest-secret').value.trim(),
+        opted_out_of_jokes: block.querySelector('.rb-guest-optout').checked,
+      };
+    });
+  }
+
+  // ==================== Prompt generation ====================
+  var screenBody = document.getElementById('rbScreenBody');
+  var screenTimestamp = document.getElementById('rbScreenTimestamp');
+
+  function writeScreen(text, cls) {
+    screenTimestamp.textContent = new Date().toLocaleTimeString();
+    screenBody.innerHTML = cls ? '<span class="' + cls + '">' + text.replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</span>' : text;
+  }
+
+  function collectIntake() {
+    var miniGames = {
+      bards: document.getElementById('rbMini_bards').checked,
+      pops: document.getElementById('rbMini_pops').checked,
+      rap: document.getElementById('rbMini_rap').checked,
+      gfactor: document.getElementById('rbMini_gfactor').checked,
+    };
+
+    var intake = {
+      event_theme: document.getElementById('rbTheme').value.trim(),
+      timeline_era: document.getElementById('rbTimeline').value.trim(),
+      backstory: document.getElementById('rbBackstory').value.trim(),
+      format: document.getElementById('rbFormat').value,
+      game_length: document.getElementById('rbGameLength').value.trim(),
+      difficulty: document.getElementById('rbDifficulty').value,
+      guest_count: parseInt(document.getElementById('rbGuestCount').value, 10) || 0,
+      host_count: parseInt(document.getElementById('rbHostCount').value, 10) || 1,
+      voice_ai_narrator: document.getElementById('rbVoiceNarrator').checked,
+      age_rating: ageRating.value,
+      adult_comedy_mode: ageRating.value === '18' && adultConfirm.checked,
+      mini_games: miniGames,
+      host_playing: hostPlaying.checked,
+      host_character: hostPlaying.checked ? {
+        role: document.getElementById('rbHostRole').value.trim(),
+        personality: document.getElementById('rbHostPersonality').value.trim(),
+        secret: document.getElementById('rbHostSecret').value.trim(),
+      } : null,
+      guests: collectGuests(),
+    };
+    return intake;
+  }
+
+  document.getElementById('rbGenerateBtn').addEventListener('click', async function () {
+    var intake = collectIntake();
+    if (!intake.guests.length) {
+      writeScreen('Add at least one guest before generating a prompt.', 'fail');
+      return;
+    }
+
+    var categories = ['historical_events', 'words', 'inspiring_events', 'inspiration'];
+    if (intake.adult_comedy_mode) categories.push('swear_words');
+
+    var samples = await fetchTrainingSample(categories);
+    var inspirationSection = buildInspirationSection(samples);
+
+    var promptText = RUBY_GENERATE_PROMPT + inspirationSection +
+      '\n\nHOST INTAKE (JSON):\n' + JSON.stringify(intake, null, 2) +
+      '\n\nReturn ONLY the JSON event object described above -- no commentary, no code fences, nothing before or after it.';
+
+    document.getElementById('rbPromptOutput').value = promptText;
+    writeScreen('Prompt compiled (' + promptText.length + ' characters, ' + intake.guests.length + ' guests). Copy it and paste into Claude.', 'pass');
+  });
+
+  document.getElementById('rbCopyBtn').addEventListener('click', function () {
+    var promptBox = document.getElementById('rbPromptOutput');
+    var copyStatus = document.getElementById('rbCopyStatus');
+    if (!promptBox.value) {
+      writeScreen('Generate a prompt first.', 'fail');
+      return;
+    }
+    promptBox.select();
+
+    function done(ok) {
+      copyStatus.textContent = ok ? 'COPIED' : 'COPY FAILED — select the text manually';
+      setTimeout(function () { copyStatus.textContent = ''; }, 2500);
+    }
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(promptBox.value).then(function () { done(true); }, function () { done(false); });
+    } else {
+      try { done(document.execCommand('copy')); } catch (e) { done(false); }
+    }
+  });
+
+  // ==================== Render the compiled event as a card ====================
+  function section(parent, heading, text) {
+    if (!text) return;
+    var sec = document.createElement('div');
+    sec.className = 'rb-card-section';
+    var h3 = document.createElement('h3');
+    h3.textContent = heading;
+    var p = document.createElement('p');
+    p.textContent = text;
+    sec.appendChild(h3);
+    sec.appendChild(p);
+    parent.appendChild(sec);
+  }
+
+  function renderEventCard(event) {
+    var wrap = document.getElementById('rbEventCard');
+    wrap.innerHTML = '';
+
+    var badge = document.createElement('div');
+    badge.className = 'rb-card-badge';
+    badge.textContent = (event.theme || 'untitled theme') + ' · ' + (event.timeline_era || 'unspecified era') + ' · ' + (event.format || '?');
+    wrap.appendChild(badge);
+
+    var title = document.createElement('div');
+    title.className = 'rb-card-title';
+    title.textContent = event.event_title || '(untitled event)';
+    wrap.appendChild(title);
+
+    var meta = document.createElement('div');
+    meta.className = 'rb-card-meta';
+    var metaBits = [];
+    if (event.difficulty) metaBits.push('Difficulty: ' + event.difficulty);
+    if (event.estimated_duration) metaBits.push(event.estimated_duration);
+    if (Array.isArray(event.characters)) metaBits.push(event.characters.length + ' characters');
+    if (event.adult_comedy_mode) metaBits.push('Adult comedy mode');
+    if (event.voice_ai_narrator) metaBits.push('Voice narrator');
+    metaBits.forEach(function (bit) {
+      var span = document.createElement('span');
+      span.textContent = bit;
+      meta.appendChild(span);
+    });
+    wrap.appendChild(meta);
+
+    if (Array.isArray(event.mini_games) && event.mini_games.length) {
+      var mgSec = document.createElement('div');
+      mgSec.className = 'rb-card-section';
+      var mgH3 = document.createElement('h3');
+      mgH3.textContent = 'Mini-Games';
+      mgSec.appendChild(mgH3);
+      event.mini_games.forEach(function (mg) {
+        var p = document.createElement('p');
+        p.textContent = (mg.title || mg.type) + ' — ' + (mg.description || '');
+        mgSec.appendChild(p);
+      });
+      wrap.appendChild(mgSec);
+    }
+
+    if (Array.isArray(event.characters) && event.characters.length) {
+      var castSec = document.createElement('div');
+      castSec.className = 'rb-card-section';
+      var castH3 = document.createElement('h3');
+      castH3.textContent = 'Cast';
+      castSec.appendChild(castH3);
+      event.characters.forEach(function (c) {
+        var tile = document.createElement('div');
+        tile.className = 'rb-character-tile';
+
+        var name = document.createElement('div');
+        name.className = 'rb-character-name';
+        name.textContent = (c.character_name || '(unnamed)') + (c.is_host_character ? ' (host)' : '');
+        tile.appendChild(name);
+
+        var role = document.createElement('div');
+        role.className = 'rb-character-role';
+        role.textContent = (c.role_title || '') + (c.pronouns ? ' · ' + c.pronouns : '');
+        tile.appendChild(role);
+
+        if (c.personality_traits) {
+          var p = document.createElement('p');
+          p.className = 'rb-character-line';
+          p.textContent = c.personality_traits;
+          tile.appendChild(p);
+        }
+
+        if (Array.isArray(c.dialogue_lines)) {
+          c.dialogue_lines.forEach(function (line) {
+            var lp = document.createElement('p');
+            lp.className = 'rb-character-line';
+            lp.textContent = '“' + line + '”';
+            tile.appendChild(lp);
+          });
+        }
+
+        if (c.costume_suggestion) {
+          var cp = document.createElement('p');
+          cp.className = 'rb-character-line';
+          cp.textContent = 'Costume: ' + c.costume_suggestion;
+          tile.appendChild(cp);
+        }
+
+        if (c.secret) {
+          var sp = document.createElement('p');
+          sp.className = 'rb-character-secret';
+          sp.textContent = 'Secret: ' + c.secret;
+          tile.appendChild(sp);
+        }
+
+        castSec.appendChild(tile);
+      });
+      wrap.appendChild(castSec);
+    }
+
+    if (Array.isArray(event.acts) && event.acts.length) {
+      var actsSec = document.createElement('div');
+      actsSec.className = 'rb-card-section';
+      var actsH3 = document.createElement('h3');
+      actsH3.textContent = 'Acts';
+      actsSec.appendChild(actsH3);
+      event.acts.forEach(function (act) {
+        var tile = document.createElement('div');
+        tile.className = 'rb-act-tile';
+
+        var h4 = document.createElement('h4');
+        h4.textContent = 'Act ' + (act.act_number != null ? act.act_number : '?') + ': ' + (act.act_title || '');
+        tile.appendChild(h4);
+
+        if (act.narrator_script) {
+          var np = document.createElement('p');
+          np.textContent = 'Narrator: ' + act.narrator_script;
+          tile.appendChild(np);
+          tile.appendChild(narrateButton(act.narrator_script));
+        }
+
+        if (Array.isArray(act.clues_revealed) && act.clues_revealed.length) {
+          var ul = document.createElement('ul');
+          act.clues_revealed.forEach(function (clue) {
+            var li = document.createElement('li');
+            li.textContent = clue;
+            ul.appendChild(li);
+          });
+          tile.appendChild(ul);
+        }
+
+        actsSec.appendChild(tile);
+      });
+      wrap.appendChild(actsSec);
+    }
+
+    if (event.solution) {
+      var solWrap = document.createElement('div');
+      solWrap.className = 'rb-card-section';
+
+      var revealBtn = document.createElement('button');
+      revealBtn.type = 'button';
+      revealBtn.className = 'ghost-btn';
+      revealBtn.textContent = 'REVEAL SOLUTION';
+
+      var solBox = document.createElement('div');
+      solBox.className = 'rb-solution-box';
+      solBox.style.display = 'none';
+      solBox.style.marginTop = '12px';
+
+      var solH3 = document.createElement('h3');
+      solH3.textContent = 'Solution';
+      solBox.appendChild(solH3);
+
+      section(solBox, 'Killer', 'Guest index ' + event.solution.killer_guest_index);
+      section(solBox, 'Motive', event.solution.motive);
+      section(solBox, 'How It Was Done', event.solution.how_it_was_done);
+      section(solBox, 'Final Reveal Script', event.solution.final_reveal_script);
+      if (event.solution.final_reveal_script) {
+        solBox.appendChild(narrateButton(event.solution.final_reveal_script));
+      }
+
+      revealBtn.addEventListener('click', function () {
+        var showing = solBox.style.display !== 'none';
+        solBox.style.display = showing ? 'none' : 'block';
+        revealBtn.textContent = showing ? 'REVEAL SOLUTION' : 'HIDE SOLUTION';
+      });
+
+      solWrap.appendChild(revealBtn);
+      solWrap.appendChild(solBox);
+      wrap.appendChild(solWrap);
+    }
+  }
+
+  document.getElementById('rbRenderBtn').addEventListener('click', function () {
+    var raw = document.getElementById('rbReplyInput').value.trim();
+    if (!raw) {
+      writeScreen("Paste Claude's JSON reply first.", 'fail');
+      return;
+    }
+
+    var event_;
+    try {
+      event_ = JSON.parse(raw);
+    } catch (e) {
+      writeScreen('Could not parse that as JSON: ' + e.message, 'fail');
+      return;
+    }
+
+    if (!event_ || typeof event_ !== 'object' || !event_.event_title || !Array.isArray(event_.characters)) {
+      writeScreen('Parsed JSON but it is missing event_title or a characters array — check the reply matches the expected schema.', 'fail');
+      return;
+    }
+
+    renderEventCard(event_);
+    writeScreen('EVENT COMPILED\nTitle: ' + event_.event_title + '\nCharacters: ' + event_.characters.length + '\nActs: ' + (Array.isArray(event_.acts) ? event_.acts.length : 0), 'pass');
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Show Pack Library — The Living Script v3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&amp;family=Cardo:ital,wght@0,400;0,700;1,400&amp;family=Silkscreen&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="ls.css">
+</head>
+<body class="ls-tv-body">
+<script src="js/tabbar.js"></script>
+<!-- Not a mockup screen of its own: the Show Pack Library, built from the
+     Game Lobby's parts (header, parchment card, seat cards, panels, pills
+     and the round Begin button). Pick a pack, cast it, then the Stage
+     fetches its audio and starts the show. -->
+<div class="ls-board" id="board" style="width: 1440px; height: 1080px; box-sizing: border-box; background: #0B1620; overflow: hidden; font-family: 'Cardo', Georgia, serif; color: #EDE6D6">
+
+<div style="position: absolute; inset: 0; box-shadow: inset 0 0 200px rgba(0,0,0,0.7); pointer-events: none"></div>
+<div class="star" style="left: 1279px; top: 134px; animation-delay: -2.23s; opacity: 0.6"></div><div class="star" style="left: 1418px; top: 275px; animation-delay: -0.09s; opacity: 0.6"></div><div class="star" style="left: 957px; top: 131px; animation-delay: -1.95s; opacity: 0.6"></div><div class="star" style="left: 325px; top: 61px; animation-delay: -1.12s; opacity: 0.6"></div><div class="star" style="left: 508px; top: 198px; animation-delay: -1.63s; opacity: 0.6"></div><div class="star" style="left: 1179px; top: 131px; animation-delay: -0.04s; opacity: 0.6"></div><div class="star" style="left: 447px; top: 212px; animation-delay: -0.84s; opacity: 0.6"></div><div class="star" style="left: 801px; top: 85px; animation-delay: -2.29s; opacity: 0.6"></div><div class="star" style="left: 151px; top: 75px; animation-delay: -1.85s; opacity: 0.6"></div><div class="star" style="left: 915px; top: 68px; animation-delay: -0.40s; opacity: 0.6"></div><div class="star" style="left: 14px; top: 111px; animation-delay: -2.32s; opacity: 0.6"></div><div class="star" style="left: 343px; top: 89px; animation-delay: -0.87s; opacity: 0.6"></div><div class="star" style="left: 411px; top: 280px; animation-delay: -2.63s; opacity: 0.6"></div><div class="star" style="left: 1285px; top: 108px; animation-delay: -0.55s; opacity: 0.6"></div>
+<header style="display: flex; align-items: center; justify-content: space-between; padding: 26px 64px; border-bottom: 1px solid #1E3A3A">
+<div style="display: flex; align-items: center; gap: 14px">
+<svg width="46" height="46" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 6 L34.5 13 L42 13 L36 17.5 L38.5 25 L32 20.5 L25.5 25 L28 17.5 L22 13 L29.5 13 Z" fill="#D9A441"></path><path d="M6 30 Q19 25 32 32 Q45 25 58 30 L58 54 Q45 49 32 56 Q19 49 6 54 Z" fill="none" stroke="#D9A441" stroke-width="2.2" stroke-linejoin="round"></path><path d="M32 32 L32 56" stroke="#D9A441" stroke-width="2"></path><path d="M11 36 Q20 33 27 37 M11 42 Q20 39 27 43 M37 37 Q44 33 53 36 M37 43 Q44 39 53 42" stroke="#5AA8A0" stroke-width="1.4" fill="none"></path></svg>
+<div style="display: flex; flex-direction: column; gap: 2px">
+<div style="font-family: 'Cinzel', serif; font-weight: 700; font-size: 20px; letter-spacing: 6px; color: #D9A441">THE BOOK OF HOSTS</div>
+<div style="font-style: italic; font-size: 15px; color: #A9C9C4">The Host's Table</div>
+</div>
+</div>
+<h1 style="margin: 0; font-family: 'Cinzel', serif; font-weight: 700; font-size: 26px; letter-spacing: 3px; color: #EDE6D6">The Library</h1>
+<div style="display: flex; gap: 10px; align-items: center"><a href="lobby.html" style="font-family: 'Cinzel', serif; font-size: 12px; letter-spacing: 2px; color: #A9C9C4; text-decoration: none; min-height: 44px; display: flex; align-items: center; padding: 0 8px">‹ THE GAME LOBBY</a><div style="font-family: 'Silkscreen', monospace; font-size: 11px; letter-spacing: 1px; color: #5AA8A0; border: 1px solid #2A4A4A; border-radius: 999px; padding: 8px 14px">SHOW PACKS</div><div style="font-family: 'Silkscreen', monospace; font-size: 11px; letter-spacing: 1px; color: #D9A441; border: 1px solid #6B5320; border-radius: 999px; padding: 8px 14px">HOST VIEW</div></div>
+</header>
+<div style="display: grid; grid-template-columns: 520px minmax(0, 1fr); gap: 36px; padding: 36px 64px 0">
+
+<div style="display: flex; flex-direction: column; gap: 18px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<div style="font-family: 'Cinzel', serif; font-size: 12px; letter-spacing: 5px; color: #5AA8A0">PRE-VOICED SHOWS</div>
+<h2 style="margin: 0; font-family: 'Cinzel', serif; font-weight: 700; font-size: 34px; color: #EDE6D6">Choose a Show</h2>
+</div>
+<div id="packList" role="group" aria-label="Show Packs" style="display: flex; flex-direction: column; gap: 14px; max-height: 780px; overflow-y: auto"></div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 18px">
+<div style="position: relative; background: #EDE6D6; border-radius: 6px; box-shadow: inset 0 0 70px rgba(160,120,60,0.2); color: #1B2A36; box-sizing: border-box; padding: 34px 40px 30px; display: flex; flex-direction: column; gap: 14px">
+<div style="position: absolute; inset: 14px; border: 1px solid #B8923E; border-radius: 4px; pointer-events: none"></div>
+<div id="stepLabel" style="font-family: 'Cinzel', serif; font-size: 12px; letter-spacing: 5px; color: #8A6420">STEP 1 OF 3 · CAST</div>
+<div id="packTitle" style="font-family: 'Cinzel', serif; font-weight: 700; font-size: 30px; line-height: 1.15; color: #0F1E28">Choose a show</div>
+<div id="packSub" style="font-style: italic; font-size: 17px; color: #3B4B57"></div>
+<div id="packWarn" role="alert" hidden style="position: relative; padding: 12px 16px; border: 1px solid #9E3B3B; border-radius: 8px; font-size: 16px; line-height: 1.4; color: #9E3B3B"></div>
+<div id="characters" style="position: relative; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px"></div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 12px; padding: 20px 24px; background: #0F1E28; border: 1px solid #2A4A4A; border-radius: 12px">
+<div style="display: flex; justify-content: space-between; align-items: baseline">
+<div style="font-family: 'Cinzel', serif; font-size: 12px; letter-spacing: 5px; color: #5AA8A0">THE GUESTS</div>
+<div id="guestRange" style="font-style: italic; font-size: 16px; color: #A9C9C4"></div>
+</div>
+<div id="guestRows" style="display: flex; flex-direction: column; gap: 10px; max-height: 260px; overflow-y: auto"></div>
+<div><button type="button" id="btnAddGuest" class="pbtn" style="height: 44px; padding: 0 18px; border: 1px solid #D9A441; border-radius: 6px; background: transparent; color: #D9A441; font-family: 'Cinzel', serif; font-size: 13px; letter-spacing: 2px; cursor: pointer">ADD A GUEST</button></div>
+<div id="castCheck" role="status" style="display: flex; flex-direction: column; gap: 6px; font-size: 15px; color: #EDE6D6"></div>
+</div>
+
+<div style="display: flex; align-items: center; gap: 18px">
+<button type="button" id="btnPrepare" class="pbtn" disabled style="width: 104px; height: 104px; flex-shrink: 0; border-radius: 50%; border: 3px solid #8A6420; background: #D9A441; box-shadow: inset 0 0 0 6px #E9BE62, inset 0 0 0 8px #8A6420, 0 14px 28px rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; cursor: pointer" aria-label="Prepare the show"><svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5 L19 12 L8 19 Z" fill="#0F1E28"></path></svg></button>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="font-family: 'Cinzel', serif; font-weight: 700; font-size: 22px; letter-spacing: 3px; color: #D9A441">PREPARE THE SHOW</div>
+<div style="font-size: 15px; color: #8FA5A3">Next: this tab becomes the Stage (for the TV) and fetches every audio file, then you start the show. The Host Console opens in its own window.</div>
+</div>
+</div>
+</div>
+
+</div>
+
+</div>
+<script type="module" src="js/library.js"></script>
+</body>
+</html>

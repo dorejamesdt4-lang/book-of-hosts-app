@@ -1,0 +1,12 @@
+{
+  "note": "Every mini-game module, in the order the Games page lists them. Each has <id>/meta.json (catalogue metadata for the games page and the Jester). testPage, rulesCard and pitch are for the games page.",
+  "modules": [
+    "gamblers-gambit",
+    "twenty-one-trouble",
+    "lexical-lanterns",
+    "vernacular-vault",
+    "vernacular-vault-18",
+    "goblet-glance",
+    "goblet-glance-18"
+  ]
+}

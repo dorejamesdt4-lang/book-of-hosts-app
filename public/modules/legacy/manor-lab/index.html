@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>The Manor Lab — Dore Trading UK</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Cardo:ital,wght@0,400;0,700;1,400&family=Silkscreen&display=swap" rel="stylesheet">
+<!--
+  THE MANOR LAB: a sandbox for the standalone Manor Engine (manor-engine.js,
+  built from the Book of Hosts web app with `npm run engine:build`). Solo
+  play only, no logins, no AI. Switch the palette, the theme (era) and the
+  game mode to try restyles. See README.md in this folder.
+-->
+<style>
+  :root {
+    /* The engine reads these three font names. */
+    --font-cinzel: 'Cinzel', Georgia, serif;
+    --font-cardo: 'Cardo', Georgia, serif;
+    --font-silkscreen: 'Silkscreen', monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; background: #000; color: #f5f5f5; font-family: 'Courier New', monospace; overflow: hidden; }
+  /* The Dore Trading header (the same look as the other tool pages). */
+  .lab-header { position: relative; z-index: 70; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; padding: 10px 20px; background: rgba(0,0,0,0.92); border-bottom: 2px solid #ff007f; }
+  .lab-title { font-size: 1rem; color: #ff007f; letter-spacing: 2px; text-shadow: 0 0 8px rgba(255,0,127,0.7); }
+  .lab-back { display: inline-flex; align-items: center; min-height: 40px; padding: 0 16px; background: rgba(255,0,127,0.1); border: 1px solid #ff007f; color: #ff007f; font-size: 0.85rem; text-decoration: none; transition: all .3s; }
+  .lab-back:hover, .lab-back:focus-visible { background: #ff007f; color: #fff; box-shadow: 0 0 12px #ff007f; outline: none; }
+  .lab-controls { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; }
+  .lab-controls label { display: inline-flex; align-items: center; gap: 6px; font-size: 0.78rem; color: #00ff66; min-height: 40px; }
+  .lab-controls select { background: #001a0a; color: #00ff66; border: 1px solid #00ff66; font-family: inherit; font-size: 0.8rem; min-height: 36px; padding: 0 6px; }
+  .lab-controls input[type=checkbox] { accent-color: #00ff66; width: 18px; height: 18px; }
+  .lab-controls select:focus-visible, .lab-controls input:focus-visible { outline: 2px solid #ff007f; outline-offset: 2px; }
+  #stage { position: relative; width: 100%; height: calc(100vh - var(--lab-header-h, 64px)); height: calc(100dvh - var(--lab-header-h, 64px)); overflow: hidden; }
+  @media (max-width: 700px) { .lab-header { padding: 8px 12px; } .lab-title { font-size: 0.85rem; } }
+</style>
+</head>
+<body>
+  <header class="lab-header">
+    <a class="lab-back" href="../index.html#dashboard">&lsaquo; Back to Dashboard</a>
+    <div class="lab-title">DORE TRADING UK // THE MANOR LAB</div>
+    <div class="lab-controls" role="group" aria-label="Sandbox settings">
+      <label>View <select id="view"><option value="manor">The Manor</option><option value="gallery">Cast Gallery</option></select></label>
+      <label>Palette <select id="palette"></select></label>
+      <label>Theme <select id="theme"></select></label>
+      <label>Game mode <select id="mode"></select></label>
+      <label><input type="checkbox" id="calm"> Calm</label>
+      <label>Motion <select id="motion"><option value="">Device</option><option value="reduced">Reduced</option><option value="full">Full</option></select></label>
+    </div>
+  </header>
+  <main id="stage" aria-label="The Manor"></main>
+
+<script type="module">
+  import { createManorEngine, createCastGallery, PAL, THEMES, MODES } from './manor-engine.js'
+
+  const PALETTE_NAMES = { arcane: 'Arcane Oracle', storybook: 'Storybook', party: '80s Party' }
+  const KEY = 'manor-lab-settings'
+  let saved = {}
+  try { saved = JSON.parse(localStorage.getItem(KEY) || '{}') } catch {}
+  const settings = { view: 'manor', palette: 'arcane', theme: 'victorian', mode: 'manor', calm: false, motion: '', ...saved }
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(settings)) } catch {} }
+  const motionValue = (m) => (m === 'reduced' ? true : m === 'full' ? false : null)
+
+  // Fill the switchers from the engine itself, so a new palette, theme or mode shows up here automatically.
+  const fill = (id, entries) => {
+    const sel = document.getElementById(id)
+    for (const [value, label] of entries) sel.add(new Option(label, value))
+    sel.value = settings[id]
+    return sel
+  }
+  const palette = fill('palette', Object.keys(PAL).map((k) => [k, PALETTE_NAMES[k] || k]))
+  const theme = fill('theme', Object.entries(THEMES).map(([k, t]) => [k, t.name]))
+  const mode = fill('mode', Object.entries(MODES).map(([k, m]) => [k, m.name]))
+  const calm = document.getElementById('calm')
+  const motion = document.getElementById('motion')
+  calm.checked = !!settings.calm
+  motion.value = settings.motion
+
+  // The stage fills the window under the header.
+  const header = document.querySelector('.lab-header')
+  const fit = () => document.documentElement.style.setProperty('--lab-header-h', header.offsetHeight + 'px')
+  fit(); window.addEventListener('resize', fit)
+
+  // Two views: the Manor itself, or the Cast Gallery (every 3D character, with pose buttons).
+  const stage = document.getElementById('stage')
+  const view = document.getElementById('view')
+  view.value = settings.view
+  let engine = null
+  function show(v) {
+    if (engine) engine.dispose()
+    const gallery = v === 'gallery'
+    for (const el of [theme, mode, calm]) el.disabled = gallery
+    engine = gallery
+      ? createCastGallery(stage, { palette: settings.palette, reducedMotion: motionValue(settings.motion) ?? undefined, kicker: 'THE MANOR LAB · CAST GALLERY' })
+      : createManorEngine(stage, {
+          palette: settings.palette,
+          theme: settings.theme,
+          mode: settings.mode,
+          calm: settings.calm,
+          reducedMotion: motionValue(settings.motion),
+          brandSub: 'The Manor Lab · sandbox',
+          debug: new URLSearchParams(location.search).has('debug'),
+        })
+    window.manorEngine = engine // handy in the browser console for experiments
+  }
+  show(settings.view)
+  view.addEventListener('change', () => { settings.view = view.value; save(); show(view.value) })
+
+  const change = (key, value, apply) => { settings[key] = value; save(); if (engine) engine.set(apply) }
+  palette.addEventListener('change', () => change('palette', palette.value, { palette: palette.value }))
+  theme.addEventListener('change', () => change('theme', theme.value, { theme: theme.value }))
+  mode.addEventListener('change', () => change('mode', mode.value, { mode: mode.value }))
+  calm.addEventListener('change', () => change('calm', calm.checked, { calm: calm.checked }))
+  motion.addEventListener('change', () => { if (settings.view === 'gallery') { settings.motion = motion.value; save(); show('gallery') } else change('motion', motion.value, { reducedMotion: motionValue(motion.value) }) })
+  // Keys typed in the switchers shouldn't walk around the Manor.
+  document.querySelector('.lab-controls').addEventListener('keydown', (e) => e.stopPropagation())
+</script>
+</body>
+</html>

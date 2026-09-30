@@ -1,0 +1,160 @@
+{
+  "schema_version": 2,
+  "sample": true,
+  "note": "SAMPLE theme packs for the Phase 1 test bench. Kokoro can't do accents; each pack's feel comes from its narrator persona, its writing, its voice FX and (later) its ambience. Voice labels describe how the voices tend to sound, nothing more.",
+  "packs": [
+    {
+      "id": "victorian",
+      "name": "Victorian Manor",
+      "narrator": {
+        "name": "The Butler",
+        "persona": "A grave, unhurried butler who has served the house for forty years. Formal, precise and quietly dry. Addresses guests as 'honoured guests', 'madam' and 'sir'. Never hurries, never raises his voice, and treats every calamity as a slight inconvenience to the household.",
+        "voice": "bm_george",
+        "pace": 0.9,
+        "pitch": -1
+      },
+      "voice_pool": [
+        {
+          "id": "bf_emma",
+          "label": "Crisp and proper",
+          "gender": "female"
+        },
+        {
+          "id": "bf_isabella",
+          "label": "Warm and measured",
+          "gender": "female"
+        },
+        {
+          "id": "bf_alice",
+          "label": "Bright and quick",
+          "gender": "female"
+        },
+        {
+          "id": "bm_daniel",
+          "label": "Measured and calm",
+          "gender": "male"
+        },
+        {
+          "id": "bm_lewis",
+          "label": "Brisk and sharp",
+          "gender": "male"
+        },
+        {
+          "id": "bm_fable",
+          "label": "Low and gravelly",
+          "gender": "male"
+        }
+      ],
+      "voice_fx": "hall-echo",
+      "ambience": null,
+      "stage_mood": "storybook",
+      "sprite_tags": [
+        "victorian"
+      ],
+      "sound_blurb": "Victorian manor, warm hall echo.",
+      "music_theme": "victorian"
+    },
+    {
+      "id": "cyberpunk",
+      "name": "Neon City",
+      "narrator": {
+        "name": "The City",
+        "persona": "The city's public-address AI. Smooth, courteous and slightly too calm. Speaks in short announcements, refers to guests as 'citizens' and to events as 'incidents', and occasionally reports the weather at the worst possible moment.",
+        "voice": "af_nova",
+        "pace": 1.05,
+        "pitch": 0
+      },
+      "voice_pool": [
+        {
+          "id": "af_sky",
+          "label": "Cool and clipped",
+          "gender": "female"
+        },
+        {
+          "id": "af_bella",
+          "label": "Bright and bold",
+          "gender": "female"
+        },
+        {
+          "id": "af_nicole",
+          "label": "Soft and close",
+          "gender": "female"
+        },
+        {
+          "id": "am_echo",
+          "label": "Level and steady",
+          "gender": "male"
+        },
+        {
+          "id": "am_eric",
+          "label": "Quick and wired",
+          "gender": "male"
+        },
+        {
+          "id": "am_onyx",
+          "label": "Deep and flat",
+          "gender": "male"
+        }
+      ],
+      "voice_fx": "synthetic-edge",
+      "ambience": null,
+      "stage_mood": "storybook",
+      "sprite_tags": [
+        "cyberpunk"
+      ],
+      "sound_blurb": "Neon city, a light synthetic edge.",
+      "music_theme": "cyberpunk"
+    },
+    {
+      "id": "retro-80s-90s",
+      "name": "Late-Night Radio",
+      "narrator": {
+        "name": "The DJ",
+        "persona": "A late-night radio DJ on the graveyard shift. Warm, easy and a little conspiratorial. Talks to guests as 'night owls' and 'listeners', sets scenes like song intros, and never quite stops sounding like he's about to play a slow dance.",
+        "voice": "am_michael",
+        "pace": 0.95,
+        "pitch": -1
+      },
+      "voice_pool": [
+        {
+          "id": "af_heart",
+          "label": "Warm and friendly",
+          "gender": "female"
+        },
+        {
+          "id": "af_jessica",
+          "label": "Chatty and bright",
+          "gender": "female"
+        },
+        {
+          "id": "af_sarah",
+          "label": "Easy and relaxed",
+          "gender": "female"
+        },
+        {
+          "id": "am_puck",
+          "label": "Playful and quick",
+          "gender": "male"
+        },
+        {
+          "id": "am_adam",
+          "label": "Steady and plain",
+          "gender": "male"
+        },
+        {
+          "id": "am_liam",
+          "label": "Young and eager",
+          "gender": "male"
+        }
+      ],
+      "voice_fx": "radio-tape",
+      "ambience": null,
+      "stage_mood": "80s-party",
+      "sprite_tags": [
+        "80s"
+      ],
+      "sound_blurb": "Late-night radio, warm tape.",
+      "music_theme": "80s"
+    }
+  ]
+}

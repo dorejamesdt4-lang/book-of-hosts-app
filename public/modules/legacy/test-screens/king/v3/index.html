@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>King V3</title>
+<style>
+    .kingv3-stage {
+        margin: 0;
+        padding: 0;
+        background-color: transparent;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+    }
+    .kingv3-canvas {
+        display: block;
+        width: 384px;
+        height: 384px;
+        image-rendering: pixelated;
+        image-rendering: crisp-edges;
+    }
+</style>
+</head>
+<body class="kingv3-stage">
+
+<canvas id="kingV3Canvas" class="kingv3-canvas" width="64" height="64"></canvas>
+
+<!-- character-kit.js (inlined copy — master in dore-animation-library/kit/character-kit.js) -->
+<script>
+(function () {
+  var config = {
+    mouthSmoothing: 0.3,
+    mouthDropHoldFrames: 4,
+    mouthStage1Threshold: 0.15,
+    mouthStage2Threshold: 0.55,
+    idleBobAmplitude: 1,
+    idleBobSpeed: 0.06,
+    propWobbleMinMs: 300,
+    propWobbleMaxMs: 600,
+    propWobbleEase: 0.06,
+    propWobbleMaxAngle: 0.3,   // radians either side of the prop's own rest angle
+    propWobbleMaxOffset: 1.5   // px either side of the prop's own pivot point
+  };
+
+  // ---- talk-receiver: same message contract as the original standalone file ----
+  var levelHandlers = [];
+  var startHandlers = [];
+  var stopHandlers = [];
+
+  function clamp01(n) {
+    n = Number(n);
+    if (!isFinite(n)) return 0;
+    return Math.max(0, Math.min(1, n));
+  }
+
+  var TalkReceiver = {
+    level: 0,
+    talking: false,
+    onLevel: function (fn) { if (typeof fn === 'function') levelHandlers.push(fn); },
+    onStart: function (fn) { if (typeof fn === 'function') startHandlers.push(fn); },
+    onStop: function (fn) { if (typeof fn === 'function') stopHandlers.push(fn); }
+  };
+
+  window.addEventListener('message', function (event) {
+    // The iframe's own origin is opaque ("null"), so event.origin on an
+    // incoming message can't be checked meaningfully either way.
+    // Identity is instead verified by exact window reference (must be
+    // our real parent) plus an explicit message tag.
+    if (event.source !== window.parent) return;
+    var data = event.data;
+    if (!data || data.source !== 'dore-narrator-talk') return;
+
+    if (data.type === 'talk-start') {
+      TalkReceiver.talking = true;
+      TalkReceiver.level = clamp01(data.level || 0);
+      startHandlers.forEach(function (fn) { fn(); });
+    } else if (data.type === 'talk-level') {
+      TalkReceiver.level = clamp01(data.level);
+      if (TalkReceiver.talking) {
+        levelHandlers.forEach(function (fn) { fn(TalkReceiver.level); });
+      }
+    } else if (data.type === 'talk-stop') {
+      TalkReceiver.talking = false;
+      TalkReceiver.level = 0;
+      stopHandlers.forEach(function (fn) { fn(); });
+    } else if (data.type === 'mouth-position') {
+      // Per-character mouth rect (sprite pixels on the 64x64 grid), sent
+      // by the host page from its MOUTH_POSITIONS table.
+      var w = Math.round(Number(data.width)), h = Math.round(Number(data.height));
+      var x = Math.round(Number(data.x)), y = Math.round(Number(data.y));
+      if (![x, y, w, h].every(isFinite) || w < 1 || h < 1) return;
+      w = Math.min(64, w);
+      h = Math.min(64, h);
+      CharacterKit.mouth = {
+        x: Math.max(0, Math.min(64 - w, x)),
+        y: Math.max(0, Math.min(64 - h, y)),
+        width: w,
+        height: h
+      };
+    }
+  });
+
+  // Kept on window for compatibility with the older per-character
+  // hookup style used by v2/v2.1-style builds (before this kit
+  // existed) -- new, kit-built characters should prefer CharacterKit's
+  // own state below instead of reading TalkReceiver directly.
+  window.TalkReceiver = TalkReceiver;
+
+  // ---- kit-owned animation state ----
+  var frameCount = 0;
+  var mouthSmoothed = 0, mouthStage = 0, mouthDropHold = 0;
+  var propAngle = 0, propTargetAngle = 0;
+  var propOffsetX = 0, propOffsetY = 0, propTargetOffsetX = 0, propTargetOffsetY = 0;
+  var propNextPickTime = 0;
+
+  var CharacterKit = {
+    idleY: 0,
+    mouthStage: 0,
+    talking: false,
+    level: 0,
+    prop: { angle: 0, offsetX: 0, offsetY: 0 },
+    // Fully-open mouth rect in sprite pixels. Defaults to the Wizard's;
+    // the host page overrides it per character via a 'mouth-position'
+    // message. The half-open mouth and tongue are derived from it.
+    mouth: { x: 27, y: 26, width: 10, height: 4 },
+    mouthRects: function () {
+      var m = CharacterKit.mouth;
+      var halfH = Math.max(1, Math.round(m.height / 2));
+      var inset = m.width > 2 ? 1 : 0;
+      return {
+        half: { x: m.x + inset, y: m.y + Math.floor((m.height - halfH) / 2), w: m.width - inset * 2, h: halfH },
+        open: { x: m.x, y: m.y, w: m.width, h: m.height },
+        tongue: (m.width >= 4 && m.height >= 3)
+          ? { x: m.x + Math.max(1, Math.floor((m.width - 2) / 2) - 1), y: m.y + m.height - 2, w: 2, h: 2 }
+          : null
+      };
+    },
+    configure: function (overrides) {
+      if (!overrides) return;
+      for (var key in overrides) {
+        if (Object.prototype.hasOwnProperty.call(overrides, key)) config[key] = overrides[key];
+      }
+    }
+  };
+
+  function tick() {
+    frameCount++;
+    CharacterKit.talking = TalkReceiver.talking;
+    CharacterKit.level = TalkReceiver.level;
+
+    // Idle breathing bob.
+    CharacterKit.idleY = Math.sin(frameCount * config.idleBobSpeed) * config.idleBobAmplitude;
+
+    // Mouth: EMA-smooth the raw level, threshold into 3 stages, hold a
+    // louder stage briefly before dropping to a quieter one so brief
+    // dips near a threshold don't flicker the mouth. Rising is instant.
+    mouthSmoothed += (TalkReceiver.level - mouthSmoothed) * config.mouthSmoothing;
+    var targetStage = mouthSmoothed < config.mouthStage1Threshold ? 0
+      : (mouthSmoothed < config.mouthStage2Threshold ? 1 : 2);
+
+    if (targetStage > mouthStage) {
+      mouthStage = targetStage;
+      mouthDropHold = 0;
+    } else if (targetStage < mouthStage) {
+      mouthDropHold++;
+      if (mouthDropHold >= config.mouthDropHoldFrames) {
+        mouthStage = targetStage;
+        mouthDropHold = 0;
+      }
+    } else {
+      mouthDropHold = 0;
+    }
+    CharacterKit.mouthStage = mouthStage;
+
+    // Prop wobble: while talking, pick a new small random angle/offset
+    // target every ~300-600ms and ease smoothly towards it (a gentle
+    // wave, not a jitter); ease back to exactly 0 -- completely still
+    // -- as soon as speech stops.
+    var now = performance.now();
+    if (TalkReceiver.talking) {
+      if (now >= propNextPickTime) {
+        propTargetAngle = (Math.random() - 0.5) * 2 * config.propWobbleMaxAngle;
+        propTargetOffsetX = (Math.random() - 0.5) * 2 * config.propWobbleMaxOffset;
+        propTargetOffsetY = (Math.random() - 0.5) * 2 * config.propWobbleMaxOffset;
+        propNextPickTime = now + config.propWobbleMinMs + Math.random() * (config.propWobbleMaxMs - config.propWobbleMinMs);
+      }
+    } else {
+      propTargetAngle = 0;
+      propTargetOffsetX = 0;
+      propTargetOffsetY = 0;
+    }
+    propAngle += (propTargetAngle - propAngle) * config.propWobbleEase;
+    propOffsetX += (propTargetOffsetX - propOffsetX) * config.propWobbleEase;
+    propOffsetY += (propTargetOffsetY - propOffsetY) * config.propWobbleEase;
+    CharacterKit.prop.angle = propAngle;
+    CharacterKit.prop.offsetX = propOffsetX;
+    CharacterKit.prop.offsetY = propOffsetY;
+
+    requestAnimationFrame(tick);
+  }
+  tick();
+
+  window.CharacterKit = CharacterKit;
+})();
+</script>
+<!-- end inlined character-kit.js -->
+
+<script>
+(function () {
+    // ==================== King V3 (kit-built) ====================
+    // Follows dore-animation-library/kit/STYLE.md exactly: same 64x64
+    // grid, same face box/eye/mouth coordinates as the rest of the cast
+    // (so scale and proportions match). The reference build's script.js
+    // was a stray copy of its own style.css (no drawing code at all),
+    // so this design is original -- built to the brief (gold crown,
+    // full beard, robe, ermine trim, orb) rather than traced from a
+    // green-terminal source. Royal blue + shade is the only genuinely
+    // new color, deliberately distinct from the Knight's red and the
+    // Queen's emerald, and shared with the Jester's tunic rather than
+    // invented twice. The beard reuses the Wizard's own white/shade,
+    // and the ermine trim reuses that same white a second time. No
+    // talking/movement logic here at all -- everything comes from
+    // CharacterKit above.
+
+    var canvas = document.getElementById('kingV3Canvas');
+    var ctx = canvas.getContext('2d');
+
+    var PALETTE = {
+        // The King's own signature color, shared with the Jester's
+        // tunic (see STYLE.md reuse note) -- his only new color.
+        robe: '#2d4a9e',
+        robeShade: '#1e3269',
+        // Reused from the shared master palette (see STYLE.md) --
+        // identical hex values to the rest of the cast, not new colors.
+        // "beard" doubles as the ermine fur trim.
+        trim: '#f5c518',
+        skin: '#f0c9a0',
+        skinShade: '#d8ac82',
+        beard: '#f4f6fa',
+        beardShade: '#c9ccd6',
+        eye: '#1c1420',
+        mouthDark: '#171015',
+        tongue: '#ff4d6d'
+    };
+
+    function px(x, y, w, h, color) {
+        ctx.fillStyle = color;
+        ctx.fillRect(Math.round(x), Math.round(y), Math.round(w), Math.round(h));
+    }
+
+    // ---- Body: crown, face, beard, ermine-trimmed robe (everything
+    // except the animated orb hand and the mouth, which are drawn
+    // separately/last) ----
+    function drawBody(idleY) {
+        // Robe (same box as the rest of the cast's body)
+        px(16, 34 + idleY, 32, 24, PALETTE.robeShade);
+        px(19, 34 + idleY, 26, 24, PALETTE.robe);
+        // Ermine fur placket down the front, with a few dark flecks --
+        // the classic ermine spot pattern
+        px(29, 34 + idleY, 6, 24, PALETTE.beard);
+        px(30, 40 + idleY, 1, 1, PALETTE.eye);
+        px(33, 48 + idleY, 1, 1, PALETTE.eye);
+        px(30, 54 + idleY, 1, 1, PALETTE.eye);
+        // Ermine collar/shoulders
+        px(18, 33 + idleY, 28, 4, PALETTE.beard);
+        px(21, 34 + idleY, 2, 1, PALETTE.eye);
+        px(41, 34 + idleY, 2, 1, PALETTE.eye);
+
+        // Face (identical box to the rest of the cast, so proportions match)
+        px(25, 18 + idleY, 14, 10, PALETTE.skinShade);
+        px(26, 17 + idleY, 12, 10, PALETTE.skin);
+        // Eyes
+        px(28, 20 + idleY, 2, 2, PALETTE.eye);
+        px(34, 20 + idleY, 2, 2, PALETTE.eye);
+
+        // Full white beard (same cascading shape as the Wizard's)
+        px(23, 25 + idleY, 18, 6, PALETTE.beardShade);
+        px(25, 24 + idleY, 14, 7, PALETTE.beard);
+        px(25, 30 + idleY, 14, 6, PALETTE.beardShade);
+        px(27, 29 + idleY, 10, 7, PALETTE.beard);
+        px(29, 36 + idleY, 6, 5, PALETTE.beard);
+
+        // Crown: broad band with three points and a central gem
+        px(23, 10 + idleY, 18, 3, PALETTE.trim);
+        px(24, 6 + idleY, 3, 5, PALETTE.trim);
+        px(31, 4 + idleY, 3, 6, PALETTE.trim);
+        px(37, 6 + idleY, 3, 5, PALETTE.trim);
+        px(31, 11 + idleY, 2, 2, PALETTE.tongue);
+
+        // Static (non-orb) hand
+        px(13, 38 + idleY, 6, 6, PALETTE.skin);
+    }
+
+    // ---- Orb hand: idle-still, the sovereign's orb wobbles gently
+    // while talking (via CharacterKit.prop, added to its own rest
+    // angle/pivot -- same pivot formula as the rest of the cast's
+    // props) ----
+    function drawOrbHand(idleY, orbAngle, orbOffsetX, orbOffsetY) {
+        var handBaseX = 44;
+        var handBaseY = 36 + idleY;
+        var handX = handBaseX + orbOffsetX;
+        var handY = handBaseY + orbOffsetY;
+
+        // Sleeve
+        px(38, 34 + idleY, 8, 8, PALETTE.robe);
+        // Hand
+        px(handX, handY, 6, 6, PALETTE.skin);
+
+        // The gold orb rests just above the upturned palm; orbAngle
+        // adds a small orbit-wobble on top of that when talking.
+        var restAngle = -Math.PI / 2;
+        var angle = restAngle + orbAngle;
+        var length = 9;
+        var originX = handX + 3;
+        var originY = handY + 3;
+        var orbX = originX + Math.cos(angle) * length;
+        var orbY = originY + Math.sin(angle) * length;
+
+        ctx.fillStyle = PALETTE.trim;
+        ctx.beginPath();
+        ctx.arc(orbX, orbY, 4.5, 0, Math.PI * 2);
+        ctx.fill();
+        // Cross-bands
+        ctx.fillStyle = PALETTE.robeShade;
+        ctx.fillRect(Math.round(orbX - 4), Math.round(orbY - 1), 8, 2);
+        ctx.fillRect(Math.round(orbX - 1), Math.round(orbY - 4), 2, 8);
+        ctx.fillStyle = PALETTE.tongue;
+        ctx.beginPath();
+        ctx.arc(orbX, orbY - 5, 1.3, 0, Math.PI * 2);
+        ctx.fill();
+    }
+
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        var idleY = CharacterKit.idleY;
+
+        drawBody(idleY);
+        drawOrbHand(idleY, CharacterKit.prop.angle, CharacterKit.prop.offsetX, CharacterKit.prop.offsetY);
+
+        // Mouth -- drawn last, same coordinates as the rest of the cast
+        // (the face box is identical), so nothing covers it.
+        var mouthStage = CharacterKit.mouthStage;
+        var mouth = CharacterKit.mouthRects();
+        if (mouthStage === 1) {
+            px(mouth.half.x, mouth.half.y + idleY, mouth.half.w, mouth.half.h, PALETTE.mouthDark);
+        } else if (mouthStage === 2) {
+            px(mouth.open.x, mouth.open.y + idleY, mouth.open.w, mouth.open.h, PALETTE.mouthDark);
+            if (mouth.tongue) px(mouth.tongue.x, mouth.tongue.y + idleY, mouth.tongue.w, mouth.tongue.h, PALETTE.tongue);
+        }
+
+        requestAnimationFrame(animate);
+    }
+
+    animate();
+})();
+</script>
+
+</body>
+</html>

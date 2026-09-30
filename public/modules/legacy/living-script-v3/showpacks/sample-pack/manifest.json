@@ -1,0 +1,29 @@
+{
+  "id": "sample-pack",
+  "title": "The Case of the Vanishing Pudding",
+  "version": 1,
+  "ageRating": "All ages",
+  "guests": { "min": 2, "max": 4 },
+  "characters": [
+    { "id": "inspector", "name": "Inspector Hartley", "role": "A detective who never misses a crumb", "sprite": "detective", "voice": "bm_lewis" },
+    { "id": "cook", "name": "Mrs Plum", "role": "The manor's proud cook", "sprite": "cook", "voice": "bf_emma" }
+  ],
+  "acts": [
+    {
+      "id": "act1",
+      "title": "The Empty Dish",
+      "steps": [
+        { "type": "music", "id": "J01", "track": "Candlelight Gathering" },
+        { "type": "line", "id": "L0001", "speaker": "narrator", "text": "Good evening, honoured guests. Dinner is served, but I regret to say the pudding has vanished.", "audio": "audio/L0001.mp3" },
+        { "type": "line", "id": "L0002", "speaker": "cook", "text": "I left it on the windowsill to cool, and now there is nothing but an empty dish!", "audio": "audio/L0002.mp3" },
+        { "type": "line", "id": "L0003", "speaker": "narrator", "text": "The inspector steps forward and studies the windowsill.", "screenText": "{guest:inspector}, you step forward and study the windowsill.", "audio": "audio/L0003.mp3" },
+        { "type": "clue", "id": "C01", "title": "Sticky Footprints", "text": "A trail of small, sticky footprints leads from the windowsill to the garden door." },
+        { "type": "line", "id": "L0004", "speaker": "inspector", "text": "Sticky footprints, and far too small to be any of ours. Most curious.", "audio": "audio/L0004.mp3" },
+        { "type": "pause", "id": "P01", "prompt": "Talk it over: who, or what, could have taken the pudding?" },
+        { "type": "minigame", "id": "M02", "module": "lexical-lanterns", "pool": "pools/pantry-words.json" },
+        { "type": "minigame", "id": "M01", "module": "gamblers-gambit" },
+        { "type": "line", "id": "L0005", "speaker": "narrator", "text": "The dice are still. And look, honoured guests: the garden cat is asleep by the door, with custard on its whiskers.", "audio": "audio/L0005.mp3" }
+      ]
+    }
+  ]
+}

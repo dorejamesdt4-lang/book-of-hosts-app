@@ -1,0 +1,31 @@
+{
+  "note": "Approved Jester variants, pulled from GAMES_DB by tools/catalogue-pull.js. The Games page uses this list when the live catalogue can't be reached.",
+  "pulledAt": "2026-09-24T19:09:45.292Z",
+  "variants": [
+    {
+      "id": "v-elzx8c7b",
+      "baseModule": "vernacular-vault",
+      "name": "The Wordsmith's Lexicon",
+      "pitch": "10 questions of UK Slang (Family), mixed up both ways, 30 seconds each, and a 2× bonus for the fastest.",
+      "ageRating": "12+",
+      "players": {
+        "min": 2,
+        "max": 32
+      },
+      "settings": {
+        "speedBonus": 2,
+        "timeLimit": 30,
+        "length": 10,
+        "roundType": "mixed"
+      },
+      "pools": [
+        "uk-slang-12"
+      ],
+      "forfeits": false,
+      "theme": "retro-80s-90s",
+      "status": "approved",
+      "source": "seumas-jester",
+      "createdAt": "2026-09-24T13:52:10.885Z"
+    }
+  ]
+}

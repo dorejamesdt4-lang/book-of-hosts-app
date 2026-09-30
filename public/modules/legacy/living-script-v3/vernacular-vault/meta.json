@@ -1,0 +1,46 @@
+{
+  "id": "vernacular-vault",
+  "name": "Vernacular Vault",
+  "ageRating": "12+",
+  "players": {
+    "min": 2,
+    "max": 32
+  },
+  "type": "trivia",
+  "needsProps": false,
+  "modes": [
+    "online",
+    "in-person"
+  ],
+  "settings": {
+    "speedBonus": [
+      "off",
+      1.5,
+      2
+    ],
+    "timeLimit": [
+      10,
+      15,
+      20,
+      30
+    ],
+    "length": [
+      5,
+      10,
+      15
+    ],
+    "roundType": [
+      "slang",
+      "meaning",
+      "mixed"
+    ]
+  },
+  "pools": [
+    "pools/uk-slang-12.json"
+  ],
+  "lines": "lines.json",
+  "pitch": "Slang trivia from a storybook vault: pick the real meaning, or the word, before the timer runs out.",
+  "testPage": "vault.html?module=vernacular-vault",
+  "rulesCard": null,
+  "printPage": "vault-print.html?module=vernacular-vault"
+}

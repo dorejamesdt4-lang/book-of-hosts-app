@@ -1,0 +1,1 @@
+{"name":"book-of-hosts-dashboard","private":true,"version":"0.1.0","type":"module","engines":{"node":">=22"},"scripts":{"dev":"node server/index.mjs","start":"node server/index.mjs","test":"node --test server/*.test.mjs","build":"node server/build.mjs"}}

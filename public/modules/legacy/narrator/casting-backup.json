@@ -1,0 +1,38 @@
+{
+  "exported_at": "2026-09-22T22:43:00.000Z",
+  "note": "Exported from the live /api/voice-assignments endpoint (VOICE_DB KV namespace) immediately before removing the Narrator Engine's voice casting board. voice_profiles is the VOICE_PROFILES list that used to live in narrator.js, kept here for context since that code is now gone -- each saved_assignments entry's slug matches one of these.",
+  "voice_profiles": [
+    { "slug": "female-1-whirlwind", "name": "The Whirlwind", "style": "Dizzy, persistent, energetic",
+      "description": "Fast, bright, and breathless - she talks like she's already three thoughts ahead of herself and can't quite wait for you to catch up. Words tumble out in quick bursts, sentences trailing into the next before the last one's finished. She circles back to things she's already said, convinced you needed reminding, and never quite lands on stillness." },
+    { "slug": "female-2-panto-songbird", "name": "The Panto Songbird", "style": "Pure pantomime, lyrical",
+      "description": "Broad, sing-song, and utterly theatrical - every line has a lilt to it, like she's performing to the back row even in an empty room. She stretches vowels for effect, punctuates with a little musical flourish, and treats every sentence as though it deserves an audience's gasp or laugh." },
+    { "slug": "female-3-hearth-keeper", "name": "The Hearth Keeper", "style": "Soft, caring, steady",
+      "description": "Warm and unhurried, with a gentleness that never wavers even when the news is hard. She speaks like someone used to comforting others - measured pace, low volume, a steadiness in her tone that makes you feel like nothing's actually as bad as it seems. Never rushed, never sharp." },
+    { "slug": "female-4-iron-matron", "name": "The Iron Matron", "style": "Bossy, intrusive, bold",
+      "description": "Clipped, commanding, and entirely unbothered by whether she's overstepping. She talks over pauses, finishes other people's sentences for them, and delivers even gentle suggestions like instructions. There's no hesitation in her voice - she's already decided she's right." },
+    { "slug": "female-5-wandering-oracle", "name": "The Wandering Oracle", "style": "Daring, interesting storyteller, oracle wisdom, mystical",
+      "description": "Low, deliberate, and laced with old knowing - she speaks the way stories are told around a fire that's burned a long time. Every sentence feels like it's leading somewhere, half-riddle and half-promise, drawing you in and making you lean closer to hear the rest." },
+    { "slug": "male-1-muddled-farmhand", "name": "The Muddled Farmhand", "style": "Clumsy, country, carefree",
+      "description": "Slow and easy, with a rural burr and a tendency to trip over his own words without ever seeming bothered by it. He laughs off his own mistakes mid-sentence, wanders slightly off-topic before ambling back, and never once sounds worried about getting anywhere in a hurry." },
+    { "slug": "male-2-stalwart", "name": "The Stalwart", "style": "Bold, hero, natural leader",
+      "description": "Strong, clear, and unwavering - every sentence lands like a decision already made. He speaks with the confidence of someone used to being followed, warm rather than harsh, but with an authority that needs no raising of volume to be felt." },
+    { "slug": "male-3-quiet-watcher", "name": "The Quiet Watcher", "style": "Mysterious, slow, interesting",
+      "description": "Unhurried and deliberate, with long pauses that feel intentional rather than empty. He gives away only what he means to, each sentence carrying the sense that there's more beneath it he isn't saying. Low, even, magnetic in its restraint." },
+    { "slug": "male-4-tavern-bard", "name": "The Tavern Bard", "style": "Dungeon/tavern storyteller",
+      "description": "Rich, theatrical, and a little rough around the edges - like a man who's told this tale a hundred times over a hundred tankards. He leans into dramatic pauses, raises his voice for the exciting parts, and treats every telling like the crowd's never heard it before." },
+    { "slug": "male-5-game-show-showman", "name": "The Game Show Showman", "style": "80s game show presenter",
+      "description": "Big, bright, and relentlessly upbeat - every line delivered with a grin you can practically hear. He punches key words for excitement, keeps the energy climbing, and talks like there's a studio audience about to burst into applause any second." },
+    { "slug": "male-6-cyber-pitchman", "name": "The Cyber Pitchman", "style": "AI/cyber business pitching presenter",
+      "description": "Slick, polished, and persuasive - smooth corporate confidence with a faint digital gloss to it. He speaks in clean, punchy soundbites, each sentence sounding rehearsed and market-tested, built to sell rather than simply say." }
+  ],
+  "saved_assignments": [
+    {
+      "slug": "female-1-whirlwind",
+      "display_name": "The Whirlwind",
+      "kokoro_voice_id": "am_adam",
+      "needs_custom": true,
+      "custom_note": "old creeky",
+      "updatedAt": "2026-09-22T22:32:14.193Z"
+    }
+  ]
+}

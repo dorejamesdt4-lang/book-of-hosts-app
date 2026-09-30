@@ -1,0 +1,114 @@
+/* ==================== Character pages (shared) ====================
+   Used by every characters/<slug>/index.html. Scoped under ch-/character-
+   prefixes so it never collides with the main site's style.css. */
+
+.ch-page-wrap {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 24px 96px;
+  position: relative;
+  z-index: 2;
+}
+
+.ch-page-wrap h1 {
+  text-align: center;
+  color: #00ff66;
+  text-shadow: 0 0 10px rgba(0,255,102,0.6);
+  font-size: 1.6rem;
+  letter-spacing: 2px;
+  margin: 0 0 32px;
+}
+
+/* Flexible animation header: reads header/header.json via
+   lib/character-header.js and fills this box with an iframe, image or
+   video -- or a placeholder if no header.json exists yet. */
+.character-header {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  aspect-ratio: 4 / 3;
+  margin: 0 auto 32px;
+  border: 2px solid #262626;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #020a05;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6), inset 0 0 20px rgba(0,255,102,0.1);
+}
+
+.ch-frame,
+.ch-media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  object-fit: contain;
+  background: #000;
+}
+
+.ch-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #00ff66;
+  font-size: 0.78rem;
+  letter-spacing: 2px;
+  text-align: center;
+  padding: 20px;
+  text-shadow: 0 0 6px rgba(0,255,102,0.7);
+  background: rgba(0,0,0,0.4);
+}
+
+/* Intake panel -- placeholder only, no Claude calls wired up yet */
+.ch-intake-panel {
+  background: #0d0d0d;
+  border: 1px solid #00ff66;
+  border-radius: 8px;
+  padding: 24px;
+  margin: 0 auto 20px;
+  max-width: 700px;
+  box-shadow: 0 0 18px rgba(0,255,102,0.12);
+}
+
+.ch-intake-panel h2 {
+  color: #00ff66;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  margin: 0 0 14px;
+  text-shadow: 0 0 6px rgba(0,255,102,0.5);
+}
+
+.ch-intake-note {
+  color: #6b6b6b;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  margin: 0 0 16px;
+}
+
+.ch-intake-row label {
+  display: block;
+  color: #7fffb0;
+  font-size: 0.72rem;
+  letter-spacing: 0.5px;
+  margin-bottom: 5px;
+}
+
+.ch-intake-row textarea {
+  width: 100%;
+  background: #05100a;
+  border: 1px solid #1b3a1b;
+  color: #7fffb0;
+  font-family: 'Courier New', monospace;
+  font-size: 0.82rem;
+  padding: 9px 10px;
+  border-radius: 4px;
+  box-sizing: border-box;
+  resize: vertical;
+}
+
+.ch-intake-row textarea:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

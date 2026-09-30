@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Game Jester — Dore Trading UK</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  .gj-wrap { max-width: 1000px; margin: 0 auto; padding: 40px 24px 96px; position: relative; z-index: 2; }
+  .gj-wrap h1 { color: #ff007f; text-shadow: 0 0 10px rgba(255,0,127,0.6); font-size: 1.8rem; margin: 0 0 6px; text-align: center; }
+  .gj-wrap .sub { color: #cc7fa8; font-size: 0.85rem; margin-bottom: 32px; line-height: 1.5; text-align: center; }
+
+  /* ---- canvas-based animated jester head ---- */
+  .gj-stage { display: flex; justify-content: center; margin-bottom: 8px; position: relative; }
+  .gj-stage::before {
+    content: '';
+    position: absolute; top: 50%; left: 50%; width: 260px; height: 260px;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(255,0,127,0.28) 0%, transparent 70%);
+    filter: blur(6px);
+    z-index: -1;
+  }
+  #gjCanvas { width: 220px; height: 220px; image-rendering: pixelated; image-rendering: crisp-edges; }
+
+  /* ---- panels (magenta, matching the site's existing accent) ---- */
+  .gj-panel { background: #0d0d0d; border: 1px solid #ff007f; border-radius: 8px; padding: 24px; margin-bottom: 20px; box-shadow: 0 0 18px rgba(255,0,127,0.12); }
+  .gj-panel h2 { color: #ff007f; font-size: 0.95rem; letter-spacing: 1px; margin: 0 0 16px; text-shadow: 0 0 6px rgba(255,0,127,0.5); }
+  .gj-panel .gj-hint { color: #8a6b78; font-size: 0.75rem; margin: -8px 0 16px; line-height: 1.5; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+  @media (max-width: 700px) { .form-row { grid-template-columns: 1fr; } }
+  label { display: block; color: #ff8fc4; font-size: 0.72rem; letter-spacing: 0.5px; margin-bottom: 5px; }
+  input[type="text"], textarea, select {
+    width: 100%; background: #1a0a12; border: 1px solid #6b1e45; color: #ffd8ec;
+    font-family: 'Courier New', monospace; font-size: 0.82rem; padding: 9px 10px; border-radius: 4px; box-sizing: border-box;
+  }
+  textarea { min-height: 60px; resize: vertical; }
+  textarea.gj-mono-output { min-height: 220px; font-size: 0.76rem; line-height: 1.5; }
+  textarea.gj-reply-input { min-height: 160px; }
+
+  .gj-check { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: #ffd8ec; margin: 0; }
+  .gj-check input { width: auto; accent-color: #ff007f; }
+  .gj-swear-row { display: flex; flex-direction: column; gap: 10px; margin: 16px 0 4px; }
+  .gj-swear-toggle-label.gj-disabled { opacity: 0.4; }
+
+  .primary-btn { background: #ff007f; color: #1a0a12; border: none; font-family: inherit; font-weight: bold; font-size: 0.85rem; padding: 10px 20px; border-radius: 4px; cursor: pointer; }
+  .primary-btn:hover { background: #ff4da0; }
+  .ghost-btn { background: transparent; border: 1px solid #ff007f; color: #ff007f; font-family: inherit; font-size: 0.8rem; padding: 8px 16px; border-radius: 4px; cursor: pointer; margin-right: 10px; }
+  .ghost-btn:hover { background: rgba(255,0,127,0.1); }
+
+  .gj-copy-row { display: flex; align-items: center; gap: 14px; margin-top: 10px; }
+  .gj-copy-status { font-size: 0.72rem; color: #ff007f; letter-spacing: 1px; }
+
+  .big-screen {
+    background: #12040a; border: 2px solid #ff007f; border-radius: 8px;
+    box-shadow: 0 0 30px rgba(255,0,127,0.2), inset 0 0 40px rgba(0,0,0,0.6);
+    padding: 20px; margin-bottom: 20px; min-height: 140px; position: relative; overflow: hidden;
+  }
+  .big-screen::before {
+    content: ''; position: absolute; inset: 0;
+    background: repeating-linear-gradient(0deg, rgba(255,0,127,0.04) 0px, rgba(255,0,127,0.04) 1px, transparent 1px, transparent 3px);
+    pointer-events: none;
+  }
+  .big-screen-header { display: flex; justify-content: space-between; color: #a85a78; font-size: 0.7rem; letter-spacing: 1px; margin-bottom: 12px; }
+  .big-screen-body { color: #ffd8ec; font-family: 'Courier New', monospace; font-size: 0.82rem; white-space: pre-wrap; line-height: 1.6; min-height: 90px; }
+  .big-screen-body .pass { color: #00ff66; }
+  .big-screen-body .fail { color: #ff2e88; }
+
+  /* ---- rendered game card, same visual language as the Seumas card style ---- */
+  .gj-card-badge { font-size: 0.65rem; letter-spacing: 1px; color: #2ee6ff; margin-bottom: 8px; text-transform: uppercase; }
+  .gj-card-title { font-size: 1.3rem; color: #ff007f; font-weight: bold; margin-bottom: 10px; text-shadow: 0 0 6px rgba(255,0,127,0.5); }
+  .gj-card-meta { display: flex; gap: 16px; flex-wrap: wrap; font-size: 0.72rem; color: #cc7fa8; margin-bottom: 16px; }
+  .gj-card-section { margin-bottom: 14px; }
+  .gj-card-section h3 { font-size: 0.72rem; letter-spacing: 1px; color: #ff8fc4; text-transform: uppercase; margin: 0 0 6px; }
+  .gj-card-section p { font-size: 0.82rem; color: #ffd8ec; line-height: 1.5; margin: 0; }
+  .gj-props-list { font-size: 0.78rem; color: #ffd8ec; padding-left: 18px; margin: 0; }
+  .gj-safety-box { border: 1px solid #ffcf4d; border-radius: 6px; padding: 14px 16px; background: rgba(255,207,77,0.06); }
+  .gj-safety-box h3 { color: #ffcf4d; }
+  .gj-safety-box ul { margin: 0; padding-left: 18px; font-size: 0.78rem; color: #ffe6b0; line-height: 1.5; }
+  .gj-empty { color: #6b6b6b; font-size: 0.78rem; font-style: italic; }
+</style>
+</head>
+<body>
+
+  <div id="matrixRain" class="matrix-rain" aria-hidden="true"></div>
+
+  <nav class="dashboard-header">
+    <div class="dashboard-title">DORE TRADING UK // GAME JESTER</div>
+    <div class="nav-tabs">
+      <a href="index.html" class="tab-btn">Home</a>
+      <a href="index.html#dashboard" class="tab-btn">Dashboard</a>
+      <a href="seumas-engine.html" class="tab-btn">Seumas Engine</a>
+      <a href="print-preview.html" class="tab-btn">Print Preview</a>
+      <a href="compiler-engine-test.html" class="tab-btn">Compiler</a>
+      <a href="bridge-relay.html" class="tab-btn">Bridge Relay</a>
+      <a href="jester.html" class="tab-btn active">Jester</a>
+      <a href="forge.html" class="tab-btn">Forge</a>
+      <a href="image-converter.html" class="tab-btn">Images</a>
+    </div>
+  </nav>
+
+  <div class="gj-wrap">
+    <div class="gj-stage">
+      <canvas id="gjCanvas" width="256" height="256"></canvas>
+    </div>
+    <h1>GAME JESTER</h1>
+    <p class="sub">Tell the Jester what you've got, generate the summoning prompt, paste it into Claude, then bring the invented game back here.</p>
+
+    <div class="gj-panel">
+      <h2>01 // INTAKE</h2>
+      <div class="form-row">
+        <div>
+          <label for="gjGameType">Game Type</label>
+          <input type="text" id="gjGameType" placeholder="e.g. party game, drinking game, icebreaker, tabletop mini-game">
+        </div>
+        <div>
+          <label for="gjPlayers">Player Count</label>
+          <input type="text" id="gjPlayers" placeholder="e.g. 6-10">
+        </div>
+      </div>
+      <div class="form-row">
+        <div>
+          <label for="gjVenue">Venue</label>
+          <input type="text" id="gjVenue" placeholder="e.g. small living room, pub garden, beach, office">
+        </div>
+        <div>
+          <label for="gjProps">Props On Hand</label>
+          <textarea id="gjProps" placeholder="Whatever you've actually got, e.g. a deck of cards, blindfolds, a ball, paper and pens..."></textarea>
+        </div>
+      </div>
+
+      <div class="gj-swear-row">
+        <label class="gj-check"><input type="checkbox" id="gjAgeConfirm"> I confirm every player is 18 or over</label>
+        <label class="gj-check gj-swear-toggle-label gj-disabled" id="gjSwearLabel">
+          <input type="checkbox" id="gjSwearToggle" disabled> Allow real swearing aloud in the game
+        </label>
+      </div>
+
+      <div style="margin-top:16px;">
+        <button type="button" class="primary-btn" id="gjGenerateBtn">GENERATE PROMPT</button>
+      </div>
+    </div>
+
+    <div class="gj-panel">
+      <h2>02 // PROMPT FOR CLAUDE</h2>
+      <p class="gj-hint">Copy this whole thing and paste it into Claude (claude.ai or the app). Then copy Claude's full JSON reply and paste it into the box below.</p>
+      <textarea id="gjPromptOutput" class="gj-mono-output" readonly placeholder="Click GENERATE PROMPT above to build this."></textarea>
+      <div class="gj-copy-row">
+        <button type="button" class="ghost-btn" id="gjCopyBtn">COPY PROMPT</button>
+        <span class="gj-copy-status" id="gjCopyStatus"></span>
+      </div>
+    </div>
+
+    <div class="gj-panel">
+      <h2>03 // PASTE CLAUDE'S REPLY</h2>
+      <textarea id="gjReplyInput" class="gj-reply-input" placeholder="Paste Claude's JSON game reply here..."></textarea>
+      <div style="margin-top:14px;">
+        <button type="button" class="primary-btn" id="gjRenderBtn">RENDER GAME</button>
+      </div>
+    </div>
+
+    <div class="big-screen">
+      <div class="big-screen-header">
+        <span>[ JESTER'S SCROLL ]</span>
+        <span id="gjScreenTimestamp">STANDBY</span>
+      </div>
+      <div class="big-screen-body" id="gjScreenBody">Waiting for input. Fill in the intake, summon a prompt, run it through Claude, then paste the reply above.<span class="cursor">_</span></div>
+    </div>
+
+    <div class="gj-panel">
+      <h2>04 // THE GAME</h2>
+      <div id="gjGameCard">
+        <p class="gj-empty">No game rendered yet.</p>
+      </div>
+    </div>
+
+    <!-- 05: the no-AI catalogue drafts (docs/JESTER-PIPELINE-README.md). -->
+    <div class="gj-panel" id="gjDraftsPanel">
+      <h2>05 // CATALOGUE DRAFTS (NO AI)</h2>
+      <p class="gj-hint">The Jester invents new versions of the Living Script mini-games from its own word lists: legal settings, a word pool, a theme, an original name and a one-line pitch. No AI and no cost. Every draft is checked automatically, then waits for you on the Jester Review page (admin only).</p>
+      <div class="form-row">
+        <div>
+          <label for="gjDraftCount">How many drafts (1–20)</label>
+          <select id="gjDraftCount"></select>
+        </div>
+        <div>
+          <label for="gjDraftAge">Age</label>
+          <select id="gjDraftAge">
+            <option value="12+" selected>12+ games only</option>
+            <option value="18+" disabled>18+ games only (tick "every player is 18 or over" above)</option>
+          </select>
+        </div>
+      </div>
+      <button type="button" class="primary-btn" id="gjDraftBtn">GENERATE DRAFTS</button>
+      <div id="gjDraftOut" style="margin-top:14px;"></div>
+    </div>
+  </div>
+
+<script src="script.js"></script>
+<script type="module" src="lib/jester-drafts.js"></script>
+<script type="module">
+import { JESTER_GENERATE_PROMPT } from './lib/jester-prompt.js';
+import { fetchTrainingSample, buildInspirationSection } from './lib/training-sample.js';
+
+(function () {
+  // ==================== Canvas-based animated jester head ====================
+  function buildJesterCanvas() {
+    var canvas = document.getElementById('gjCanvas');
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+    var frameCount = 0;
+    var particles = [];
+
+    var PALETTE = {
+      hatBlue: '#3b82f6', hatBlueShadow: '#2952a3', hatTrim: '#4a2f8f',
+      face: '#f5ead6', faceShadow: '#d8c9a8',
+      eye: '#1a1a2e', eyePupil: '#eab308',
+      nose: '#dc2626', mouth: '#7f1d1d',
+      collarRed: '#dc2626', collarYellow: '#eab308',
+      bell: '#fde047',
+    };
+
+    function drawPixelRect(x, y, w, h, color) {
+      ctx.fillStyle = color;
+      ctx.fillRect(Math.floor(x), Math.floor(y), Math.floor(w), Math.floor(h));
+    }
+
+    function createParticle() {
+      if (particles.length < 20 && Math.random() < 0.1) {
+        particles.push({
+          x: 128 + (Math.random() * 60 - 30),
+          y: 90 + (Math.random() * 10 - 5),
+          vx: (Math.random() - 0.5) * 0.6,
+          vy: -Math.random() * 0.9 - 0.2,
+          size: Math.random() > 0.5 ? 2 : 3,
+          alpha: 1,
+        });
+      }
+    }
+
+    function updateAndDrawParticles() {
+      for (var i = particles.length - 1; i >= 0; i--) {
+        var p = particles[i];
+        p.x += p.vx; p.y += p.vy; p.alpha -= 0.015;
+        if (p.alpha <= 0) { particles.splice(i, 1); continue; }
+        ctx.fillStyle = 'rgba(232, 121, 249, ' + p.alpha + ')';
+        ctx.fillRect(Math.floor(p.x), Math.floor(p.y), p.size, p.size);
+      }
+    }
+
+    function animate() {
+      frameCount++;
+
+      // Transparent background so the site's own dark page shows through
+      // (the standalone reference painted an opaque bg here instead).
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      var pulseGlow = 45 + Math.sin(frameCount * 0.08) * 6;
+      var gradient = ctx.createRadialGradient(128, 140, 5, 128, 140, pulseGlow);
+      gradient.addColorStop(0, 'rgba(192, 38, 211, 0.18)');
+      gradient.addColorStop(1, 'rgba(20, 12, 36, 0)');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Laughing wobble (whole head rocks and bobs)
+      var wobbleRot = Math.sin(frameCount * 0.12) * 0.06;
+      var wobbleY = Math.abs(Math.sin(frameCount * 0.12)) * -4;
+      var mouthStretch = 1 + Math.abs(Math.sin(frameCount * 0.25)) * 0.8;
+
+      ctx.save();
+      ctx.translate(128, 150);
+      ctx.rotate(wobbleRot);
+      ctx.translate(-128, -150 - wobbleY);
+
+      // Jester hat: three points, blue with purple trim, bells
+      drawPixelRect(70, 60, 20, 14, PALETTE.hatBlueShadow);
+      drawPixelRect(74, 48, 16, 16, PALETTE.hatBlue);
+      drawPixelRect(76, 40, 12, 10, PALETTE.hatTrim);
+      drawPixelRect(78, 88, 8, 8, PALETTE.bell);
+
+      drawPixelRect(112, 50, 32, 14, PALETTE.hatBlueShadow);
+      drawPixelRect(116, 34, 24, 18, PALETTE.hatBlue);
+      drawPixelRect(120, 24, 16, 12, PALETTE.hatTrim);
+      drawPixelRect(120, 26, 16, 4, PALETTE.hatBlueShadow);
+
+      drawPixelRect(166, 60, 20, 14, PALETTE.hatBlueShadow);
+      drawPixelRect(166, 48, 16, 16, PALETTE.hatBlue);
+      drawPixelRect(168, 40, 12, 10, PALETTE.hatTrim);
+      drawPixelRect(170, 88, 8, 8, PALETTE.bell);
+
+      drawPixelRect(88, 74, 80, 14, PALETTE.hatBlue);
+      drawPixelRect(88, 84, 80, 6, PALETTE.hatBlueShadow);
+
+      // Face
+      drawPixelRect(92, 88, 72, 56, PALETTE.faceShadow);
+      drawPixelRect(96, 92, 64, 48, PALETTE.face);
+
+      // Eyes (slits with yellow pupils, widen slightly on the laugh peak)
+      var eyeSquint = Math.abs(Math.sin(frameCount * 0.12));
+      var eyeH = 8 - eyeSquint * 4;
+      drawPixelRect(108, 108 + (8 - eyeH) / 2, 12, eyeH, PALETTE.eye);
+      drawPixelRect(136, 108 + (8 - eyeH) / 2, 12, eyeH, PALETTE.eye);
+      drawPixelRect(110, 110 + (8 - eyeH) / 2, 6, Math.max(eyeH - 3, 1), PALETTE.eyePupil);
+      drawPixelRect(138, 110 + (8 - eyeH) / 2, 6, Math.max(eyeH - 3, 1), PALETTE.eyePupil);
+
+      // Nose
+      drawPixelRect(122, 118, 12, 10, PALETTE.nose);
+
+      // Mouth (stretches wide on the laugh)
+      var mouthW = 40 * mouthStretch;
+      drawPixelRect(128 - mouthW / 2, 132, mouthW, 8, PALETTE.mouth);
+      drawPixelRect(128 - mouthW / 2, 130, mouthW, 3, PALETTE.nose);
+
+      ctx.restore();
+
+      // Collar (diamond harlequin, red and yellow, sways slightly)
+      var collarSway = Math.sin(frameCount * 0.1) * 3;
+      drawPixelRect(70 + collarSway, 176, 116, 16, PALETTE.collarRed);
+      drawPixelRect(90 + collarSway, 176, 20, 24, PALETTE.collarYellow);
+      drawPixelRect(126 + collarSway, 176, 20, 24, PALETTE.collarYellow);
+      drawPixelRect(72 + collarSway, 190, 20, 18, PALETTE.collarRed);
+      drawPixelRect(164 + collarSway, 190, 20, 18, PALETTE.collarRed);
+      drawPixelRect(108 + collarSway, 196, 40, 20, PALETTE.collarYellow);
+
+      createParticle();
+      updateAndDrawParticles();
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  }
+
+  buildJesterCanvas();
+
+  // ==================== Intake / prompt / render flow ====================
+  var screenBody = document.getElementById('gjScreenBody');
+  var screenTimestamp = document.getElementById('gjScreenTimestamp');
+
+  function writeScreen(text, cls) {
+    screenTimestamp.textContent = new Date().toLocaleTimeString();
+    screenBody.innerHTML = cls ? '<span class="' + cls + '">' + text.replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</span>' : text;
+  }
+
+  var ageConfirm = document.getElementById('gjAgeConfirm');
+  var swearToggle = document.getElementById('gjSwearToggle');
+  var swearLabel = document.getElementById('gjSwearLabel');
+
+  ageConfirm.addEventListener('change', function () {
+    swearToggle.disabled = !ageConfirm.checked;
+    if (!ageConfirm.checked) swearToggle.checked = false;
+    swearLabel.classList.toggle('gj-disabled', !ageConfirm.checked);
+  });
+
+  function collectIntake() {
+    return {
+      game_type: document.getElementById('gjGameType').value.trim(),
+      player_count: document.getElementById('gjPlayers').value.trim(),
+      props_on_hand: document.getElementById('gjProps').value.trim(),
+      venue: document.getElementById('gjVenue').value.trim(),
+      swearing_aloud: ageConfirm.checked && swearToggle.checked,
+    };
+  }
+
+  document.getElementById('gjGenerateBtn').addEventListener('click', async function () {
+    var intake = collectIntake();
+
+    var categories = ['game_modes', 'words', 'inspiration'];
+    if (intake.swearing_aloud) categories.push('swear_words');
+
+    var samples = await fetchTrainingSample(categories);
+    var inspirationSection = buildInspirationSection(samples);
+
+    var promptText = JESTER_GENERATE_PROMPT + inspirationSection +
+      '\n\nHOST INTAKE (JSON):\n' + JSON.stringify(intake, null, 2) +
+      '\n\nReturn ONLY the JSON game object described above -- no commentary, no code fences, nothing before or after it.';
+
+    document.getElementById('gjPromptOutput').value = promptText;
+    writeScreen('Prompt summoned (' + promptText.length + ' characters). Copy it and paste into Claude.', 'pass');
+  });
+
+  document.getElementById('gjCopyBtn').addEventListener('click', function () {
+    var promptBox = document.getElementById('gjPromptOutput');
+    var copyStatus = document.getElementById('gjCopyStatus');
+    if (!promptBox.value) {
+      writeScreen('Generate a prompt first.', 'fail');
+      return;
+    }
+    promptBox.select();
+
+    function done(ok) {
+      copyStatus.textContent = ok ? 'COPIED' : 'COPY FAILED — select the text manually';
+      setTimeout(function () { copyStatus.textContent = ''; }, 2500);
+    }
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(promptBox.value).then(function () { done(true); }, function () { done(false); });
+    } else {
+      try { done(document.execCommand('copy')); } catch (e) { done(false); }
+    }
+  });
+
+  function renderGameCard(game) {
+    var wrap = document.getElementById('gjGameCard');
+    wrap.innerHTML = '';
+
+    var badge = document.createElement('div');
+    badge.className = 'gj-card-badge';
+    badge.textContent = (game.mechanic_category || 'unknown mechanic') + ' · ' + (game.venue || 'any venue');
+    wrap.appendChild(badge);
+
+    var title = document.createElement('div');
+    title.className = 'gj-card-title';
+    title.textContent = game.game_title || '(untitled game)';
+    wrap.appendChild(title);
+
+    var meta = document.createElement('div');
+    meta.className = 'gj-card-meta';
+    var range = game.player_count_range || {};
+    var metaBits = [];
+    if (range.min || range.max) metaBits.push('Players: ' + (range.min || '?') + '–' + (range.max || '?'));
+    if (game.estimated_duration_minutes) metaBits.push(game.estimated_duration_minutes + ' min');
+    if (game.swearing_used) metaBits.push('Swearing used');
+    metaBits.forEach(function (bit) {
+      var span = document.createElement('span');
+      span.textContent = bit;
+      meta.appendChild(span);
+    });
+    wrap.appendChild(meta);
+
+    function section(heading, text) {
+      if (!text) return;
+      var sec = document.createElement('div');
+      sec.className = 'gj-card-section';
+      var h3 = document.createElement('h3');
+      h3.textContent = heading;
+      var p = document.createElement('p');
+      p.textContent = text;
+      sec.appendChild(h3);
+      sec.appendChild(p);
+      wrap.appendChild(sec);
+    }
+
+    section('Setup', game.setup);
+    section('Rules', game.rules);
+    section('Scoring / Win Condition', game.scoring_or_win_condition);
+
+    if (Array.isArray(game.props_used) && game.props_used.length) {
+      var propsSec = document.createElement('div');
+      propsSec.className = 'gj-card-section';
+      var h3 = document.createElement('h3');
+      h3.textContent = 'Props Used';
+      var ul = document.createElement('ul');
+      ul.className = 'gj-props-list';
+      game.props_used.forEach(function (prop) {
+        var li = document.createElement('li');
+        li.textContent = prop;
+        ul.appendChild(li);
+      });
+      propsSec.appendChild(h3);
+      propsSec.appendChild(ul);
+      wrap.appendChild(propsSec);
+    }
+
+    if (Array.isArray(game.health_and_safety) && game.health_and_safety.length) {
+      var safetyBox = document.createElement('div');
+      safetyBox.className = 'gj-safety-box';
+      var h3s = document.createElement('h3');
+      h3s.textContent = 'Health & Safety';
+      var ulS = document.createElement('ul');
+      game.health_and_safety.forEach(function (note) {
+        var li = document.createElement('li');
+        li.textContent = note;
+        ulS.appendChild(li);
+      });
+      safetyBox.appendChild(h3s);
+      safetyBox.appendChild(ulS);
+      wrap.appendChild(safetyBox);
+    }
+  }
+
+  document.getElementById('gjRenderBtn').addEventListener('click', function () {
+    var raw = document.getElementById('gjReplyInput').value.trim();
+    if (!raw) {
+      writeScreen("Paste Claude's JSON reply first.", 'fail');
+      return;
+    }
+
+    var game;
+    try {
+      game = JSON.parse(raw);
+    } catch (e) {
+      writeScreen('Could not parse that as JSON: ' + e.message, 'fail');
+      return;
+    }
+
+    if (!game || typeof game !== 'object' || !game.game_title || !game.rules) {
+      writeScreen('Parsed JSON but it is missing game_title or rules — check the reply matches the expected schema.', 'fail');
+      return;
+    }
+
+    renderGameCard(game);
+    writeScreen('GAME RENDERED\nTitle: ' + game.game_title + '\nMechanic: ' + (game.mechanic_category || 'unknown') + '\nSafety notes: ' + (Array.isArray(game.health_and_safety) ? game.health_and_safety.length : 0), 'pass');
+  });
+})();
+</script>
+</body>
+</html>

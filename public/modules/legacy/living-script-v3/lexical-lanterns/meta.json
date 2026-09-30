@@ -1,0 +1,40 @@
+{
+  "id": "lexical-lanterns",
+  "name": "Lexical Lanterns",
+  "ageRating": "12+",
+  "players": {
+    "min": 1,
+    "max": 16
+  },
+  "type": "word",
+  "needsProps": false,
+  "modes": [
+    "online",
+    "in-person"
+  ],
+  "settings": {
+    "lanterns": [
+      4,
+      6,
+      8
+    ],
+    "mode": [
+      "classic",
+      "arcade"
+    ],
+    "sundial": [
+      2,
+      3,
+      5
+    ]
+  },
+  "pools": [
+    "pools/uk-landmarks.json",
+    "pools/classic-fairy-tales.json",
+    "pools/family-feasts.json"
+  ],
+  "pitch": "Light the lanterns and reveal the hidden phrase, one letter at a time. One team, up to 16 scribes.",
+  "testPage": "lanterns.html",
+  "rulesCard": "rules-card.html?module=lexical-lanterns",
+  "lines": "lines.json"
+}

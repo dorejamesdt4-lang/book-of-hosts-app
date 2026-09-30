@@ -1,0 +1,172 @@
+/* ====================================================================
+   NARRATOR DEV TOOLS -- styles for the ?calibrate=1 mouth calibration
+   panel (calibrate.js) and the ?debug=1 timing overlay
+   (debug-timing.js). Neither exists in normal use. Carried over
+   unchanged from the retired Forge stylesheet; the colour variables it
+   used are scoped to the two panels here so they don't leak into the
+   page's mood.
+   ==================================================================== */
+.mouth-cal,
+.forge-debug {
+  --loader-bg: #000000;
+  --loader-pink: #ff2bd6;
+  --loader-purple: #9d4dff;
+  --loader-cyan: #22f0ff;
+  box-sizing: border-box;
+}
+.mouth-cal *,
+.forge-debug * { box-sizing: border-box; }
+
+/* ==================== Mouth calibration (?calibrate=1 only) ====================
+   The panel is created by calibrate.js, so none of this applies in
+   normal use. */
+.mouth-cal {
+  margin: 0 24px 24px;
+  padding: 16px;
+  background: var(--loader-bg);
+  border: 2px solid var(--loader-purple);
+  box-shadow: 0 0 16px var(--loader-purple);
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+  color: var(--loader-cyan);
+  letter-spacing: 1px;
+}
+.mouth-cal-title {
+  margin: 0 0 14px;
+  font-size: 1rem;
+  color: var(--loader-pink);
+  text-shadow: 0 0 6px var(--loader-pink), 0 0 14px var(--loader-pink);
+}
+.mouth-cal-layout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: flex-start;
+}
+.mouth-cal-stage {
+  position: relative;
+  width: min(512px, 100%);
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: var(--loader-bg);
+  border: 1px solid var(--loader-pink);
+  box-shadow: 0 0 10px var(--loader-pink);
+}
+.mouth-cal-frame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 384px;
+  height: 384px;
+  border: 0;
+  transform-origin: 0 0;
+  pointer-events: none;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+/* Faint 64x64 grid: one cell per sprite pixel. */
+.mouth-cal-grid {
+  position: absolute;
+  inset: 0;
+  cursor: crosshair;
+  background-image:
+    linear-gradient(to right, rgba(34, 240, 255, 0.14) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(34, 240, 255, 0.14) 1px, transparent 1px);
+  background-size: calc(100% / 64) calc(100% / 64);
+}
+.mouth-cal-box {
+  position: absolute;
+  outline: 1px solid var(--loader-pink);
+  box-shadow: 0 0 6px var(--loader-pink);
+  pointer-events: none;
+}
+.mouth-cal-side {
+  flex: 1 1 220px;
+  min-width: 0;
+}
+.mouth-cal-readout {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin: 0 0 14px;
+}
+.mouth-cal-readout div {
+  padding: 6px 10px;
+  border: 1px solid var(--loader-purple);
+}
+.mouth-cal-readout dt { font-size: 0.75rem; color: var(--loader-purple); }
+.mouth-cal-readout dd {
+  margin: 2px 0 0;
+  font-size: 1.4rem;
+  text-shadow: 0 0 6px var(--loader-cyan);
+}
+.mouth-cal-help {
+  margin: 0 0 14px;
+  padding-left: 18px;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+.mouth-cal-copy {
+  font: inherit;
+  letter-spacing: 2px;
+  padding: 10px 16px;
+  background: var(--loader-bg);
+  color: var(--loader-pink);
+  border: 2px solid var(--loader-pink);
+  box-shadow: 0 0 10px var(--loader-pink);
+  text-shadow: 0 0 6px var(--loader-pink);
+  cursor: pointer;
+}
+.mouth-cal-copy:hover,
+.mouth-cal-copy:focus-visible { box-shadow: 0 0 18px var(--loader-pink), inset 0 0 8px var(--loader-pink); }
+.mouth-cal-msg { min-height: 1.2em; margin: 10px 0 0; font-size: 0.85rem; }
+.mouth-cal-output {
+  width: 100%;
+  min-height: 140px;
+  margin-top: 8px;
+  background: var(--loader-bg);
+  color: var(--loader-cyan);
+  border: 1px solid var(--loader-purple);
+  font: 0.8rem 'Courier New', monospace;
+}
+@media (max-width: 600px) {
+  .mouth-cal { margin: 0 16px 16px; padding: 12px; }
+}
+
+/* ==================== Timing debug overlay (?debug=1 only) ==================== */
+.forge-debug {
+  position: fixed;
+  right: 12px;
+  bottom: 12px;
+  z-index: 50;
+  width: min(460px, calc(100vw - 24px));
+  max-height: 45vh;
+  display: flex;
+  flex-direction: column;
+  background: rgba(0, 0, 0, 0.88);
+  border: 1px solid var(--loader-cyan);
+  box-shadow: 0 0 10px var(--loader-purple);
+  font: 12px/1.35 'Courier New', monospace;
+  color: var(--loader-cyan);
+}
+.forge-debug-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 8px;
+  border-bottom: 1px solid var(--loader-purple);
+  color: var(--loader-pink);
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+.forge-debug-clear {
+  font: inherit;
+  font-size: 11px;
+  color: var(--loader-cyan);
+  background: transparent;
+  border: 1px solid var(--loader-cyan);
+  cursor: pointer;
+}
+.forge-debug-list { margin: 0; padding: 6px 8px 6px 28px; overflow-y: auto; }
+.forge-debug-list .is-gap, .forge-debug-list .is-swap { color: var(--loader-pink); }
+.forge-debug-list .is-voice, .forge-debug-list .is-model { color: #ffffff; }

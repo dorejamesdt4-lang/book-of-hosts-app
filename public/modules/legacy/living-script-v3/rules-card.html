@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rules Card — The Living Script v3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&amp;family=Cardo:ital,wght@0,400;0,700;1,400&amp;family=Silkscreen&amp;display=swap" rel="stylesheet">
+<style id="pageSize">@page { size: A6; margin: 7mm; }</style>
+<style>
+  /* Not a mockup screen: a printable rules card (A6, or A5) in the
+     Storybook type and colours of print.html (vellum, ink, gold rule).
+     rules-card.html?module=twenty-one-trouble | lexical-lanterns */
+  :root { --ink: #1B2A36; --navy: #0F1E28; --gold: #B8923E; --gold-text: #8A6420; --teal: #2E6E69; --muted: #3B4B57; --vellum: #EDE6D6; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #0B1620; font-family: 'Cardo', Georgia, serif; color: var(--ink); }
+  .toolbar { position: sticky; top: 0; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 14px 24px; background: #0F1E28; border-bottom: 1px solid #1E3A3A; color: #A9C9C4; font-style: italic; }
+  .toolbar button { height: 44px; padding: 0 18px; border: 1px solid #D9A441; border-radius: 6px; background: transparent; color: #D9A441; font-family: 'Cinzel', serif; font-size: 13px; letter-spacing: 1px; cursor: pointer; }
+  .toolbar button[aria-pressed="true"], .toolbar button.print { background: #D9A441; color: #0F1E28; font-weight: 700; }
+  .toolbar button:focus-visible { outline: 3px solid #5AA8A0; outline-offset: 4px; }
+  .card { margin: 28px auto 60px; background: var(--vellum); border-radius: 6px; box-shadow: inset 0 0 70px rgba(160,120,60,0.2), 0 30px 60px rgba(0,0,0,0.5); position: relative; display: flex; flex-direction: column; gap: 7px; }
+  .card::before { content: ''; position: absolute; inset: 8px; border: 1px solid var(--gold); border-radius: 4px; pointer-events: none; }
+  .card.a6 { width: 105mm; min-height: 148mm; padding: 11mm 10mm; font-size: 9.5pt; }
+  .card.a5 { width: 148mm; min-height: 210mm; padding: 15mm 14mm; font-size: 12.5pt; }
+  .kicker { font-family: 'Cinzel', serif; font-size: 0.75em; letter-spacing: 3px; color: var(--gold-text); text-align: center; }
+  h1 { margin: 0; font-family: 'Cinzel', serif; font-weight: 700; font-size: 1.9em; line-height: 1.1; color: var(--navy); text-align: center; }
+  .pitch { margin: 0; font-style: italic; color: var(--muted); text-align: center; line-height: 1.35; }
+  .rule { width: 60%; height: 1px; background: var(--gold); margin: 2px auto; }
+  h2 { margin: 4px 0 0; font-family: 'Cinzel', serif; font-weight: 700; font-size: 1.05em; color: var(--navy); border-bottom: 1px solid var(--gold); padding-bottom: 2px; }
+  ol, ul { margin: 0; padding-left: 1.3em; line-height: 1.35; }
+  li { margin: 0 0 2px; }
+  .pills { font-family: 'Silkscreen', monospace; font-size: 0.72em; letter-spacing: 1px; color: var(--teal); text-align: center; }
+  .foot { margin-top: auto; font-size: 0.8em; font-style: italic; color: var(--muted); text-align: center; }
+  @media print {
+    body { background: #fff; }
+    .toolbar { display: none; }
+    .card { margin: 0; box-shadow: none; width: auto !important; min-height: 0 !important; padding: 0 !important; background: none; }
+    .card::before { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="toolbar">
+<span>Print, or choose "Save as PDF" in the print window.</span>
+<div style="display: flex; gap: 8px">
+<button type="button" id="btnA6" aria-pressed="true">A6</button>
+<button type="button" id="btnA5" aria-pressed="false">A5</button>
+<button type="button" class="print" onclick="window.print()">PRINT</button>
+</div>
+</div>
+<article id="card" class="card a6"></article>
+<script type="module" src="js/rules-card.js"></script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Book Has Chosen You — The Living Script</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&amp;family=Cardo:ital,wght@0,400;0,700;1,400&amp;family=Silkscreen&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="ls.css">
+</head>
+<body>
+<div class="ls-phone" style="background: #0B1620; font-family: 'Cardo', Georgia, serif; color: #EDE6D6">
+
+<div class="star" style="left: 128px; top: 132px; animation-delay: -1.66s; opacity: 0.6"></div><div class="star" style="left: 129px; top: 63px; animation-delay: -2.50s; opacity: 0.6"></div><div class="star" style="left: 134px; top: 105px; animation-delay: -1.64s; opacity: 0.6"></div><div class="star" style="left: 241px; top: 144px; animation-delay: -1.57s; opacity: 0.6"></div><div class="star" style="left: 179px; top: 96px; animation-delay: -1.16s; opacity: 0.6"></div><div class="star" style="left: 146px; top: 107px; animation-delay: -2.09s; opacity: 0.6"></div><div class="star" style="left: 7px; top: 33px; animation-delay: -0.09s; opacity: 0.6"></div><div class="star" style="left: 136px; top: 12px; animation-delay: -1.43s; opacity: 0.6"></div><div class="star" style="left: 94px; top: 92px; animation-delay: -1.85s; opacity: 0.6"></div><div class="star" style="left: 192px; top: 118px; animation-delay: -2.36s; opacity: 0.6"></div><div class="star" style="left: 336px; top: 53px; animation-delay: -2.29s; opacity: 0.6"></div><div class="star" style="left: 19px; top: 116px; animation-delay: -2.87s; opacity: 0.6"></div>
+<header style="position: relative; display: flex; align-items: center; gap: 10px; padding: 16px 18px; border-bottom: 1px solid #1E3A3A">
+<svg width="32" height="32" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 6 L34.5 13 L42 13 L36 17.5 L38.5 25 L32 20.5 L25.5 25 L28 17.5 L22 13 L29.5 13 Z" fill="#D9A441"></path><path d="M6 30 Q19 25 32 32 Q45 25 58 30 L58 54 Q45 49 32 56 Q19 49 6 54 Z" fill="none" stroke="#D9A441" stroke-width="2.2" stroke-linejoin="round"></path><path d="M32 32 L32 56" stroke="#D9A441" stroke-width="2"></path><path d="M11 36 Q20 33 27 37 M11 42 Q20 39 27 43 M37 37 Q44 33 53 36 M37 43 Q44 39 53 42" stroke="#5AA8A0" stroke-width="1.4" fill="none"></path></svg>
+<div style="font-family: 'Cinzel', serif; font-weight: 700; font-size: 14px; letter-spacing: 3px; color: #D9A441">THE BOOK OF HOSTS</div>
+</header>
+<form id="card" style="position: relative; padding: 18px 16px 24px; display: flex; flex-direction: column; gap: 16px" novalidate>
+<div style="display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center">
+<div style="font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 5px; color: #5AA8A0">AN INVITATION</div>
+<h1 style="margin: 0; font-family: 'Cinzel', serif; font-weight: 700; font-size: 28px; line-height: 1.15; color: #EDE6D6">The Book Has Chosen You</h1>
+<svg width="200" height="18" viewBox="0 0 200 18" aria-hidden="true" style="display: block"><line x1="0" y1="9" x2="74" y2="9" stroke="#D9A441" stroke-width="1"></line><line x1="126" y1="9" x2="200" y2="9" stroke="#D9A441" stroke-width="1"></line><path d="M100 1 L112 9 L100 17 L88 9 Z" fill="none" stroke="#D9A441" stroke-width="1.2"></path><circle cx="100" cy="9" r="2" fill="#D9A441"></circle><circle cx="80" cy="9" r="1.6" fill="#D9A441"></circle><circle cx="120" cy="9" r="1.6" fill="#D9A441"></circle></svg>
+<p style="margin: 0; font-style: italic; font-size: 16px; line-height: 1.5; color: #A9C9C4"><span id="hostName"></span> invites you to <span id="gameTitle" style="font-style: normal; color: #D9A441"></span>, <span id="playedHow"></span></p>
+</div>
+<div style="display: flex; justify-content: center; gap: 8px; flex-wrap: wrap">
+<div id="when" style="font-family: 'Silkscreen', monospace; font-size: 11px; letter-spacing: 1px; color: #EDE6D6; border: 1px solid #2A4A4A; border-radius: 999px; padding: 8px 14px"></div>
+<div id="replyBy" style="font-family: 'Silkscreen', monospace; font-size: 11px; letter-spacing: 1px; color: #D9A441; border: 1px solid #6B5320; border-radius: 999px; padding: 8px 14px"></div>
+</div>
+<div style="position: relative; background: #EDE6D6; border-radius: 6px; box-shadow: inset 0 0 70px rgba(160,120,60,0.2); color: #1B2A36; box-sizing: border-box; padding: 22px 18px; display: flex; flex-direction: column; gap: 14px">
+<div style="position: absolute; inset: 14px; border: 1px solid #B8923E; border-radius: 4px; pointer-events: none"></div>
+
+<div style="position: relative; font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 4px; color: #8A6420; align-self: center">YOUR CHARACTER CARD</div>
+<div style="position: relative; display: flex; flex-direction: column; gap: 6px">
+<label for="g-name" style="font-size: 15px; font-style: italic; color: #3B4B57">Your name in the tale</label>
+<input id="g-name" name="name" type="text" maxlength="40" autocomplete="given-name" style="height: 44px; box-sizing: border-box; padding: 0 12px; border: 1px solid #B8923E; border-radius: 6px; background: #F6F1E6; font-family: 'Cardo', serif; font-size: 16px; color: #1B2A36">
+</div>
+<fieldset style="position: relative; margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 8px">
+<legend style="padding: 0; margin-bottom: 8px; font-size: 15px; font-style: italic; color: #3B4B57">How much of the spotlight?</legend>
+<label for="sp1" style="display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; min-height: 44px; box-sizing: border-box; border: 1px solid #CDBF9F; border-radius: 8px; background: #F6F1E6; cursor: pointer">
+<input type="radio" id="sp1" name="spotlight" value="centre" style="margin-top: 4px; accent-color: #2E6E69; width: 18px; height: 18px">
+<span style="display: flex; flex-direction: column; gap: 2px"><span style="font-family: 'Cinzel', serif; font-weight: 700; font-size: 14px; color: #0F1E28">Centre stage</span><span style="font-size: 14px; color: #3B4B57">Big part, big moments</span></span>
+</label>
+<label for="sp2" style="display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; min-height: 44px; box-sizing: border-box; border: 1px solid #CDBF9F; border-radius: 8px; background: #F6F1E6; cursor: pointer">
+<input type="radio" id="sp2" name="spotlight" value="fair" checked style="margin-top: 4px; accent-color: #2E6E69; width: 18px; height: 18px">
+<span style="display: flex; flex-direction: column; gap: 2px"><span style="font-family: 'Cinzel', serif; font-weight: 700; font-size: 14px; color: #0F1E28">A fair share</span><span style="font-size: 14px; color: #3B4B57">Some key scenes</span></span>
+</label>
+<label for="sp3" style="display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; min-height: 44px; box-sizing: border-box; border: 1px solid #CDBF9F; border-radius: 8px; background: #F6F1E6; cursor: pointer">
+<input type="radio" id="sp3" name="spotlight" value="wings" style="margin-top: 4px; accent-color: #2E6E69; width: 18px; height: 18px">
+<span style="display: flex; flex-direction: column; gap: 2px"><span style="font-family: 'Cinzel', serif; font-weight: 700; font-size: 14px; color: #0F1E28">Keep me in the wings</span><span style="font-size: 14px; color: #3B4B57">A smaller, quieter role</span></span>
+</label>
+</fieldset>
+<div style="position: relative; display: flex; flex-direction: column; gap: 6px">
+<label for="g-costume" style="font-size: 15px; font-style: italic; color: #3B4B57">Costume comfort</label>
+<select id="g-costume" name="costume" style="height: 44px; border: 1px solid #B8923E; border-radius: 6px; background: #F6F1E6; font-family: 'Cardo', serif; font-size: 16px; color: #1B2A36; padding: 0 10px">
+<option>Full costume, bring it on</option>
+<option selected>A prop or two</option>
+<option>Just a hat</option>
+<option>No costume, thanks</option>
+</select>
+</div>
+<div style="position: relative; display: flex; flex-direction: column; gap: 6px">
+<label for="g-avoid" style="font-size: 15px; font-style: italic; color: #3B4B57">Anything to keep out of your part?</label>
+<textarea id="g-avoid" name="avoid" rows="2" maxlength="200" style="box-sizing: border-box; padding: 10px 12px; border: 1px solid #B8923E; border-radius: 6px; background: #F6F1E6; font-family: 'Cardo', serif; font-size: 16px; color: #1B2A36; resize: none"></textarea>
+</div>
+<label for="g-child" style="position: relative; display: flex; align-items: center; gap: 10px; min-height: 44px; font-size: 15px; color: #3B4B57; cursor: pointer">
+<input id="g-child" name="child" type="checkbox" style="width: 18px; height: 18px; accent-color: #2E6E69">
+I'm filling this in for a child (parent or guardian)
+</label>
+
+</div>
+<a id="toWardrobe" href="wardrobe.html" style="display: flex; align-items: center; justify-content: center; height: 52px; border-radius: 8px; background: #D9A441; color: #0F1E28; font-family: 'Cinzel', serif; font-weight: 700; font-size: 15px; letter-spacing: 2px; text-decoration: none">CONTINUE TO THE WARDROBE ›</a>
+<div id="privacy" style="text-align: center; font-size: 13px; font-style: italic; color: #8FA5A3"></div>
+</form>
+
+</div>
+<script type="module" src="js/invite.js"></script>
+</body>
+</html>

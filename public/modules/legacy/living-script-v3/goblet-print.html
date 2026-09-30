@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Goblet Glance · Print — The Living Script v3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&amp;family=Cardo:ital,wght@0,400;0,700;1,400&amp;family=Silkscreen&amp;display=swap" rel="stylesheet">
+<style>
+  /* Not a mockup screen: Goblet Glance / Street Shuffle 18+ for playing in
+     person, in the Storybook print style (print.html): the rules card, a
+     scorekeeper's grid and, for 18+, the forfeit sheet.
+     goblet-print.html?module=goblet-glance | goblet-glance-18 */
+  :root { --ink: #1B2A36; --navy: #0F1E28; --gold: #B8923E; --gold-text: #8A6420; --muted: #3B4B57; --vellum: #EDE6D6; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #0B1620; font-family: 'Cardo', Georgia, serif; color: var(--ink); }
+  .toolbar { position: sticky; top: 0; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 14px 16px; background: #0F1E28; border-bottom: 1px solid #1E3A3A; color: #A9C9C4; font-style: italic; }
+  .toolbar button { height: 44px; padding: 0 22px; border: 1px solid #D9A441; border-radius: 6px; background: #D9A441; color: #0F1E28; font-family: 'Cinzel', serif; font-weight: 700; font-size: 13px; letter-spacing: 1px; cursor: pointer; }
+  .sheet { max-width: 210mm; margin: 24px auto; padding: 14mm; background: var(--vellum); border-radius: 6px; box-shadow: 0 30px 60px rgba(0,0,0,0.5); break-after: page; }
+  .kicker { font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 4px; color: var(--gold-text); }
+  h1 { margin: 4px 0 8px; font-family: 'Cinzel', serif; font-weight: 700; font-size: 28px; color: var(--navy); }
+  h2 { margin: 14px 0 6px; font-family: 'Cinzel', serif; font-size: 17px; color: var(--navy); border-bottom: 1px solid var(--gold); padding-bottom: 3px; }
+  p, li { font-size: 15px; line-height: 1.45; }
+  ol, ul { margin: 0; padding-left: 22px; }
+  .muted { color: var(--muted); font-style: italic; }
+  .grid-wrap { overflow-x: auto; }
+  table.score { width: 100%; border-collapse: collapse; table-layout: fixed; }
+  table.score th, table.score td { border: 1px solid #8FA5A3; height: 10mm; font-size: 13px; text-align: center; }
+  table.score th { font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 1px; color: var(--navy); background: rgba(184,146,62,0.15); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  table.score th.name { width: 34%; text-align: left; padding-left: 6px; }
+  table.score th.total { width: 11%; }
+  ol.forfeits li { margin-bottom: 4px; }
+  .gate { max-width: 640px; margin: 40px auto; padding: 22px 24px; display: flex; flex-direction: column; gap: 14px; background: #0F1E28; border: 1px dashed #6B5320; border-radius: 12px; color: #EDE6D6; }
+  .gate label { display: flex; gap: 10px; align-items: flex-start; font-size: 16px; cursor: pointer; min-height: 44px; }
+  .gate input { width: 22px; height: 22px; accent-color: #D9A441; flex-shrink: 0; }
+  @page { size: A4; margin: 10mm; }
+  @media print {
+    body { background: #fff; }
+    .toolbar, .gate { display: none; }
+    .sheet { margin: 0; padding: 0; max-width: none; box-shadow: none; background: none; border-radius: 0; }
+  }
+  @media (max-width: 560px) { .sheet { padding: 16px; } table.score { min-width: 520px; } }
+</style>
+</head>
+<body>
+<div class="toolbar"><span>The rules card, a scorekeeper's grid (one tick per right cup) and, for 18+, the forfeit sheet.</span><button type="button" onclick="window.print()">PRINT</button></div>
+<div id="doc"></div>
+<script type="module" src="js/goblet-print.js"></script>
+</body>
+</html>

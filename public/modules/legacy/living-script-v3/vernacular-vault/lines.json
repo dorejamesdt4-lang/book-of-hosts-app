@@ -1,0 +1,47 @@
+{
+  "module": "vernacular-vault",
+  "ageRating": "12+",
+  "note": "Fixed narrator lines. They never contain guests' names. audio is the file name: a Show Pack keeps it in its own audio/ folder. Without the file, the line shows as a caption only.",
+  "lines": [
+    {
+      "id": "SLG-01",
+      "text": "The grand pages turn, revealing a most puzzling modern dialect…",
+      "audio": "SLG-01.mp3"
+    },
+    {
+      "id": "SLG-02",
+      "text": "An immaculate deduction! Your lexicon is truly vast.",
+      "audio": "SLG-02.mp3"
+    },
+    {
+      "id": "SLG-03",
+      "text": "Alas, that meaning belongs in another tale entirely.",
+      "audio": "SLG-03.mp3"
+    },
+    {
+      "id": "SLG-04",
+      "text": "With the speed of a swooping griffin, the bonus is claimed!",
+      "audio": "SLG-04.mp3"
+    },
+    {
+      "id": "SLG-05",
+      "text": "Time has vanished into thin air! The chance slips away.",
+      "audio": "SLG-05.mp3"
+    },
+    {
+      "id": "SLG-06",
+      "text": "Let us invert the spell! Match the meaning to its word.",
+      "audio": "SLG-06.mp3"
+    },
+    {
+      "id": "SLG-07",
+      "text": "The scroll shows a razor-thin margin between our top scribes!",
+      "audio": "SLG-07.mp3"
+    },
+    {
+      "id": "SLG-08",
+      "text": "The vault seals once more. Go forth with your newfound wisdom!",
+      "audio": "SLG-08.mp3"
+    }
+  ]
+}

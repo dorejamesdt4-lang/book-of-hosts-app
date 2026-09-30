@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bridge Relay — Dore Trading UK</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  .br-wrap { max-width: 1000px; margin: 0 auto; padding: 40px 24px 96px; position: relative; z-index: 2; }
+  .br-wrap h1 { color: #00ff66; text-shadow: 0 0 10px rgba(0,255,102,0.6); font-size: 1.8rem; margin: 0 0 6px; }
+  .br-wrap .sub { color: #8fa899; font-size: 0.85rem; margin-bottom: 32px; line-height: 1.5; }
+
+  .br-panel { background: #0d0d0d; border: 1px solid #1e3a3a; border-radius: 8px; padding: 24px; margin-bottom: 20px; }
+  .br-panel h2 { color: #00ff66; font-size: 0.95rem; letter-spacing: 1px; margin: 0 0 16px; }
+  .br-panel .br-hint { color: #6b7a78; font-size: 0.75rem; margin: -8px 0 16px; line-height: 1.5; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+  @media (max-width: 700px) { .form-row { grid-template-columns: 1fr; } }
+  label { display: block; color: #5AA8A0; font-size: 0.72rem; letter-spacing: 0.5px; margin-bottom: 5px; }
+  input[type="text"], input[type="number"], textarea, select {
+    width: 100%; background: #020a05; border: 1px solid #2a4a4a; color: #d8ffe6;
+    font-family: 'Courier New', monospace; font-size: 0.82rem; padding: 9px 10px; border-radius: 4px; box-sizing: border-box;
+  }
+  textarea { min-height: 60px; resize: vertical; }
+  textarea.br-mono-output { min-height: 220px; font-size: 0.76rem; line-height: 1.5; }
+  textarea.br-reply-input { min-height: 160px; }
+
+  .br-types-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 14px; }
+  @media (max-width: 700px) { .br-types-grid { grid-template-columns: repeat(2, 1fr); } }
+  .br-type-check { display: flex; align-items: center; gap: 6px; font-size: 0.78rem; color: #d8ffe6; }
+  .br-type-check input { width: auto; accent-color: #00ff66; }
+
+  .primary-btn { background: #00ff66; color: #020a05; border: none; font-family: inherit; font-weight: bold; font-size: 0.85rem; padding: 10px 20px; border-radius: 4px; cursor: pointer; }
+  .primary-btn:hover { background: #33ff85; }
+  .ghost-btn { background: transparent; border: 1px solid #2ee6ff; color: #2ee6ff; font-family: inherit; font-size: 0.8rem; padding: 8px 16px; border-radius: 4px; cursor: pointer; margin-right: 10px; }
+  .ghost-btn:hover { background: rgba(46,230,255,0.1); }
+  .danger-btn { background: transparent; border: 1px solid #ff2e88; color: #ff2e88; font-family: inherit; font-size: 0.8rem; padding: 8px 16px; border-radius: 4px; cursor: pointer; }
+  .danger-btn:hover { background: rgba(255,46,136,0.1); }
+
+  .br-copy-row { display: flex; align-items: center; gap: 14px; margin-top: 10px; }
+  .br-copy-status { font-size: 0.72rem; color: #00ff66; letter-spacing: 1px; }
+
+  .big-screen {
+    background: #020a05; border: 2px solid #00ff66; border-radius: 8px;
+    box-shadow: 0 0 30px rgba(0,255,102,0.25), inset 0 0 40px rgba(0,0,0,0.6);
+    padding: 20px; margin-bottom: 20px; min-height: 160px; position: relative; overflow: hidden;
+  }
+  .big-screen::before {
+    content: ''; position: absolute; inset: 0;
+    background: repeating-linear-gradient(0deg, rgba(0,255,102,0.04) 0px, rgba(0,255,102,0.04) 1px, transparent 1px, transparent 3px);
+    pointer-events: none;
+  }
+  .big-screen-header { display: flex; justify-content: space-between; color: #5AA8A0; font-size: 0.7rem; letter-spacing: 1px; margin-bottom: 12px; }
+  .big-screen-body { color: #d8ffe6; font-family: 'Courier New', monospace; font-size: 0.82rem; white-space: pre-wrap; line-height: 1.6; min-height: 100px; }
+  .big-screen-body .pass { color: #00ff66; }
+  .big-screen-body .fail { color: #ff2e88; }
+
+  .br-deck-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 4px; }
+  @media (max-width: 700px) { .br-deck-grid { grid-template-columns: 1fr; } }
+  .br-card-tile { background: #020a05; border: 1px solid #2a4a4a; border-radius: 6px; padding: 14px; }
+  .br-card-badge { font-size: 0.65rem; letter-spacing: 1px; color: #ff007f; margin-bottom: 8px; }
+  .br-card-title { font-size: 0.9rem; color: #00ff66; font-weight: bold; margin-bottom: 6px; }
+  .br-card-text { font-size: 0.78rem; color: #d8ffe6; line-height: 1.4; margin-bottom: 6px; }
+  .br-card-drink { font-size: 0.7rem; color: #2ee6ff; }
+  .br-empty { color: #6b7a78; font-size: 0.78rem; font-style: italic; }
+
+  .br-archive-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .br-archive-status { font-size: 0.75rem; color: #8fa899; letter-spacing: 1px; }
+</style>
+</head>
+<body>
+
+  <div id="matrixRain" class="matrix-rain" aria-hidden="true"></div>
+
+  <nav class="dashboard-header">
+    <div class="dashboard-title">DORE TRADING UK // BRIDGE RELAY</div>
+    <div class="nav-tabs">
+      <a href="index.html" class="tab-btn">Home</a>
+      <a href="index.html#dashboard" class="tab-btn">Dashboard</a>
+      <a href="seumas-engine.html" class="tab-btn">Seumas Engine</a>
+      <a href="print-preview.html" class="tab-btn">Print Preview</a>
+      <a href="compiler-engine-test.html" class="tab-btn">Compiler</a>
+      <a href="bridge-relay.html" class="tab-btn active">Bridge Relay</a>
+      <a href="jester.html" class="tab-btn">Jester</a>
+      <a href="forge.html" class="tab-btn">Forge</a>
+      <a href="image-converter.html" class="tab-btn">Images</a>
+    </div>
+  </nav>
+
+  <div class="br-wrap">
+    <h1>BRIDGE RELAY</h1>
+    <p class="sub">Fill in the intake below, generate Seumas's prompt, paste it into Claude (claude.ai or the app), then paste Claude's JSON reply back in here to check it and save it to the archive. No backend — this is the manual bridge until the site moves off GitHub Pages.</p>
+
+    <div class="br-panel">
+      <h2>01 // INTAKE</h2>
+      <div class="form-row">
+        <div>
+          <label for="brTheme">Theme (optional)</label>
+          <input type="text" id="brTheme" placeholder="e.g. stag do, office Christmas party">
+        </div>
+        <div>
+          <label for="brSlang">Region / Slang (optional)</label>
+          <input type="text" id="brSlang" placeholder="e.g. Scouse, Geordie, generic UK">
+        </div>
+      </div>
+      <div class="form-row">
+        <div>
+          <label for="brPlayers">Player Count</label>
+          <input type="text" id="brPlayers" placeholder="e.g. 6-8">
+        </div>
+        <div>
+          <label for="brDeckSize">Deck Size (1-100)</label>
+          <input type="number" id="brDeckSize" min="1" max="100" value="40">
+        </div>
+      </div>
+      <div class="form-row">
+        <div>
+          <label for="brAgeRating">Age Rating</label>
+          <select id="brAgeRating">
+            <option value="18" selected>18+</option>
+            <option value="12">12+ Clean</option>
+          </select>
+        </div>
+        <div id="brAdultTierRow">
+          <label for="brAdultTier">Adult Tier</label>
+          <select id="brAdultTier">
+            <option value="mild">Mild</option>
+            <option value="naughty" selected>Naughty</option>
+            <option value="filthy">Filthy</option>
+          </select>
+        </div>
+      </div>
+
+      <label>Card Types</label>
+      <div class="br-types-grid">
+        <label class="br-type-check"><input type="checkbox" id="brType_dare" checked> Dare</label>
+        <label class="br-type-check"><input type="checkbox" id="brType_drink" checked> Drink</label>
+        <label class="br-type-check"><input type="checkbox" id="brType_rule" checked> Rule</label>
+        <label class="br-type-check"><input type="checkbox" id="brType_question" checked> Question</label>
+        <label class="br-type-check"><input type="checkbox" id="brType_duel" checked> Duel</label>
+        <label class="br-type-check"><input type="checkbox" id="brType_group" checked> Group</label>
+        <label class="br-type-check"><input type="checkbox" id="brType_wildcard" checked> Wildcard</label>
+      </div>
+
+      <label for="brNotes">Notes (optional)</label>
+      <textarea id="brNotes" placeholder="Any extra instructions for Seumas, e.g. a card balance skew or a running joke to build in."></textarea>
+
+      <div style="margin-top:16px;">
+        <button type="button" class="primary-btn" id="brGenerateBtn">GENERATE PROMPT</button>
+      </div>
+    </div>
+
+    <div class="br-panel">
+      <h2>02 // PROMPT FOR CLAUDE</h2>
+      <p class="br-hint">Copy this whole thing and paste it into Claude (claude.ai or the app). Then copy Claude's full JSON reply and paste it into the box below.</p>
+      <textarea id="brPromptOutput" class="br-mono-output" readonly placeholder="Click GENERATE PROMPT above to build this."></textarea>
+      <div class="br-copy-row">
+        <button type="button" class="ghost-btn" id="brCopyBtn">COPY PROMPT</button>
+        <span class="br-copy-status" id="brCopyStatus"></span>
+      </div>
+    </div>
+
+    <div class="br-panel">
+      <h2>03 // PASTE CLAUDE'S REPLY</h2>
+      <textarea id="brReplyInput" class="br-reply-input" placeholder="Paste Claude's JSON deck reply here..."></textarea>
+      <div style="margin-top:14px;">
+        <button type="button" class="primary-btn" id="brCompileBtn">COMPILE &amp; CHECK</button>
+      </div>
+    </div>
+
+    <div class="big-screen">
+      <div class="big-screen-header">
+        <span>[ TERMINAL OUTPUT ]</span>
+        <span id="brScreenTimestamp">STANDBY</span>
+      </div>
+      <div class="big-screen-body" id="brScreenBody">Waiting for input. Build a prompt, run it through Claude, then paste the reply above.<span class="cursor">_</span></div>
+    </div>
+
+    <div class="br-panel">
+      <h2>04 // DECK PREVIEW</h2>
+      <div class="br-deck-grid" id="brDeckPreview">
+        <p class="br-empty">No deck compiled yet.</p>
+      </div>
+    </div>
+
+    <div class="br-panel">
+      <h2>05 // ARCHIVE</h2>
+      <div class="br-archive-row">
+        <button type="button" class="ghost-btn" id="brSaveBtn">SAVE TO ARCHIVE</button>
+        <button type="button" class="ghost-btn" id="brDownloadBtn">DOWNLOAD</button>
+        <button type="button" class="danger-btn" id="brClearBtn">CLEAR</button>
+        <span class="br-archive-status" id="brArchiveStatus">0 GAMES STORED</span>
+      </div>
+    </div>
+  </div>
+
+<script src="lib/game-compiler-engine.js"></script>
+<script src="script.js"></script>
+<script type="module">
+import { SEUMAS_GENERATE_PROMPT } from './lib/seumas-prompt.js';
+
+(function () {
+  var currentDeck = null;
+  var CARD_TYPES = ['dare', 'drink', 'rule', 'question', 'duel', 'group', 'wildcard'];
+
+  var screenBody = document.getElementById('brScreenBody');
+  var screenTimestamp = document.getElementById('brScreenTimestamp');
+
+  function writeScreen(text, cls) {
+    screenTimestamp.textContent = new Date().toLocaleTimeString();
+    screenBody.innerHTML = cls ? '<span class="' + cls + '">' + text.replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</span>' : text;
+  }
+
+  function toggleAdultTierRow() {
+    var ageRating = document.getElementById('brAgeRating').value;
+    document.getElementById('brAdultTierRow').style.display = ageRating === '18' ? '' : 'none';
+  }
+  document.getElementById('brAgeRating').addEventListener('change', toggleAdultTierRow);
+  toggleAdultTierRow();
+
+  function collectIntake() {
+    var cardTypes = {};
+    CARD_TYPES.forEach(function (t) {
+      var el = document.getElementById('brType_' + t);
+      cardTypes[t] = !!(el && el.checked);
+    });
+    var deckSize = parseInt(document.getElementById('brDeckSize').value, 10);
+    if (!deckSize || deckSize < 1) deckSize = 1;
+    if (deckSize > 100) deckSize = 100;
+
+    return {
+      theme: document.getElementById('brTheme').value.trim(),
+      region_slang: document.getElementById('brSlang').value.trim(),
+      player_count: document.getElementById('brPlayers').value.trim(),
+      deck_size: deckSize,
+      age_rating: document.getElementById('brAgeRating').value,
+      adult_tier: document.getElementById('brAdultTier').value,
+      card_types: cardTypes,
+      notes: document.getElementById('brNotes').value.trim(),
+    };
+  }
+
+  document.getElementById('brGenerateBtn').addEventListener('click', function () {
+    var intake = collectIntake();
+    var anyTypeOn = CARD_TYPES.some(function (t) { return intake.card_types[t]; });
+    if (!anyTypeOn) {
+      writeScreen('Switch on at least one card type before generating a prompt.', 'fail');
+      return;
+    }
+
+    var promptText = SEUMAS_GENERATE_PROMPT +
+      '\n\nHOST INTAKE (JSON):\n' + JSON.stringify(intake, null, 2) +
+      '\n\nReturn ONLY the JSON deck object described above -- no commentary, no code fences, nothing before or after it.';
+
+    document.getElementById('brPromptOutput').value = promptText;
+    writeScreen('Prompt generated (' + promptText.length + ' characters). Copy it and paste into Claude.', 'pass');
+  });
+
+  document.getElementById('brCopyBtn').addEventListener('click', function () {
+    var promptBox = document.getElementById('brPromptOutput');
+    var copyStatus = document.getElementById('brCopyStatus');
+    if (!promptBox.value) {
+      writeScreen('Generate a prompt first.', 'fail');
+      return;
+    }
+    promptBox.select();
+
+    function done(ok) {
+      copyStatus.textContent = ok ? 'COPIED' : 'COPY FAILED — select the text manually';
+      setTimeout(function () { copyStatus.textContent = ''; }, 2500);
+    }
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(promptBox.value).then(function () { done(true); }, function () { done(false); });
+    } else {
+      try { done(document.execCommand('copy')); } catch (e) { done(false); }
+    }
+  });
+
+  function renderDeckPreview(deck) {
+    var wrap = document.getElementById('brDeckPreview');
+    wrap.innerHTML = '';
+    if (!deck.cards || !deck.cards.length) {
+      wrap.innerHTML = '<p class="br-empty">No cards in this deck.</p>';
+      return;
+    }
+    deck.cards.forEach(function (card) {
+      var tile = document.createElement('div');
+      tile.className = 'br-card-tile';
+
+      var badge = document.createElement('div');
+      badge.className = 'br-card-badge';
+      badge.textContent = (card.type || '?').toUpperCase() + ' · ' + (card.tier || '?').toUpperCase();
+      tile.appendChild(badge);
+
+      var title = document.createElement('div');
+      title.className = 'br-card-title';
+      title.textContent = card.title || '(untitled)';
+      tile.appendChild(title);
+
+      var text = document.createElement('div');
+      text.className = 'br-card-text';
+      text.textContent = card.text || '';
+      tile.appendChild(text);
+
+      if (card.drink_count) {
+        var drink = document.createElement('div');
+        drink.className = 'br-card-drink';
+        drink.textContent = 'Drink: ' + card.drink_count + (card.non_alcoholic_swap ? ' (or: ' + card.non_alcoholic_swap + ')' : '');
+        tile.appendChild(drink);
+      }
+
+      wrap.appendChild(tile);
+    });
+  }
+
+  function refreshArchiveStatus() {
+    var el = document.getElementById('brArchiveStatus');
+    if (!el || !window.GameCompilerEngine) return;
+    var archive = window.GameCompilerEngine.loadArchive();
+    el.textContent = archive.length + ' GAME' + (archive.length === 1 ? '' : 'S') + ' STORED';
+  }
+
+  document.getElementById('brCompileBtn').addEventListener('click', function () {
+    var raw = document.getElementById('brReplyInput').value.trim();
+    if (!raw) {
+      writeScreen("Paste Claude's JSON reply first.", 'fail');
+      return;
+    }
+
+    var deck;
+    try {
+      deck = JSON.parse(raw);
+    } catch (e) {
+      writeScreen('Could not parse that as JSON: ' + e.message, 'fail');
+      currentDeck = null;
+      document.getElementById('brDeckPreview').innerHTML = '<p class="br-empty">No deck compiled yet.</p>';
+      return;
+    }
+
+    if (!deck || !Array.isArray(deck.cards)) {
+      writeScreen('Parsed JSON but it has no "cards" array — check the reply matches the expected schema.', 'fail');
+      currentDeck = null;
+      document.getElementById('brDeckPreview').innerHTML = '<p class="br-empty">No deck compiled yet.</p>';
+      return;
+    }
+
+    if (!window.GameCompilerEngine) {
+      writeScreen('lib/game-compiler-engine.js did not load.', 'fail');
+      return;
+    }
+
+    var complianceTier = deck.age_rating === '12' ? '12' : (deck.adult_tier || 'naughty');
+    var result = window.GameCompilerEngine.checkPackageCompliance(deck.cards, complianceTier);
+
+    currentDeck = deck;
+    renderDeckPreview(deck);
+
+    if (result.passed) {
+      writeScreen('COMPLIANCE: PASS\nDeck: ' + (deck.deck_title || '(untitled)') + '\nTier: ' + complianceTier + '\nCards: ' + deck.cards.length + '\nReady to save to the archive.', 'pass');
+    } else {
+      var lines = result.violations.map(function (v) { return '  - "' + v.term + '" at position ' + v.index; }).join('\n');
+      writeScreen('COMPLIANCE: FAIL\nDeck: ' + (deck.deck_title || '(untitled)') + '\nTier: ' + complianceTier + '\nViolations:\n' + lines, 'fail');
+    }
+  });
+
+  document.getElementById('brSaveBtn').addEventListener('click', function () {
+    if (!window.GameCompilerEngine) {
+      writeScreen('lib/game-compiler-engine.js did not load.', 'fail');
+      return;
+    }
+    if (!currentDeck) {
+      writeScreen('Compile a deck first (paste a reply and click COMPILE & CHECK).', 'fail');
+      return;
+    }
+
+    var complianceTier = currentDeck.age_rating === '12' ? '12' : (currentDeck.adult_tier || 'naughty');
+    var outcome = window.GameCompilerEngine.compileAndArchive({
+      entries: currentDeck.cards,
+      tier: complianceTier,
+      meta: { source: 'bridge-relay.html', deck_title: currentDeck.deck_title, theme: currentDeck.theme },
+    });
+
+    if (outcome.archived) {
+      writeScreen('ARCHIVED\nRecord ID: ' + outcome.record.id + '\nDeck: ' + (currentDeck.deck_title || '(untitled)') + '\nCards: ' + currentDeck.cards.length, 'pass');
+    } else {
+      writeScreen('NOT ARCHIVED\nReason: ' + outcome.reason, 'fail');
+    }
+    refreshArchiveStatus();
+  });
+
+  document.getElementById('brDownloadBtn').addEventListener('click', function () {
+    if (!window.GameCompilerEngine) return;
+    window.GameCompilerEngine.downloadArchive();
+  });
+
+  document.getElementById('brClearBtn').addEventListener('click', function () {
+    if (!window.confirm('Clear the entire local archive? This cannot be undone.')) return;
+    localStorage.removeItem('seumasCompiledGamesArchive');
+    refreshArchiveStatus();
+    writeScreen('Archive cleared.', 'pass');
+  });
+
+  refreshArchiveStatus();
+})();
+</script>
+</body>
+</html>

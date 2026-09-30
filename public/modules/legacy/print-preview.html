@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Print Preview — Dore Trading UK</title>
+<link rel="stylesheet" href="style.css?v=2">
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"
+  }
+}
+</script>
+</head>
+<body>
+
+  <!-- Full-page matrix rain background -->
+  <div id="matrixRain" class="matrix-rain" aria-hidden="true"></div>
+
+  <!-- ================= NAV ================= -->
+  <nav class="dashboard-header">
+    <div class="dashboard-title">DORE TRADING UK // PRINT PREVIEW</div>
+    <div class="nav-tabs">
+      <a href="index.html" class="tab-btn">Home</a>
+      <a href="index.html#dashboard" class="tab-btn">Dashboard</a>
+      <a href="seumas-engine.html" class="tab-btn">Seumas Engine</a>
+      <a href="print-preview.html" class="tab-btn active">Print Preview</a>
+    </div>
+  </nav>
+
+  <!-- ================= HERO STRIP ================= -->
+  <header class="pp-hero">
+    <div class="pp-hero-content">
+      <h1>Print Preview Studio</h1>
+      <p>Upload artwork // Crop to template // Preview on product // Confirm order</p>
+    </div>
+  </header>
+
+  <!-- ================= FLOW ================= -->
+  <main class="pp-flow">
+
+    <!-- STEP 1: UPLOAD + PRODUCT -->
+    <section id="pp-step-1" class="pp-step active">
+      <div class="pp-panel">
+        <div class="pp-panel-title">01 // UPLOAD_ARTWORK</div>
+
+        <div class="pp-upload-zone">
+          <div class="pp-status-row">
+            <span id="pp-status-light" class="pp-status-light"></span>
+            <span id="pp-status-text" class="pp-status-text">READY_FOR_INPUT</span>
+          </div>
+          <label for="pp-image-input" class="cyber-btn upload-btn">CHOOSE_FILE</label>
+          <input type="file" id="pp-image-input" accept="image/*" hidden>
+          <p id="pp-file-name" class="pp-file-meta">NO_FILE_LOADED</p>
+        </div>
+
+        <div class="pp-product-select">
+          <div class="pp-select-label">SELECT_PRODUCT:</div>
+          <div class="pp-radio-row">
+            <label class="pp-radio-tile">
+              <input type="radio" name="pp-product" value="mug" checked>
+              <span>NEON MUG</span>
+            </label>
+            <label class="pp-radio-tile">
+              <input type="radio" name="pp-product" value="tshirt">
+              <span>CYBER TEE</span>
+            </label>
+            <label class="pp-radio-tile">
+              <input type="radio" name="pp-product" value="a4">
+              <span>A4 MATRIX PRINT</span>
+            </label>
+          </div>
+        </div>
+
+        <label class="pp-disclaimer">
+          <input type="checkbox" id="pp-disclaimer">
+          <span>I confirm I have full rights to use and print this image.</span>
+        </label>
+
+        <div class="pp-button-row pp-right">
+          <button id="pp-step1-next" class="cyber-btn mockup-btn" disabled>CONTINUE &gt;&gt;</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 2: CROP TO PRINT TEMPLATE -->
+    <section id="pp-step-crop" class="pp-step">
+      <div class="pp-panel">
+        <div class="pp-panel-title">02 // CROP_TO_TEMPLATE</div>
+        <p class="pp-crop-hint">Drag to reposition, use SIZE to zoom. This is the exact area that gets sent to print.</p>
+
+        <div class="pp-crop-stage">
+          <div id="pp-crop-frame" class="pp-crop-frame">
+            <img id="pp-crop-img" class="pp-crop-img" src="" alt="" draggable="false">
+            <div id="pp-crop-guides" class="pp-crop-guides"></div>
+          </div>
+          <p id="pp-crop-dims" class="pp-crop-dims-label"></p>
+        </div>
+
+        <div class="pp-scale-row">
+          <label for="pp-crop-scale-slider">SIZE</label>
+          <input type="range" id="pp-crop-scale-slider" min="100" max="400" step="1" value="100">
+          <span id="pp-crop-scale-value" class="pp-scale-readout">100%</span>
+        </div>
+
+        <div class="pp-button-row">
+          <button id="pp-crop-back" class="cyber-btn upload-btn">&lt;&lt; BACK</button>
+          <button id="pp-crop-next" class="cyber-btn mockup-btn">CONFIRM_CROP &gt;&gt;</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 3: LIVE MOCKUP PREVIEW -->
+    <section id="pp-step-2" class="pp-step">
+      <div class="pp-panel pp-preview-panel">
+        <div class="pp-panel-title">03 // LIVE_MOCKUP_PREVIEW</div>
+
+        <div class="pp-preview-stage">
+          <div id="pp-mockup-shell" class="pp-mockup-canvas pp-mug-mode">
+            <div class="pp-product-texture"></div>
+            <img class="pp-mug-photo" src="mockups/mug-photo.png" alt="">
+            <div class="pp-mug-wrap-group">
+              <div class="pp-print-frame">
+                <img id="pp-preview-img" src="" alt="Your artwork preview">
+              </div>
+              <img class="pp-mug-shadows" src="mockups/mug-shadows.png" alt="">
+              <img class="pp-mug-highlights" src="mockups/mug-highlights.png" alt="">
+            </div>
+            <canvas id="pp-tshirt-canvas" class="pp-tshirt-canvas"></canvas>
+            <div id="pp-tshirt-loading" class="pp-tshirt-loading">LOADING_3D_MODEL&hellip;</div>
+          </div>
+          <p id="pp-variant-label" class="pp-variant-tag">TARGET: NEON MUG</p>
+        </div>
+
+        <div class="pp-adjust-panel">
+          <div class="pp-select-label">ARTWORK_FIT:</div>
+          <div class="pp-fit-toggle">
+            <button type="button" id="pp-fit-cover" class="cyber-btn upload-btn pp-fit-btn active">FILL_PRINT_AREA</button>
+            <button type="button" id="pp-fit-contain" class="cyber-btn upload-btn pp-fit-btn">FIT_WHOLE_IMAGE</button>
+          </div>
+          <div class="pp-scale-row">
+            <label for="pp-scale-slider">SIZE</label>
+            <input type="range" id="pp-scale-slider" min="40" max="200" step="5" value="100">
+            <span id="pp-scale-value" class="pp-scale-readout">100%</span>
+          </div>
+        </div>
+
+        <div class="pp-button-row">
+          <button id="pp-step2-back" class="cyber-btn upload-btn">&lt;&lt; BACK</button>
+          <button id="pp-step2-next" class="cyber-btn mockup-btn">PROCEED_TO_ORDER &gt;&gt;</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 3: ORDER SUMMARY -->
+    <section id="pp-step-3" class="pp-step">
+      <div class="pp-panel">
+        <div class="pp-panel-title">04 // ORDER_SUMMARY</div>
+
+        <div class="pp-invoice">
+          <div class="pp-invoice-row">
+            <span>ITEM</span>
+            <span id="pp-summary-product">RETROWAVE MUG x1</span>
+          </div>
+          <div class="pp-invoice-row">
+            <span>ARTWORK</span>
+            <span>PROCESSED // OK</span>
+          </div>
+          <div class="pp-invoice-row pp-invoice-total">
+            <span>TOTAL</span>
+            <span class="pp-total-value">£14.99</span>
+          </div>
+        </div>
+
+        <div class="pp-tracker-panel">
+          <div class="pp-tracker-title">PRINT_QUEUE // MOTION_TRACKER</div>
+          <div id="pp-tracker" class="pp-tracker">
+            <svg class="pp-tracker-rings" viewBox="0 0 200 100" preserveAspectRatio="none" aria-hidden="true">
+              <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" />
+              <path d="M 42 100 A 58 58 0 0 1 158 100" fill="none" />
+              <path d="M 64 100 A 36 36 0 0 1 136 100" fill="none" />
+              <line x1="100" y1="100" x2="100" y2="8" />
+              <line x1="100" y1="100" x2="34" y2="34" />
+              <line x1="100" y1="100" x2="166" y2="34" />
+              <line x1="10" y1="100" x2="190" y2="100" />
+            </svg>
+            <div id="pp-tracker-sweep" class="pp-tracker-sweep"></div>
+            <div id="pp-tracker-dots" class="pp-tracker-dots"></div>
+          </div>
+          <div class="pp-tracker-side-readouts">
+            <span>SIG.7 0041.29</span>
+            <span>VEC.3 118/06</span>
+          </div>
+          <div class="pp-tracker-readout">
+            <span class="pp-tracker-readout-label">JOBS_DETECTED</span>
+            <span id="pp-tracker-count" class="pp-tracker-readout-value">00</span>
+          </div>
+          <div id="pp-tracker-status" class="pp-tracker-status">NO_ACTIVE_JOBS</div>
+        </div>
+
+        <p class="pp-note">Preview flow only — checkout isn't wired up yet.</p>
+
+        <div class="pp-button-row pp-left">
+          <button id="pp-step3-back" class="cyber-btn upload-btn">&lt;&lt; BACK</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="site-footer">
+    <div class="status-line">
+      <span class="status-dot"></span>
+      PRINT PREVIEW STUDIO — MODULE ONLINE
+    </div>
+    <div class="copyright">DORE TRADING UK &copy; 2026</div>
+  </footer>
+
+  <script src="lib/game-compiler-engine.js"></script>
+  <script src="script.js?v=2"></script>
+  <script src="print-preview.js?v=2"></script>
+  <script type="module" src="print-preview-shirt3d.js?v=2"></script>
+</body>
+</html>

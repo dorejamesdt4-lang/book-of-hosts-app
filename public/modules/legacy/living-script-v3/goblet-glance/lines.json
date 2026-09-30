@@ -1,0 +1,47 @@
+{
+  "module": "goblet-glance",
+  "ageRating": "12+",
+  "note": "Fixed narrator lines. They never contain guests' names. audio is the file name: a Show Pack keeps it in its own audio/ folder. Without the file, the line shows as a caption only.",
+  "lines": [
+    {
+      "id": "CUP-01",
+      "text": "The glowing orb drops softly beneath its golden home…",
+      "audio": "CUP-01.mp3"
+    },
+    {
+      "id": "CUP-02",
+      "text": "The goblets weave, a dance of illusions! Keep your focus true!",
+      "audio": "CUP-02.mp3"
+    },
+    {
+      "id": "CUP-03",
+      "text": "The movement ceases. Where does the magic sleep?",
+      "audio": "CUP-03.mp3"
+    },
+    {
+      "id": "CUP-04",
+      "text": "Outstanding vision! You tracked the orb perfectly.",
+      "audio": "CUP-04.mp3"
+    },
+    {
+      "id": "CUP-05",
+      "text": "Alas, your eyes deceived you! That goblet holds only dust.",
+      "audio": "CUP-05.mp3"
+    },
+    {
+      "id": "CUP-06",
+      "text": "You hesitated too long, and the magic faded from view.",
+      "audio": "CUP-06.mp3"
+    },
+    {
+      "id": "CUP-07",
+      "text": "Remarkable! The whole gathering has the gift of true sight!",
+      "audio": "CUP-07.mp3"
+    },
+    {
+      "id": "CUP-08",
+      "text": "The speed quickens! Only a master seeker can trace this path.",
+      "audio": "CUP-08.mp3"
+    }
+  ]
+}

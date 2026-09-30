@@ -1,0 +1,109 @@
+{
+  "schema_version": 2,
+  "sample": true,
+  "note": "SAMPLE mini-game library cards, hand-written for the test bench. Every card uses the same fixed format; online_module names an online module in engine/minigames.js, or null for in-person play.",
+  "cards": [
+    {
+      "id": "portrait-memory",
+      "name": "The Portrait Game",
+      "players": "3-12",
+      "props": "None",
+      "time": "5 minutes",
+      "rules": [
+        "The narrator describes a portrait from the hall in three short sentences.",
+        "Everyone writes down or says one detail they remember from it.",
+        "The narrator reads the description again.",
+        "Each correct detail scores a point; made-up details score nothing.",
+        "The highest scorer chooses who speaks first in the next scene."
+      ],
+      "rating": "family",
+      "online_friendly": true,
+      "online_module": null
+    },
+    {
+      "id": "alibi-charades",
+      "name": "Alibi Charades",
+      "players": "4-12",
+      "props": "Slips of paper and a hat",
+      "time": "10 minutes",
+      "rules": [
+        "Each player writes a silly alibi on a slip and drops it in the hat.",
+        "Take turns drawing a slip and acting it out without words.",
+        "The others have one minute to guess the alibi.",
+        "Guess it right and both the actor and the guesser score a point.",
+        "Nobody may act out their own slip."
+      ],
+      "rating": "family",
+      "online_friendly": false,
+      "online_module": null
+    },
+    {
+      "id": "butler-questions",
+      "name": "Twenty Questions for the Butler",
+      "players": "3-10",
+      "props": "None",
+      "time": "5 minutes",
+      "rules": [
+        "The host secretly picks an object hidden somewhere in the house.",
+        "Players take turns asking yes-or-no questions about it.",
+        "The host may only answer yes, no or 'the butler cannot say'.",
+        "The room has twenty questions in total to name the object.",
+        "Whoever names it wins a clue hint for their next turn."
+      ],
+      "rating": "family",
+      "online_friendly": true,
+      "online_module": null
+    },
+    {
+      "id": "gamblers-gambit",
+      "name": "The Gambler's Gambit",
+      "players": "2-8",
+      "props": "None (the Stage rolls the dice)",
+      "time": "8 minutes",
+      "rules": [
+        "Everyone starts with 10 gold crowns. Players shoot in turn, 3 rounds each.",
+        "Come-out roll: 7 or 11 wins 3 crowns; 2, 3 or 12 loses 2.",
+        "Any other total is your point. Roll it again before a 7 to win 3 crowns.",
+        "A 7 first is a seven-out: lose 2 crowns and take a party forfeit.",
+        "The richest player wins. Crowns are only for fun, never real money."
+      ],
+      "rating": "family",
+      "online_friendly": true,
+      "online_module": "gamblers-gambit"
+    },
+    {
+      "id": "twenty-one-trouble",
+      "name": "Twenty-One & Trouble",
+      "players": "1-8",
+      "props": "None (the Stage deals the cards)",
+      "time": "10 minutes",
+      "rules": [
+        "Everyone gets two cards; the Vault Keeper shows one and hides one.",
+        "Twist to take another card, or Stick to stop. Over 21 is bust.",
+        "Twenty-one on the first two cards wins at once (the Keeper's wins the round).",
+        "The Keeper twists on 16 or less. Higher total wins; a Keeper bust means every guest standing wins.",
+        "Same total: five cards beat fewer; every other draw goes to the Keeper. No betting of any kind."
+      ],
+      "rating": "family",
+      "online_friendly": true,
+      "online_module": "twenty-one-trouble"
+    },
+    {
+      "id": "lexical-lanterns",
+      "name": "Lexical Lanterns",
+      "players": "1-16",
+      "props": "None (the Stage shows the scroll)",
+      "time": "10 minutes",
+      "rules": [
+        "One team lights a hidden phrase, one letter per guest per turn.",
+        "A right letter lights every matching slot; a wrong one puts out a lantern.",
+        "Any guest may ask for one Pixie Whisper hint a phrase; it costs a lantern.",
+        "Light the whole phrase to win; if every lantern goes out, the forest keeps it.",
+        "Arcade: solve as many phrases as you can before the Sundial runs out."
+      ],
+      "rating": "family",
+      "online_friendly": true,
+      "online_module": "lexical-lanterns"
+    }
+  ]
+}

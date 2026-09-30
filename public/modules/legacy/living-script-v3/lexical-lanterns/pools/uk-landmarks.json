@@ -1,0 +1,106 @@
+{
+  "ageRating": "12+",
+  "name": "UK Landmarks",
+  "entries": [
+    {
+      "phrase": "Big Ben",
+      "hint": "Its famous bell chimes the hours beside the Thames."
+    },
+    {
+      "phrase": "Tower Bridge",
+      "hint": "Its road lifts in the middle to let tall ships through."
+    },
+    {
+      "phrase": "Stonehenge",
+      "hint": "A ring of ancient standing stones on Salisbury Plain."
+    },
+    {
+      "phrase": "Edinburgh Castle",
+      "hint": "A fortress perched on an old volcanic rock in Scotland's capital."
+    },
+    {
+      "phrase": "Hadrian's Wall",
+      "hint": "A Roman wall that stretches across the north of England."
+    },
+    {
+      "phrase": "The Giant's Causeway",
+      "hint": "Thousands of stone columns step into the sea in County Antrim."
+    },
+    {
+      "phrase": "Buckingham Palace",
+      "hint": "The guards change here, in front of a royal home in London."
+    },
+    {
+      "phrase": "The White Cliffs of Dover",
+      "hint": "Chalky cliffs that greet travellers crossing the Channel."
+    },
+    {
+      "phrase": "Snowdon",
+      "hint": "The highest mountain in Wales, with a railway to the top."
+    },
+    {
+      "phrase": "Loch Ness",
+      "hint": "A deep Highland lake, said to hide a shy monster."
+    },
+    {
+      "phrase": "Windsor Castle",
+      "hint": "The oldest royal castle still lived in, west of London."
+    },
+    {
+      "phrase": "The Angel of the North",
+      "hint": "A huge steel figure with wide wings near Gateshead."
+    },
+    {
+      "phrase": "Blackpool Tower",
+      "hint": "A seaside tower by the promenade, with a grand ballroom."
+    },
+    {
+      "phrase": "Ben Nevis",
+      "hint": "The tallest mountain in the whole of the United Kingdom."
+    },
+    {
+      "phrase": "St Paul's Cathedral",
+      "hint": "Its great dome rises over the City of London."
+    },
+    {
+      "phrase": "The Eden Project",
+      "hint": "Giant bubble-shaped greenhouses in a Cornish clay pit."
+    },
+    {
+      "phrase": "Caernarfon Castle",
+      "hint": "A mighty castle with many-sided towers on the Welsh coast."
+    },
+    {
+      "phrase": "The Lake District",
+      "hint": "A land of fells and waters in Cumbria, loved by poets."
+    },
+    {
+      "phrase": "Tintagel",
+      "hint": "Clifftop ruins in Cornwall tied to the legend of King Arthur."
+    },
+    {
+      "phrase": "The Shard",
+      "hint": "A glass tower shaped like a sharp splinter by London Bridge."
+    },
+    {
+      "phrase": "Durham Cathedral",
+      "hint": "A great Norman church high above a loop in the river."
+    },
+    {
+      "phrase": "The Roman Baths",
+      "hint": "Warm springs where Romans once bathed, in the city of Bath."
+    },
+    {
+      "phrase": "Cheddar Gorge",
+      "hint": "A deep limestone valley in Somerset, famous for its caves."
+    },
+    {
+      "phrase": "The Needles",
+      "hint": "Three white chalk stacks at the western tip of the Isle of Wight."
+    },
+    {
+      "phrase": "Warwick Castle",
+      "hint": "A medieval castle on the River Avon, with towers and a great hall."
+    }
+  ]
+}

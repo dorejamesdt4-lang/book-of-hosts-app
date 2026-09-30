@@ -1,0 +1,47 @@
+{
+  "module": "vernacular-vault-18",
+  "ageRating": "18+",
+  "note": "Fixed narrator lines. They never contain guests' names. audio is the file name: a Show Pack keeps it in its own audio/ folder. Without the file, the line shows as a caption only.",
+  "lines": [
+    {
+      "id": "SLG18-01",
+      "text": "Right, sit down and sort yourselves out. Let's see how clued-up you actually are.",
+      "audio": "SLG18-01.mp3"
+    },
+    {
+      "id": "SLG18-02",
+      "text": "Bang on! Look at you, proper clued-up.",
+      "audio": "SLG18-02.mp3"
+    },
+    {
+      "id": "SLG18-03",
+      "text": "Not even close, mate! Did you bang your head on the way in?",
+      "audio": "SLG18-03.mp3"
+    },
+    {
+      "id": "SLG18-04",
+      "text": "Bloody hell, lightning fingers over here! Calm down, it's only a game.",
+      "audio": "SLG18-04.mp3"
+    },
+    {
+      "id": "SLG18-05",
+      "text": "Put the tea down and tap the screen! You've missed the bloody boat!",
+      "audio": "SLG18-05.mp3"
+    },
+    {
+      "id": "SLG18-06",
+      "text": "Ooh, that's a shocker. Check your phone, there's a forfeit with your name on it.",
+      "audio": "SLG18-06.mp3"
+    },
+    {
+      "id": "SLG18-07",
+      "text": "It is absolute carnage at the top of the board.",
+      "audio": "SLG18-07.mp3"
+    },
+    {
+      "id": "SLG18-08",
+      "text": "Well, that's your lot. Go and wash your mouths out with soap.",
+      "audio": "SLG18-08.mp3"
+    }
+  ]
+}

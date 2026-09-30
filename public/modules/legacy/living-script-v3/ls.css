@@ -1,0 +1,116 @@
+/* ====================================================================
+   THE LIVING SCRIPT — shared styles. The screens themselves carry the
+   approved mockups' own inline styles (design/living-script-v2/design/);
+   this file holds the mockups' helper classes and animations, plus the
+   frame each screen sits in: the 1440x1080 TV/host boards scale to fit
+   the window, the phone screens are a 390px column.
+   Brand: the Storybook mood (design/storybook-mood-v1/).
+   ==================================================================== */
+
+/* ---------- from the mockups ---------- */
+body { margin: 0; background: #0B1620; font-family: 'Cardo', Georgia, serif; color: #EDE6D6; }
+a { color: #D9A441; }
+a:hover { color: #EDE6D6; }
+@keyframes wave { 0%, 100% { transform: scaleY(0.25); } 50% { transform: scaleY(1); } }
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(90,168,160,0.55), inset 0 0 60px rgba(90,168,160,0.25); }
+  50% { box-shadow: 0 0 0 14px rgba(90,168,160,0), inset 0 0 90px rgba(90,168,160,0.45); }
+}
+@keyframes twinkle { 0%, 100% { opacity: 0.25; } 50% { opacity: 1; } }
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+.pulse { animation: pulse 1.4s ease-in-out infinite; }
+.star { position: absolute; width: 3px; height: 3px; background: #EDE6D6; border-radius: 50%; animation: twinkle 3s ease-in-out infinite; }
+.float { animation: float 4s ease-in-out infinite; }
+.cardbtn { transition: transform .25s ease, box-shadow .25s ease; }
+.cardbtn:hover { transform: translateY(-6px); }
+.cardbtn:focus-visible, .pbtn:focus-visible { outline: 3px solid #5AA8A0; outline-offset: 4px; }
+input[type=range] { accent-color: #8A6420; }
+.seat { transition: transform .2s ease; }
+.choice { transition: transform .15s ease, box-shadow .15s ease; }
+.choice:hover { transform: translateY(-2px); }
+.choice:focus-visible { outline: 3px solid #5AA8A0; outline-offset: 3px; }
+
+/* ---------- shared behaviour ---------- */
+[hidden] { display: none !important; }
+.pbtn:disabled, .choice:disabled { opacity: 0.45; cursor: not-allowed; }
+.pbtn:disabled:hover, .choice:disabled:hover { transform: none; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---------- TV / host boards: 1440x1080, scaled to fit ---------- */
+.ls-tv-body { overflow: hidden; height: 100vh; }
+.ls-board { position: absolute; top: 0; left: 0; transform-origin: 0 0; }
+
+/* ---------- phone screens: a 390px column ---------- */
+.ls-phone { position: relative; width: 100%; max-width: 390px; min-height: 100vh; margin: 0 auto; box-sizing: border-box; overflow: hidden; }
+
+/* ---------- talking character builds (384px native, scaled by speaker-stage.js) ---------- */
+.ls-sprite { position: relative; overflow: hidden; flex-shrink: 0; }
+.ls-sprite iframe {
+  position: absolute; top: 0; left: 0; width: 384px; height: 384px; border: 0;
+  transform-origin: 0 0; image-rendering: pixelated; image-rendering: crisp-edges;
+}
+.ls-sprite iframe.is-offstage, .ls-sprite.is-empty iframe { visibility: hidden; }
+.ls-thumb { display: block; image-rendering: pixelated; image-rendering: crisp-edges; }
+
+/* ---------- round 1: prompts, clue entrance, reduced motion ----------
+   Not on the mockups: a slow "breathing" glow for the NEXT STEP banner
+   and the players' prompts (one cycle every 2.4 s — far below the 3
+   flashes a second limit for photosensitive epilepsy), and a gentle
+   fade-and-unfold for clue reveals. */
+@keyframes ls-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(217,164,65,0.0), 0 0 18px rgba(217,164,65,0.18); }
+  50% { box-shadow: 0 0 0 4px rgba(217,164,65,0.16), 0 0 30px rgba(217,164,65,0.32); }
+}
+.ls-glow { animation: ls-glow 2.4s ease-in-out infinite; }
+@keyframes ls-unfold {
+  from { opacity: 0; transform: scaleY(0.92) translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+.ls-unfold { animation: ls-unfold 0.7s ease-out both; transform-origin: 50% 20%; }
+
+/* Honour the device's "reduce motion" setting: nothing pulses, glows,
+   twinkles, floats or unfolds. */
+@media (prefers-reduced-motion: reduce) {
+  .pulse, .star, .float, .ls-glow, .ls-unfold { animation: none !important; }
+  .cardbtn, .choice, .seat { transition: none !important; }
+  .cardbtn:hover, .choice:hover { transform: none !important; }
+}
+
+/* ---------- mini-games: Twenty-One & Trouble, Lexical Lanterns ----------
+   Flat 2D only (low-spec friendly): a card "flips" by squeezing to a
+   line and opening again (scaleX, no 3D); lanterns glow softly (one slow
+   breath every 3 s, never a flash) and a lantern that goes out gives two
+   slow flickers, dims and drifts up. */
+@keyframes ls-flip { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.ls-flip { animation: ls-flip 0.35s ease-out both; }
+@keyframes ls-lantern-glow { 0%, 100% { opacity: 0.85; } 50% { opacity: 1; } }
+.ls-lantern-glow { animation: ls-lantern-glow 3s ease-in-out infinite; }
+@keyframes ls-lantern-out {
+  0% { opacity: 1; transform: none; }
+  20% { opacity: 0.55; }
+  35% { opacity: 0.85; }
+  55% { opacity: 0.35; transform: translateY(-10px); }
+  100% { opacity: 0; transform: translateY(-110px); }
+}
+.ls-lantern-out { animation: ls-lantern-out 1.8s ease-in forwards; }
+@keyframes ls-lit { from { color: #B8923E; text-shadow: none; } to { color: #0F1E28; } }
+.ls-lit { animation: ls-lit 0.6s ease-out both; }
+@media (prefers-reduced-motion: reduce) {
+  .ls-flip, .ls-lantern-glow, .ls-lit { animation: none !important; }
+  .ls-lantern-out { animation: none !important; opacity: 0; }
+}
+
+/* ---------- the tab bar across the host's pages (js/tabbar.js) ----------
+   Not on the mockups: the Lobby's pill style, flat, wraps at phone width. */
+.ls-tabbar { position: relative; z-index: 5; display: flex; flex-wrap: wrap; gap: 4px 6px; align-items: center; padding: 6px 12px; background: #0F1E28; border-bottom: 1px solid #1E3A3A; }
+.ls-tabbar-brand { margin-right: 6px; font-family: 'Silkscreen', monospace; font-size: 10px; letter-spacing: 1px; color: #D9A441; }
+.ls-tabbar a { min-height: 40px; padding: 0 12px; display: inline-flex; align-items: center; border-radius: 999px; font-family: 'Cinzel', serif; font-size: 12px; letter-spacing: 2px; color: #A9C9C4; text-decoration: none; }
+.ls-tabbar a:hover { color: #EDE6D6; }
+.ls-tabbar a[aria-current="page"] { background: #D9A441; color: #0F1E28; font-weight: 700; }
+.ls-tabbar a:focus-visible { outline: 3px solid #5AA8A0; outline-offset: 2px; }
+@media (max-width: 560px) {
+  /* Phones: one line that scrolls sideways within the bar (the page never does). */
+  .ls-tabbar { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .ls-tabbar-brand { display: none; }
+  .ls-tabbar a { flex-shrink: 0; padding: 0 10px; font-size: 11px; letter-spacing: 1px; }
+}
