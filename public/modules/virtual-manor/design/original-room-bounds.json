@@ -1,0 +1,106 @@
+{
+  "sourceArchive": "dore-trading-main.zip",
+  "archiveSHA256": "f90856e556a5ba0de43dd97966a852a750f599e018d9c09c122ba9becc8994d4",
+  "sourceFile": "dore-trading-main/manor-lab/manor-engine.js",
+  "status": "Inspected room bounds only; doorway graph and colliders still need extraction",
+  "rooms": [
+    {
+      "id": "hall",
+      "name": "THE ENTRANCE HALL",
+      "description": "Where every guest arrives, and every alibi begins.",
+      "bounds": {
+        "x0": -6,
+        "x1": 6,
+        "z0": 0,
+        "z1": 12
+      },
+      "floor": "marble",
+      "glass": false,
+      "openSky": false
+    },
+    {
+      "id": "gallery",
+      "name": "THE LONG GALLERY",
+      "description": "The portraits have been watching longer than you.",
+      "bounds": {
+        "x0": -2,
+        "x1": 2,
+        "z0": 12,
+        "z1": 36
+      },
+      "floor": "carpet",
+      "glass": false,
+      "openSky": false
+    },
+    {
+      "id": "drawing",
+      "name": "THE DRAWING ROOM",
+      "description": "A fire, a sofa, and a glass not quite finished.",
+      "bounds": {
+        "x0": -16,
+        "x1": -2,
+        "z0": 14,
+        "z1": 26
+      },
+      "floor": "carpet",
+      "glass": false,
+      "openSky": false
+    },
+    {
+      "id": "library",
+      "name": "THE LIBRARY",
+      "description": "One of these books was moved tonight.",
+      "bounds": {
+        "x0": -16,
+        "x1": -2,
+        "z0": 26,
+        "z1": 36
+      },
+      "floor": "wood",
+      "glass": false,
+      "openSky": false
+    },
+    {
+      "id": "dining",
+      "name": "THE DINING ROOM",
+      "description": "Dinner is served. One chair is empty.",
+      "bounds": {
+        "x0": 2,
+        "x1": 16,
+        "z0": 14,
+        "z1": 26
+      },
+      "floor": "wood",
+      "glass": false,
+      "openSky": false
+    },
+    {
+      "id": "conserv",
+      "name": "THE CONSERVATORY",
+      "description": "The glass remembers every whisper.",
+      "bounds": {
+        "x0": -8,
+        "x1": 8,
+        "z0": 36,
+        "z1": 48
+      },
+      "floor": "tile",
+      "glass": true,
+      "openSky": false
+    },
+    {
+      "id": "garden",
+      "name": "THE GARDEN",
+      "description": "Moonlight on wet grass, and footprints that stop.",
+      "bounds": {
+        "x0": -20,
+        "x1": 20,
+        "z0": 48,
+        "z1": 80
+      },
+      "floor": "grass",
+      "glass": false,
+      "openSky": true
+    }
+  ]
+}

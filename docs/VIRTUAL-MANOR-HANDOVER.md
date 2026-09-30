@@ -28,4 +28,20 @@ Narrator Package generation and playback are implemented: Magician bm_fable, fem
 6. Verify collision, doors, resize/orientation, pause, context loss, missing assets, recovery and independence of the rest of the app before release.
 
 ## Open items
-Exact "project nighmare engine" URL unresolved at handover creation. Public repository-name searches for nightmare and project returned no matches; private/installed repositories must also be checked. Original candidate found: dorejamesdt4-lang/louis-dore-trading-3d-horror (Python project with game/layout.py, game/rooms_data.py, game/world.py, materials.py and procedural assets_gen.py). Do not assume native Python graphics can be copied directly into browser code.
+Resolved by James: source archive repo https://github.com/doretradinguk-cyber/book-of-hosts-web-app at 87a064f53468523ece53de89452201fe88ba5975; asset/engine repo https://github.com/doretradinguk-cyber/project-nightmare-game-engine at c9de735b655c53ab8509e6ffd713e44115dab44b.
+
+Original layout verified inside dore-trading-main.zip → manor-lab/manor-engine.js, not the separate Panda3D horror layout. Extracted seven actual rooms to public/modules/virtual-manor/design/original-room-bounds.json. Entrance Hall, Long Gallery, Drawing Room, Library, Dining Room, Conservatory, Garden. Doorway graph/colliders still require extraction. Archive SHA-256 is recorded in that JSON.
+
+Nightmare source packs include damaged plaster, plastered wall, rock wall, terracotta tiles, metal and concrete. These ZIPs are Git LFS pointers in the git tree: damaged_plaster master alone is 77,255,657 bytes. Actual binary packs and mesh contents have not been downloaded or visually inspected. Material maps still need retrieval, verification and conversion to smaller runtime assets. Arbitrary OBJ REVIEW pack remains unverified. ASSET-LICENSES.md and source texture README inspected. Existing three-runtime.js contains malformed movement/initial-exit code and mobile third-person follow behaviour; do not import it wholesale. Existing source handover includes superseded sections: inspect actual code rather than trusting old completion claims.
+
+The Nightmare project's procedural horror, twisting corridors and horror entities are not requirements for Book of Hosts. James's fixed original mansion and first-person camera requirements take precedence. Use reviewed assets and suitable concepts, keep game rules separate. Do not copy source dev consoles, admin pages, time-machine/wing bundles into public gameplay.
+
+## Visual review and planned implementation
+- Preview requested now: original Victorian mystery mansion, tactile walnut/aged brass/plaster/marble, readable warm lamps and cool garden light; parchment/gold/emerald HUD.
+- Concept visual is generated design direction, not a render from source textures. Do not promise it is achievable at that fidelity on every phone.
+- Source layout preserved; Bar/Games Room and Theatre are proposed later extensions and must be called proposals if shown, not claimed as verified original rooms.
+- First playable milestone after visual review: Entrance Hall with the beginning of Long Gallery; first-person controls on both desktop and phone. No scope expansion until measured usability and material quality are accepted.
+- Future reusable room definitions, material registry, collision, interactions, camera/input, quality profiles and game adapters each get separate modules.
+- A folder alone is not crash isolation: use a separately navigated runtime with no eager dashboard imports, handle failed imports/assets/WebGL loss locally, stop animation/audio and dispose textures/geometries/listeners on exit. Maintain a non-WebGL recovery screen. Avoid a global service worker changing app caches.
+- Next session must show/read the visual and James's feedback before beginning the full build. This turn creates handover/design files only; no working 3D engine is claimed.
+
