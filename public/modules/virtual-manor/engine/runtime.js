@@ -1,10 +1,10 @@
 import * as T from '../vendor/three.module.min.js';
-import {makeMaterials} from './materials.js?v=manor-3';
-import {buildWorld} from './world.js?v=manor-3';
-import {FirstPersonInput} from './input.js?v=manor-3';
-import {movePlayer} from './collision.js?v=manor-3';
-import {spawn,roomAt} from './layout.js?v=manor-3';
-import {CompatibilityRenderer} from './compatibility.js?v=manor-3';
+import {makeMaterials} from './materials.js?v=manor-4';
+import {buildWorld} from './world.js?v=manor-4';
+import {FirstPersonInput} from './input.js?v=manor-4';
+import {movePlayer,movementVector} from './collision.js?v=manor-4';
+import {spawn,roomAt} from './layout.js?v=manor-4';
+import {CompatibilityRenderer} from './compatibility.js?v=manor-4';
 export async function createManor(canvas,ui,callbacks,options={}){
  const abort=new AbortController();let disposed=false,playing=false,raf=0,last=0,frames=0,elapsed=0,target=null;
  const scene=new T.Scene();scene.background=new T.Color('#16242b');scene.fog=new T.Fog('#19272b',22,75);
@@ -33,7 +33,7 @@ export async function createManor(canvas,ui,callbacks,options={}){
    const room=resolveRoom(player.x,player.z);callbacks.location(room?.name||'Doorway');if(room?.id!==lastRoom){lastRoom=room?.id;callbacks.room?.({id:room?.id||null,name:room?.name||'Doorway'});}callbacks.target(target);renderer.render(scene,camera);
    frames++;elapsed+=dt;if(elapsed>=1){callbacks.metrics({fps:Math.round(frames/elapsed),drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles,quality,renderer:compatibility?'software preview':'WebGL2'});frames=0;elapsed=0;}
   }
-  function loop(now){if(disposed||!playing)return;const actualDt=(now-last)/1000,dt=Math.min(.04,actualDt);last=now;try{const v=input.axes(),look=input.consumeLook();player.yaw+=look.x;player.pitch=T.MathUtils.clamp(player.pitch-look.y,-1.2,1.2);const speed=input.keys.has('ShiftLeft')?3.6:2.4;const dx=(Math.sin(player.yaw)*v.z+Math.cos(player.yaw)*v.x)*speed*dt,dz=(Math.cos(player.yaw)*v.z-Math.sin(player.yaw)*v.x)*speed*dt;movePlayer(player,dx,dz,world.colliders);render(actualDt);raf=requestAnimationFrame(loop);}catch(e){playing=false;input.setActive(false);callbacks.failure(e);}}
+  function loop(now){if(disposed||!playing)return;const actualDt=(now-last)/1000,dt=Math.min(.04,actualDt);last=now;try{const v=input.axes(),look=input.consumeLook();player.yaw-=look.x;player.pitch=T.MathUtils.clamp(player.pitch-look.y,-1.2,1.2);const speed=input.keys.has('ShiftLeft')?3.6:2.4;const {dx,dz}=movementVector(player.yaw,v.x,v.z,speed*dt);movePlayer(player,dx,dz,world.colliders);render(actualDt);raf=requestAnimationFrame(loop);}catch(e){playing=false;input.setActive(false);callbacks.failure(e);}}
   canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();playing=false;input.setActive(false);cancelAnimationFrame(raf);callbacks.failure(new Error('Graphics connection interrupted. Reload the manor to recover.'));},{signal:abort.signal});
   observer=new ResizeObserver(resize);observer.observe(canvas);setQuality(quality);callbacks.progress(100,'The manor is ready');
   return {

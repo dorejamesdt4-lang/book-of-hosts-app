@@ -1,9 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {rooms,portals,wallSegments,spawn,roomAt} from '../public/modules/virtual-manor/engine/layout.js';
-import {movePlayer,circleHits,radius} from '../public/modules/virtual-manor/engine/collision.js';
+import {movePlayer,circleHits,radius,movementVector} from '../public/modules/virtual-manor/engine/collision.js';
 import * as T from '../public/modules/virtual-manor/vendor/three.module.min.js';
 import {buildWorld} from '../public/modules/virtual-manor/engine/world.js';
+test('forward and right movement follow the actual first-person camera orientation',()=>{
+ for(const yaw of [0,.5,Math.PI/2,Math.PI]){const camera=new T.PerspectiveCamera();camera.rotation.set(0,Math.PI+yaw,0);camera.updateMatrixWorld(true);const f=new T.Vector3();camera.getWorldDirection(f);const right=new T.Vector3(1,0,0).applyQuaternion(camera.quaternion),walk=movementVector(yaw,0,1,1),strafe=movementVector(yaw,1,0,1);assert.ok(f.dot(new T.Vector3(walk.dx,0,walk.dz))>.999);assert.ok(right.dot(new T.Vector3(strafe.dx,0,strafe.dz))>.999);}
+});
 test('the fixed ground floor is connected and every portal is usable by a player capsule',()=>{
  const reached=new Set(['hall']);for(let k=0;k<rooms.length;k++)for(const p of portals){if(reached.has(p.from))reached.add(p.to);if(reached.has(p.to))reached.add(p.from);assert.ok(p.max-p.min>radius*2+.2);}
  assert.equal(reached.size,rooms.length);assert.equal(roomAt(spawn.x,spawn.z).id,'hall');

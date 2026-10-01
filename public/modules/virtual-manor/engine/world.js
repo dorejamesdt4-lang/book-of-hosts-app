@@ -1,7 +1,7 @@
 import * as T from '../vendor/three.module.min.js';
-import {rooms,portals,wallSegments} from './layout.js?v=manor-3';
-import {Architecture} from './geometry.js?v=manor-3';
-import {makeProps} from './props.js?v=manor-3';
+import {rooms,portals,wallSegments} from './layout.js?v=manor-4';
+import {Architecture} from './geometry.js?v=manor-4';
+import {makeProps} from './props.js?v=manor-4';
 export function buildWorld(m){
  const a=new Architecture(),p=makeProps(a,m),interactions=[];
  const b=(w,h,d,x,y,z,mat=m.wood,ry=0)=>a.box(w,h,d,x,y,z,mat,ry);

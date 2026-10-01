@@ -1,4 +1,5 @@
 export const radius=.24;
+export function movementVector(yaw,strafe,forward,distance){return {dx:(Math.sin(yaw)*forward-Math.cos(yaw)*strafe)*distance,dz:(Math.cos(yaw)*forward+Math.sin(yaw)*strafe)*distance};}
 export function circleHits(x,z,r,box){const qx=Math.max(box.x0,Math.min(x,box.x1)),qz=Math.max(box.z0,Math.min(z,box.z1));return (x-qx)**2+(z-qz)**2<r*r;}
 export function movePlayer(player,dx,dz,boxes){
  const steps=Math.max(1,Math.ceil(Math.hypot(dx,dz)/.1));dx/=steps;dz/=steps;
