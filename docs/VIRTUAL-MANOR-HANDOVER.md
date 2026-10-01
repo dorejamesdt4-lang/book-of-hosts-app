@@ -2,6 +2,24 @@
 
 Updated: 1 October 2026 (Europe/London). Owner: James Dore.
 
+## Immediate next task — James's screenshot snag review
+
+Recorded: 1 October 2026, 12:49 Europe/London. James is restarting his PC and will upload a repository folder named `SREENSHOTS FOR AI REVEIEW` (retain his spelling). It will contain screenshots of problems and a README explaining what needs fixing. This snag review takes priority over the general art backlog below.
+
+Status: awaiting James's upload; the new README/screenshots have not yet been reviewed. Do not invent a snag list or claim any reported issue has been fixed.
+
+Resume procedure:
+1. Fetch the latest `main` from `dorejamesdt4-lang/book-of-hosts-app`. Locate the uploaded folder; if its final name differs, find the matching screenshot-review folder without renaming James's files.
+2. Read James's README FIRST and use it to interpret each screenshot. Inspect the actual images and any accompanying notes before editing.
+3. Record a numbered snag list linking each report to its screenshot, affected room/page and relevant source files. Preserve James's priorities; distinguish confirmed defects from issues needing reproduction.
+4. Reproduce and fix the reported problems, preserving the approved Storybook × Arcane Oracle mansion direction, fixed room layout and existing dashboard/Ruby/narrator features. Use a focused branch for code changes.
+5. Verify each fix in the running scene, capture real before/after evidence where useful, and run checks appropriate to the changed behaviour. Keep hardware/phone performance claims separate from SwiftShader rendering checks.
+6. Update this handover with each snag's status, changes, test evidence, unresolved items and commit/PR links. Do not mark an item complete solely because code was edited.
+
+Current baseline: graphics PR #1 merged into `main`, merge commit `75eefcc8a878b71851a92353f2d4c89c876e3459`. The texture pass has 29 passing tests and a successful static build, but those checks do not establish that James's newly reported problems are resolved. Actual captures are in `docs/visuals/`; details and limitations remain recorded below.
+
+Do not create an empty review folder or substitute placeholder screenshots. Wait for James's actual README and evidence if they are not present when work resumes.
+
 ## Current phase
 James approved building from the visual on 1 October 2026 and explicitly requires honesty and a close visual match. The first playable isolated foundation is implemented. The concept image remains a target: the current scene does not yet match it exactly. Do not claim perfection, completed art or tested phone GPU performance.
 
@@ -60,8 +78,8 @@ The Nightmare project's procedural horror, twisting corridors and horror entitie
 ## Work still needed for the approved visual
 Detailed furniture/landscape art, more varied portraits, decorative modelling, proper UVs on larger architectural surfaces, realistic material calibration, baked lighting/ambient occlusion, conservatory/garden polish and actual GPU screenshot comparison. The current simple authored props are foundation placeholders, not a pixel-identical delivery of the concept.
 
-## Next session
-Read module README and this handover; check deployed main and renderer mode. Continue checking actual rendered scene, fix any control/lifecycle issues, test actual WebGL2 desktop and physical phones, then improve the visual against the approved board. Do not replace a real scene screenshot with the concept image as proof. Keep updates concrete and preserve existing Ruby/narrator/live features.
+## General continuation (after the screenshot snags)
+The immediate screenshot-review task above takes priority. Read module README and this handover; check deployed main and renderer mode. Continue checking actual rendered scene, fix any control/lifecycle issues, test actual WebGL2 desktop and physical phones, then improve the visual against the approved board. Do not replace a real scene screenshot with the concept image as proof. Keep updates concrete and preserve existing Ruby/narrator/live features.
 
 Browser UI checks in software preview: load reaches 100%, enter/pause/resume work, on-screen controls can be enabled and camera drag changes the actual mesh view. Initial check found reversed look/strafe directions; corrected and a camera-vector test added. Software preview is slow on the cloud browser and must not be advertised as phone playback performance. Final GPU visual comparison remains blocked by that browser's disabled WebGL.
 
