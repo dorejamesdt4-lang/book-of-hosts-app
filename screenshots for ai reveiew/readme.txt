@@ -1,0 +1,1 @@
+inside this folder here are screenshots of problems that need fixing
