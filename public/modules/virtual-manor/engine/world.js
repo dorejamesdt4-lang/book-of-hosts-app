@@ -1,7 +1,7 @@
 import * as T from '../vendor/three.module.min.js';
-import {rooms,portals,wallSegments} from './layout.js?v=manor-4';
-import {Architecture} from './geometry.js?v=manor-4';
-import {makeProps} from './props.js?v=manor-4';
+import {rooms,portals,wallSegments} from './layout.js?v=manor-5';
+import {Architecture} from './geometry.js?v=manor-5';
+import {makeProps} from './props.js?v=manor-5';
 export function buildWorld(m){
  const a=new Architecture(),p=makeProps(a,m),interactions=[];
  const b=(w,h,d,x,y,z,mat=m.wood,ry=0)=>a.box(w,h,d,x,y,z,mat,ry);
@@ -46,8 +46,8 @@ export function buildWorld(m){
  // Entrance Hall: deliberately modelled to the reference's cabinet/portrait sightline.
  p.cabinet(-2.6,6.2,2.2);p.lamp(-1.92,6.2);for(let k=0;k<7;k++)p.book(-3.3+k*.12,1.03,6.2,[m.bookRed,m.bookTan,m.bookGreen][k%3],.09,.25+k%3*.06);
  p.cabinet(2.6,6.2,2.2);p.lamp(1.92,6.2);p.plant(3.2,6.25,1.03,.65);
- p.frame(-5.78,2.65,5.5,1.7,2.05,Math.PI/2);p.frame(5.78,2.65,5.5,1.7,2.05,-Math.PI/2);
- p.frame(-3.7,2.65,11.8,1.8,2.2,Math.PI);p.frame(3.7,2.65,11.8,1.8,2.2,Math.PI);
+ p.frame(-5.78,2.65,5.5,1.7,2.05,Math.PI/2);p.frame(5.78,2.65,5.5,2.55,1.7,-Math.PI/2,m.landscape);
+ p.frame(-3.7,2.65,11.8,1.8,2.2,Math.PI);p.frame(3.7,2.65,11.8,2.55,1.7,Math.PI,m.landscape);
  p.chair(-4.5,9);p.chair(4.5,9);p.plant(-5.1,10.6,0,1.3);p.plant(5.1,10.6,0,1.3);
  // Handrails and a front door, no time machine or wing portal.
  b(2.4,2.9,.2,0,1.45,.06,m.darkWood);for(const xx of [-.85,.85]){b(.055,2.3,.1,xx,1.5,.2,m.brass);}b(2.3,.06,.1,0,2.55,.2,m.brass);
@@ -67,7 +67,7 @@ export function buildWorld(m){
  // Dining room and its table; future game hooks are data-driven interactions.
  b(6,.17,1.8,9,.88,21,m.wood);for(const xx of [6.4,11.6])for(const zz of [20.4,21.6])b(.16,.8,.16,xx,.4,zz,m.darkWood);a.obstacle(9,21,6,1.8);
  for(let xx=6;xx<=12;xx+=1.5){p.chair(xx,19.5);p.chair(xx,22.5,Math.PI);a.cylinder(.23,.23,.018,xx,.982,21,m.linen);}
- p.cabinet(13.8,24.9,2.8);p.lamp(13.1,24.9);p.frame(8,2.55,25.75,1.4,1.75,Math.PI);
+ p.cabinet(13.8,24.9,2.8);p.lamp(13.1,24.9);p.frame(8,2.55,25.75,2.4,1.6,Math.PI,m.landscape);
  // Conservatory: iron mullions, green plants, table and glass structure.
  for(let zz=37.5;zz<47;zz+=2.5)for(const xx of [-6.7,6.7])p.plant(xx,zz,0,1.1);
  for(let xx=-7;xx<=7;xx+=1.4){b(.055,.08,12,xx,4.04,42,m.black);}

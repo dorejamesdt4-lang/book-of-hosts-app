@@ -48,14 +48,14 @@ The Nightmare project's procedural horror, twisting corridors and horror entitie
 ## Current build milestone — 1 October 2026
 - Entry public/modules/virtual-manor/index.html; first-person ground-floor exploration of seven rooms.
 - Self-hosted Three.js 0.180.0/MIT, authored batched architecture, source-derived plaster/tile maps and original portrait. No CDN import at runtime.
-- 23 merged material meshes, roughly 99k triangles; furniture and wall colliders; a furnished-room reachability test prevents blocked portals.
+- 24 merged material meshes, within the 120k triangle test budget; furniture and wall colliders; a furnished-room reachability test prevents blocked portals.
 - Desktop mouse/WASD and separate multi-pointer touch movement/look; camera settings, pause, restart and blur/visibility handling.
 - Three inspection anchors; existing Theatre is linked, not rendered within this world. No mystery multiplayer/avatar system is claimed.
 - Runtime provides injectable world factory/spawn/room resolver, interaction replacement and room callback for future game adapters.
 - Load/import/context-loss errors are contained within the separate page; no shared service worker or eager dashboard renderer import.
 - The test cloud browser reports GL_VENDOR=Disabled and cannot create WebGL2. Therefore GPU lighting/shadow rendering and physical phone performance remain UNVERIFIED.
 - Added explicitly labelled software geometry preview of the same meshes; it lacks GPU lighting/shadows and is not the intended phone renderer.
-- Automated checks: 28 passing after collision/furniture audit. Keep FIRST-TEST checks in the module README.
+- Automated checks: 29 passing after collision/furniture audit. Keep FIRST-TEST checks in the module README.
 
 ## Work still needed for the approved visual
 Detailed furniture/landscape art, more varied portraits, decorative modelling, proper UVs on larger architectural surfaces, realistic material calibration, baked lighting/ambient occlusion, conservatory/garden polish and actual GPU screenshot comparison. The current simple authored props are foundation placeholders, not a pixel-identical delivery of the concept.
@@ -64,3 +64,6 @@ Detailed furniture/landscape art, more varied portraits, decorative modelling, p
 Read module README and this handover; check deployed main and renderer mode. Continue checking actual rendered scene, fix any control/lifecycle issues, test actual WebGL2 desktop and physical phones, then improve the visual against the approved board. Do not replace a real scene screenshot with the concept image as proof. Keep updates concrete and preserve existing Ruby/narrator/live features.
 
 Browser UI checks in software preview: load reaches 100%, enter/pause/resume work, on-screen controls can be enabled and camera drag changes the actual mesh view. Initial check found reversed look/strafe directions; corrected and a camera-vector test added. Software preview is slow on the cloud browser and must not be advertised as phone playback performance. Final GPU visual comparison remains blocked by that browser's disabled WebGL.
+
+## Continuation after James said “go”
+Cabinet top/base/drawer bevels and turned lamp profiles added; original landscape art replaces several repeated portraits. GPU renderer now captures a low-resolution hall cubemap at load for brass/marble reflections and uses reduced ambient intensity. GPU appearance remains unverified. Software preview uses a per-pixel depth buffer and perspective-correct UVs; a regression test checks surface visibility after object transforms and reversed mesh insertion order. This refinement does not close the exact concept-match or physical-phone testing requirements.

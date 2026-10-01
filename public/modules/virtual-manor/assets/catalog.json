@@ -50,5 +50,23 @@
     "modifications": "16-bit displacement converted to linear 8-bit; resized to 512 and encoded WebP",
     "sha256": "387173131c404c627e7eb78109a5cdb25f87f895be108fcac129ac7469b24003",
     "bytes": 19188
+  },
+  {
+    "path": "portrait.webp",
+    "source": "Built-in image generation, 1 October 2026",
+    "description": "Fictional Victorian woman, original generated oil painting",
+    "prompt": "Original fictional adult Victorian woman in black/emerald high-neck dress; warm umber oil paint; head, shoulders, hands; aged canvas; full bleed, no frame/text/famous likeness.",
+    "modifications": "Resized to maximum 1024 pixels and encoded WebP; no semantic changes",
+    "sha256": "81f27ed8b72f53539f27c6985cfd2b79ac6fb03eef7e0457c1a69cc71e679205",
+    "bytes": 117076
+  },
+  {
+    "path": "landscape.webp",
+    "source": "Built-in image generation, 1 October 2026",
+    "description": "Fictional English manor landscape, original generated oil painting",
+    "prompt": "Original fictional English manor beyond stone bridge and river, oak trees and dusk mist; muted forest green, umber and ivory; traditional aged oil paint; full-bleed horizontal 3:2, no frame/text/signature.",
+    "modifications": "Resized to maximum 1024 pixels and encoded WebP; no semantic changes",
+    "sha256": "aeaf0db8ef99c122fd1ddef928fd225eab55bb22ba8018af5aab18663487810c",
+    "bytes": 210332
   }
 ]

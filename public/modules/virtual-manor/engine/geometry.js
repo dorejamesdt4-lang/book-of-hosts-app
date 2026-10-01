@@ -2,8 +2,10 @@ import * as T from '../vendor/three.module.min.js';
 // Merge static pieces by material: no per-trim mesh/draw call in the runtime.
 export class Architecture {
  constructor(){this.parts=new Map();this.colliders=[];this.resources=[];}
- add(geometry,material,x,y,z,ry=0){const m=new T.Matrix4().compose(new T.Vector3(x,y,z),new T.Quaternion().setFromEuler(new T.Euler(0,ry,0)),new T.Vector3(1,1,1));geometry.applyMatrix4(m);if(!this.parts.has(material))this.parts.set(material,[]);this.parts.get(material).push(geometry);}
+ add(geometry,material,x,y,z,ry=0){if(!geometry.index){const index=new Uint32Array(geometry.attributes.position.count);for(let i=0;i<index.length;i++)index[i]=i;geometry.setIndex(new T.BufferAttribute(index,1));}const m=new T.Matrix4().compose(new T.Vector3(x,y,z),new T.Quaternion().setFromEuler(new T.Euler(0,ry,0)),new T.Vector3(1,1,1));geometry.applyMatrix4(m);if(!this.parts.has(material))this.parts.set(material,[]);this.parts.get(material).push(geometry);}
  box(w,h,d,x,y,z,mat,ry=0){this.add(new T.BoxGeometry(w,h,d),mat,x,y,z,ry);}
+ bevel(w,h,d,x,y,z,mat,ry=0){const s=new T.Shape();s.moveTo(-w/2,-h/2);s.lineTo(w/2,-h/2);s.lineTo(w/2,h/2);s.lineTo(-w/2,h/2);s.closePath();const g=new T.ExtrudeGeometry(s,{depth:Math.max(.001,d-.03),bevelEnabled:true,bevelThickness:.015,bevelSize:.012,bevelSegments:2,steps:1});g.translate(0,0,-d/2+.015);this.add(g,mat,x,y,z,ry);}
+ turned(points,x,y,z,mat){this.add(new T.LatheGeometry(points.map(([r,h])=>new T.Vector2(r,h)),20),mat,x,y,z);}
  cylinder(rt,rb,h,x,y,z,mat,n=12){this.add(new T.CylinderGeometry(rt,rb,h,n),mat,x,y,z);}
  sphere(r,x,y,z,mat,sx=1,sy=1,sz=1){const g=new T.SphereGeometry(r,12,8);g.scale(sx,sy,sz);this.add(g,mat,x,y,z);}
  obstacle(x,z,w,d){this.colliders.push({x0:x-w/2,x1:x+w/2,z0:z-d/2,z1:z+d/2});}

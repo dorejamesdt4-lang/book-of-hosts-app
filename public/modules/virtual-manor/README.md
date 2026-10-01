@@ -4,9 +4,9 @@ Entry: `public/modules/virtual-manor/index.html`. Run `npm start` from the repo 
 
 ## Honest status
 
-The fixed seven-room ground floor is implemented as real 3D meshes. It has first-person movement, architectural/furniture collision, desktop and multi-pointer touch input, inspection anchors, camera settings, pause/restart and cleanup. The preferred renderer is WebGL2/Three.js. Browsers without WebGL2 get an explicitly labelled software geometry preview. That preview lacks the GPU lighting, shadows and perspective-correct textured rasterisation; it is not a performance fallback for normal phones.
+The fixed seven-room ground floor is implemented as real 3D meshes. It has first-person movement, architectural/furniture collision, desktop and multi-pointer touch input, inspection anchors, camera settings, pause/restart and cleanup. The preferred renderer is WebGL2/Three.js. Browsers without WebGL2 get an explicitly labelled software geometry preview. That preview uses a depth buffer and perspective-correct texture sampling but lacks GPU lighting and shadows; it is not a performance fallback for normal phones.
 
-This build does **not** yet match the approved concept image exactly. Decorative props are simple authored geometry, one generated portrait is reused, the garden/secondary rooms are less detailed, and no baked lighting or room-streaming pipeline exists yet. Phone GPU performance and real-device multi-touch still need validation. Mystery sessions, multiplayer avatars and in-world narrator playback are not implemented. Existing Theatre is reachable through an inspection anchor, not embedded playback.
+This build does **not** yet match the approved concept image exactly. Decorative props are simple authored geometry, two original paintings are reused, the garden/secondary rooms are less detailed, and no baked lighting or room-streaming pipeline exists yet. Phone GPU performance and real-device multi-touch still need validation. Mystery sessions, multiplayer avatars and in-world narrator playback are not implemented. Existing Theatre is reachable through an inspection anchor, not embedded playback.
 
 ## Module boundaries
 
@@ -44,3 +44,5 @@ Three.js 0.180.0, MIT; vendor licence retained. Plaster and terracotta maps are 
 The concept board remains a visual target. Its pixel appearance is not presented as a screenshot of this implementation.
 
 World injection: options.buildWorld(materials), options.spawn, options.roomAt(x,z). Room changes call callbacks.room({id,name}); setInteractions validates unique IDs and finite 3D anchors before replacement.
+
+Visual refinement (1 October): bevelled cabinet tops/drawers and turned brass lamp profiles; original landscape oil painting in hall/dining frames; one low-resolution hall reflection capture for GPU material response. Reflection capture and lighting calibration remain unverified on GPU. The software preview now depth-tests surfaces and samples textures in perspective; it remains a diagnostic preview. Generated landscape asset: `assets/landscape.webp`, 1024×683 WebP; built-in image generation. Prompt: fictional English manor beyond a stone bridge and river, oaks and misty dusk; aged traditional oil paint in umber/forest green/ivory; full-bleed horizontal artwork, no frame/text/signature. Full asset provenance and prompts are in `assets/catalog.json`.

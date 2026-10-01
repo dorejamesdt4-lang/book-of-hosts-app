@@ -4,6 +4,17 @@ import {rooms,portals,wallSegments,spawn,roomAt} from '../public/modules/virtual
 import {movePlayer,circleHits,radius,movementVector} from '../public/modules/virtual-manor/engine/collision.js';
 import * as T from '../public/modules/virtual-manor/vendor/three.module.min.js';
 import {buildWorld} from '../public/modules/virtual-manor/engine/world.js';
+import {CompatibilityRenderer} from '../public/modules/virtual-manor/engine/compatibility.js';
+test('software preview depth keeps near surfaces in front regardless of mesh order',()=>{
+ let frame;
+ const context={setTransform(){},fillRect(){},clearRect(){},createImageData(w,h){return {data:new Uint8ClampedArray(w*h*4)};},putImageData(image){frame=image;}};
+ const canvas={getContext(){return context;}},renderer=new CompatibilityRenderer(canvas);renderer.setSize(64,64);
+ const scene=new T.Scene(),camera=new T.PerspectiveCamera(66,1,.08,100);
+ const red=new T.MeshStandardMaterial({color:'#ff0000'}),blue=new T.MeshStandardMaterial({color:'#0000ff'});
+ const near=new T.Mesh(new T.PlaneGeometry(3,3),red),far=new T.Mesh(new T.PlaneGeometry(8,8),blue);near.position.z=-2;far.position.z=-4;
+ try{for(const order of [[near,far],[far,near]]){scene.clear();scene.add(...order);renderer.render(scene,camera);const center=16*32+16,off=center*4;assert.ok(frame.data[off]>100);assert.equal(frame.data[off+2],0);assert.ok(Math.abs(renderer.depth[center]-2)<.0001);}}
+ finally{near.geometry.dispose();far.geometry.dispose();red.dispose();blue.dispose();renderer.dispose();}
+});
 test('forward and right movement follow the actual first-person camera orientation',()=>{
  for(const yaw of [0,.5,Math.PI/2,Math.PI]){const camera=new T.PerspectiveCamera();camera.rotation.set(0,Math.PI+yaw,0);camera.updateMatrixWorld(true);const f=new T.Vector3();camera.getWorldDirection(f);const right=new T.Vector3(1,0,0).applyQuaternion(camera.quaternion),walk=movementVector(yaw,0,1,1),strafe=movementVector(yaw,1,0,1);assert.ok(f.dot(new T.Vector3(walk.dx,0,walk.dz))>.999);assert.ok(right.dot(new T.Vector3(strafe.dx,0,strafe.dz))>.999);}
 });
@@ -14,10 +25,10 @@ test('the fixed ground floor is connected and every portal is usable by a player
  for(const p of portals){const middle=(p.min+p.max)/2,player=p.axis==='x'?{x:p.at-.8,z:middle}:{x:middle,z:p.at-.8};movePlayer(player,p.axis==='x'?1.6:0,p.axis==='z'?1.6:0,walls);assert.ok(Math.abs((p.axis==='x'?player.x:player.z)-(p.at+.8))<.001,`${p.from} to ${p.to} blocked`);}
 });
 test('authored furniture leaves every room reachable and merged geometry stays inside the foundation budget',()=>{
- const keys=['wood','darkWood','brass','black','plaster','wallpaper','marble','darkMarble','rug','tile','grass','leaf','soil','terracotta','leather','linen','light','glass','water','portrait','bookRed','bookGreen','bookTan','paper'];
+ const keys=['wood','darkWood','brass','black','plaster','wallpaper','marble','darkMarble','rug','tile','grass','leaf','soil','terracotta','leather','linen','light','glass','water','portrait','landscape','bookRed','bookGreen','bookTan','paper'];
  const materials=Object.fromEntries(keys.map(k=>[k,new T.MeshStandardMaterial()]));const world=buildWorld(materials);
  try{
-  assert.ok(world.root.children.length<=24);let tris=0;
+  assert.ok(world.root.children.length<=25);let tris=0;
   for(const mesh of world.root.children){const g=mesh.geometry;for(const v of g.attributes.position.array)assert.ok(Number.isFinite(v));for(const id of g.index.array)assert.ok(id<g.attributes.position.count);tris+=g.index.count/3;}
   assert.ok(tris<120000);
   const step=.25,start=[80,12],seen=new Set(),queue=[start],reached=new Set();
