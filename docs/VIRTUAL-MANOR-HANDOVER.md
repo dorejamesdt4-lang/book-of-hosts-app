@@ -69,3 +69,17 @@ Browser UI checks in software preview: load reaches 100%, enter/pause/resume wor
 Cabinet top/base/drawer bevels and turned lamp profiles added; original landscape art replaces several repeated portraits. GPU renderer now captures a low-resolution hall cubemap at load for brass/marble reflections and uses reduced ambient intensity. GPU appearance remains unverified. Software preview uses a per-pixel depth buffer and perspective-correct UVs; a regression test checks surface visibility after object transforms and reversed mesh insertion order. This refinement does not close the exact concept-match or physical-phone testing requirements.
 
 Further corridor pass: the tiled placeholder carpet is replaced with a continuous original Persian runner texture; brass hanging lanterns are real merged geometry; the conservatory has a fixed iron fan arch visible down the gallery. The diagnostic software preview can now show the far conservatory geometry. `assets/runner.webp` is an original built-in generated textile scan, resized to 512×1536 WebP; full prompt/hash in the asset catalogue. All 29 tests pass; exact reference fidelity and physical-phone GPU verification are still open.
+
+
+## Texture and entrance pass — 1 October 2026
+
+Continued from 20d833f following James's request to replace placeholder-looking surfaces and approach the approved mockup.
+
+- Added original 1024px walnut, emerald/gold damask and ivory marble WebP textures. Exact prompts, byte counts and hashes are in the asset catalogue. Retained the reviewed source plaster and terracotta maps.
+- Walnut relief/roughness are modest luminance-derived artistic approximations; these are not scanned PBR maps. Wall UVs now use metre-based scale; horizontal wood members turn the grain. Secondary-room floorboards use the new walnut texture.
+- Pale marble floor with dark corner insets replaces the hall checkerboard; gallery shares the stone border around its runner. The hall runner is removed to match the entrance composition.
+- Substantial layered walnut portal, emerald inset strips, deeper picture frames, coffer rails and turned console legs. Furniture and starting viewpoint moved nearer the gallery to frame the entrance. Seven original room bounds/portals remain intact.
+- Recalibrated daylight, exposure and reflection intensity after inspecting actual WebGL output. Balanced/high add four bounded, non-shadowed fixed gallery lights; low omits these. Soft contact decals beneath plants/chairs/consoles are stylised contact shading, not baked AO.
+- WebGL2 successfully rendered in local headless Chromium using ANGLE SwiftShader. This exercises the WebGL shader pipeline with CPU software execution; it is NOT hardware GPU or phone performance verification. Actual capture: docs/visuals/manor-texture-pass-desktop.png. Mobile-size capture uses low graphics and touch controls; it is not a physical-phone test.
+- Scene measurement: 27 draw calls, 104,858 triangles. Increased material-mesh cap from 25 to 27 for stone, parquet and contact shading; retained the existing 120k triangle limit. All 29 regression tests and static build pass.
+- Remaining gap: props/foliage are still simplified, repeated art is visible, no true baked AO/indirect lighting, and conservatory/garden detail still needs development. Do not call this a pixel-identical or finished reproduction of the concept. Next art pass should target furniture silhouettes/carving, varied foliage, and a richer glazed garden vista.

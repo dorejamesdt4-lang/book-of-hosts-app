@@ -77,5 +77,29 @@
     "modifications": "Resized to 512\u00d71536 and encoded WebP; no semantic changes",
     "sha256": "28ecd249198f53c2bc5767ea24029585d2c2b733c1f0f5a322000c68a7ca9cef",
     "bytes": 378968
+  },
+  {
+    "path": "walnut-v2.webp",
+    "source": "Original built-in image generation, 1 October 2026",
+    "prompt": "Use case: photorealistic-natural. Asset type: seamless square PBR base-colour texture for fine Victorian walnut furniture and wall panelling in a realistic first-person mystery manor. Create only the flat material surface, orthographic full-bleed scan, no object or room. Rich medium chocolate walnut with elegant fine vertical grain, natural subtle swirling figured fibres and occasional tiny pores, hand-rubbed antique timber, restrained warm umber and amber variation. Uniform diffuse neutral illumination, no baked lighting, no highlight, no shadow, no vignette, no seams or plank divisions, no border, no text. Highly detailed tactile material, straight-on perfectly flat, designed to repeat seamlessly in both axes. Square 1024x1024.",
+    "modifications": "Resized to 1024x1024 and encoded WebP quality 88. Runtime walnut/damask relief and roughness are luminance-based artistic approximations, not scanned PBR measurements.",
+    "sha256": "4309ce5b4366d567040128472cec8a39785943d360e7d5cef27d31f8ae6a45dc",
+    "bytes": 235600
+  },
+  {
+    "path": "damask-v2.webp",
+    "source": "Original built-in image generation, 1 October 2026",
+    "prompt": "Use case: photorealistic-natural. Asset type: seamless square base-colour texture scan for luxurious Victorian dark emerald and antique gold damask wallpaper used in a 3D manor. Flat orthographic full bleed material only. Four by four repeated small elegant acanthus floral damask motifs, delicate muted old gold scrolling foliage on very dark petrol emerald silk, intricate fine engraved leaf veins and woven fibres, refined and expensive, aged subtly. Seamless repeat across all four edges. Perfectly uniform neutral diffuse illumination, no room, no furniture, no frame, no text, no border, no folds, no perspective, no gradients, no baked shadow or highlights. Gold motifs restrained and detailed, dark green background predominates. Square 1024x1024.",
+    "modifications": "Resized to 1024x1024 and encoded WebP quality 88. Runtime walnut/damask relief and roughness are luminance-based artistic approximations, not scanned PBR measurements.",
+    "sha256": "fece88db5c6e1b859261e455c325dc3501c101809bc0678a44915b56bf7a1200",
+    "bytes": 418202
+  },
+  {
+    "path": "marble-v2.webp",
+    "source": "Original built-in image generation, 1 October 2026",
+    "prompt": "Use case: photorealistic-natural. Asset type: seamless square PBR albedo texture of pale antique ivory marble for a Victorian manor floor and polished furniture tops. Flat orthographic full-bleed scan of the stone surface only. Creamy warm ivory and faint grey taupe irregular natural fine branching veins, subtle cloudy mineral depth, restrained sparse veining, expensive honed aged Carrara-like stone, very fine tactile pores. Neutral uniformly diffuse light. No tiles, grout, checkerboard, diamonds, no room, no objects, no perspective, no shadows, no specular highlights, no vignette or borders or text. Seamless both axes. Realistic natural mineral material, square 1024x1024.",
+    "modifications": "Resized to 1024x1024 and encoded WebP quality 88. Runtime walnut/damask relief and roughness are luminance-based artistic approximations, not scanned PBR measurements.",
+    "sha256": "fbf2f449bafab56b9c5514ff5188400f5aa5560031edc17f14e5f7adb403b99f",
+    "bytes": 103568
   }
 ]
