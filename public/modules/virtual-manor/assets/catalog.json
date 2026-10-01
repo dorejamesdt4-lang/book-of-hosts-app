@@ -68,5 +68,14 @@
     "modifications": "Resized to maximum 1024 pixels and encoded WebP; no semantic changes",
     "sha256": "aeaf0db8ef99c122fd1ddef928fd225eab55bb22ba8018af5aab18663487810c",
     "bytes": 210332
+  },
+  {
+    "path": "runner.webp",
+    "source": "Built-in image generation, 1 October 2026",
+    "description": "Original antique-style Persian carpet runner texture",
+    "prompt": "Flat top-down full-bleed 1:3 Persian runner; intricate traditional floral vines, palmettes and medallions; dark navy, burgundy, antique gold, ivory and emerald; worn woven wool; no surrounding floor, shadows, text or watermark.",
+    "modifications": "Resized to 512\u00d71536 and encoded WebP; no semantic changes",
+    "sha256": "28ecd249198f53c2bc5767ea24029585d2c2b733c1f0f5a322000c68a7ca9cef",
+    "bytes": 378968
   }
 ]
