@@ -1,20 +1,21 @@
 import * as T from '../vendor/three.module.min.js';
-import {rooms,portals,wallSegments} from './layout.js?v=manor-6';
-import {Architecture} from './geometry.js?v=manor-6';
-import {makeProps} from './props.js?v=manor-6';
+import {rooms,portals,wallSegments} from './layout.js?v=manor-7';
+import {Architecture} from './geometry.js?v=manor-7';
+import {makeProps} from './props.js?v=manor-7';
 export function buildWorld(m){
  const a=new Architecture(),p=makeProps(a,m),interactions=[];
  const b=(w,h,d,x,y,z,mat=m.wood,ry=0)=>a.box(w,h,d,x,y,z,mat,ry);
  for(const room of rooms){
   const [x0,z0,x1,z1]=room.bounds,w=x1-x0,d=z1-z0,x=(x0+x1)/2,z=(z0+z1)/2;
-  if(room.id==='hall'){
-   for(let i=0;i<12;i++)for(let j=0;j<12;j++)b(.994,.1,.994,x0+i+.5,-.05,z0+j+.5,(i+j)%2?m.marble:m.darkMarble);
-  }else b(w,.1,d,x,-.05,z,room.floor==='tile'?m.tile:room.floor==='grass'?m.grass:m.wood);
+  if(room.id==='hall'||room.id==='gallery')a.floor(w,d,x,z,m.stoneFloor,1.05,.002);
+  else if(room.floor==='wood')a.floor(w,d,x,z,m.parquet,2.4,.002);
+  else a.floor(w,d,x,z,room.floor==='tile'?m.tile:m.grass,room.floor==='tile'?2:0,.002);
   if(room.id!=='garden'){
    b(w,.12,d,x,4.24,z,room.id==='conserv'?m.glass:m.plaster);
    if(room.id==='hall'||room.id==='gallery'){
-    a.floor(room.id==='hall'?2.5:1.65,d-1,x,z,m.rug);
-    for(let zz=z0+1;zz<z1;zz+=2.7){b(w-.15,.08,.12,x,4.14,zz,m.darkWood);b(w-.15,.022,.028,x,4.09,zz,m.brass);}
+    if(room.id==='gallery')a.floor(2.15,d-1,x,z,m.rug);
+    for(let zz=z0+1;zz<z1;zz+=2.7){b(w-.15,.1,.14,x,4.12,zz,m.wood);b(w-.2,.035,.24,x,4.17,zz,m.plaster);}
+    if(room.id==='gallery')for(const side of [-1,1]){b(.14,.12,d,side*1.58,4.1,z,m.plaster);b(.055,.055,d,side*1.47,4.07,z,m.wood);}
    }
   }
   for(const s of wallSegments(room)){
@@ -31,8 +32,8 @@ export function buildWorld(m){
     const n=Math.max(1,Math.floor(l/.9)),step=l/n;
     for(let k=0;k<n;k++){
      const t=-l/2+step*(k+.5);local(t,.61,side*.175,step-.11,.72,.035,m.wood);
-     for(const y of [.22,1])local(t,y,side*.2,step-.06,.028,.035,m.brass);
-     for(const edge of [-1,1])local(t+edge*(step-.07)/2,.61,side*.2,.025,.8,.035,m.brass);
+     for(const y of [.22,1])local(t,y,side*.2,step-.06,.028,.035,m.darkWood);
+     for(const edge of [-1,1])local(t+edge*(step-.07)/2,.61,side*.2,.035,.8,.035,m.darkWood);
     }
    }
   }
@@ -40,20 +41,34 @@ export function buildWorld(m){
  // Door frames and lintels preserve an uninterrupted walkable portal.
  for(const d of portals){const mid=(d.min+d.max)/2,w=d.max-d.min,ry=d.axis==='x'?Math.PI/2:0,x=d.axis==='x'?d.at:mid,z=d.axis==='x'?mid:d.at;
   b(w+.28,1.25,.26,x,3.58,z,m.plaster,ry);
-  for(const side of [-1,1]){const off=side*(w/2+.07);b(.14,3.02,.35,x+off*Math.cos(ry),1.51,z-off*Math.sin(ry),m.darkWood,ry);b(.045,3.02,.4,x+off*Math.cos(ry),1.51,z-off*Math.sin(ry),m.brass,ry);}
-  for(const y of [2.99,3.09,3.22])b(w+.45,.08,.36,x,y,z,y===3.09?m.brass:m.wood,ry);
+  for(const side of [-1,1])for(let tier=0;tier<3;tier++){
+   const off=side*(w/2+.06+tier*.105);
+   b(.105,3.2+tier*.09,.34+tier*.055,x+off*Math.cos(ry),(3.2+tier*.09)/2,z-off*Math.sin(ry),tier===1?m.wood:m.darkWood,ry);
+   b(.022,2.98,.52,x+off*Math.cos(ry),1.49,z-off*Math.sin(ry),m.wood,ry);
+  }
+  for(let tier=0;tier<3;tier++)b(w+.2+tier*.22,.105,.36+tier*.075,x,3.02+tier*.115,z,tier===1?m.wood:m.darkWood,ry);
+  b(w+.66,.045,.55,x,3.33,z,m.brass,ry);
+
  }
  // Entrance Hall: deliberately modelled to the reference's cabinet/portrait sightline.
- p.cabinet(-2.6,6.2,2.2);p.lamp(-1.92,6.2);for(let k=0;k<7;k++)p.book(-3.3+k*.12,1.03,6.2,[m.bookRed,m.bookTan,m.bookGreen][k%3],.09,.25+k%3*.06);
- p.cabinet(2.6,6.2,2.2);p.lamp(1.92,6.2);p.plant(3.2,6.25,1.03,.65);
+ p.cabinet(-2.6,10.35,2.2);p.lamp(-1.92,10.35);for(let k=0;k<7;k++)p.book(-3.3+k*.12,1.03,10.35,[m.bookRed,m.bookTan,m.bookGreen][k%3],.09,.25+k%3*.06);
+ p.cabinet(2.6,10.35,2.2);p.lamp(1.92,10.35);p.plant(3.2,10.355,1.03,.65);
  p.frame(-5.78,2.65,5.5,1.7,2.05,Math.PI/2);p.frame(5.78,2.65,5.5,2.55,1.7,-Math.PI/2,m.landscape);
- p.frame(-3.7,2.65,11.8,1.8,2.2,Math.PI);p.frame(3.7,2.65,11.8,2.55,1.7,Math.PI,m.landscape);
- p.chair(-4.5,9);p.chair(4.5,9);p.plant(-5.1,10.6,0,1.3);p.plant(5.1,10.6,0,1.3);
+ p.frame(-3.55,2.45,11.8,1.5,1.95,Math.PI);p.frame(3.55,2.45,11.8,2.35,1.7,Math.PI,m.landscape);
+ p.chair(-4.25,9.7);p.chair(4.25,9.7);p.plant(-5.1,10.6,0,1.3);p.plant(5.1,10.6,0,1.3);
  // Handrails and a front door, no time machine or wing portal.
  b(2.4,2.9,.2,0,1.45,.06,m.darkWood);for(const xx of [-.85,.85]){b(.055,2.3,.1,xx,1.5,.2,m.brass);}b(2.3,.06,.1,0,2.55,.2,m.brass);
+ // Emerald damask and substantial pilasters frame the main gallery opening.
+ for(const side of [-1,1]){
+  b(.5,2.55,.04,side*2.2,2.52,11.84,m.wallpaper);
+  for(const dx of [-.28,.28])b(.045,2.7,.065,side*2.2+dx,2.52,11.8,m.brass);
+  b(.7,.14,.2,side*2.2,1.18,11.75,m.wood);
+  p.wallLamp(side*2.67,2.45,11.7,Math.PI);
+ }
  // Repeating portrait, lamp and moulding rhythm in the original long gallery.
- for(let i=0;i<4;i++){const z=15+i*5.2;for(const side of [-1,1]){p.frame(side*1.8,2.37,z,1.02,1.35,-side*Math.PI/2);p.wallLamp(side*1.76,2.35,z+1.7,-side*Math.PI/2);}if(i<3){p.plant(-1.45,z+2.9,0,.6);}}
+ for(let i=0;i<4;i++){const z=15+i*5.2;for(const side of [-1,1]){p.frame(side*1.8,2.37,z,1.02,1.35,-side*Math.PI/2,i%2?m.landscape:m.portrait);p.wallLamp(side*1.76,2.35,z+1.7,-side*Math.PI/2);}if(i<3){p.plant(-1.45,z+2.9,0,.6);}}
  for(const z of [16,24,32])p.hangingLantern(0,z);
+ p.hangingLantern(0,8);
  // Library shelves and desk in the verified west room.
  for(let z=27.6;z<35;z+=2.4){p.shelf(-15.6,z,2.2,Math.PI/2);if(z<29||z>31.4)p.shelf(-2.4,z,2.2,-Math.PI/2);}
  p.shelf(-12,35.5,2.6,Math.PI);p.shelf(-8.8,35.5,2.6,Math.PI);
@@ -85,9 +100,9 @@ export function buildWorld(m){
  for(const xx of [-4.6,4.6]){b(2.3,.1,.58,xx,.5,57,m.wood);b(2.3,.55,.08,xx,.82,57.25,m.wood);for(const dx of [-.85,.85])b(.12,.45,.4,xx+dx,.225,57,m.black);a.obstacle(xx,57,2.4,.7);}
  for(let zz=51;zz<79;zz+=6)for(const xx of [-13,13]){a.cylinder(.18,.25,3.2,xx,1.6,zz,m.darkWood);a.sphere(1.8,xx,3.8,zz,m.leaf,1,1.5,1);a.obstacle(xx,zz,.7,.7);}
  // A real key mesh, interactable note and room hooks; no fake game generation.
- a.cylinder(.055,.055,.014,-2.65,1.065,6.05,m.brass);b(.16,.012,.025,-2.54,1.07,6.05,m.brass);b(.024,.012,.06,-2.47,1.07,6.06,m.brass);
- b(.29,.012,.22,-2.72,1.065,6.29,m.paper);
- interactions.push({id:'letter',name:'Inspect the sealed letter',position:[-2.7,1.07,6.2],title:'A letter on the hall table',text:'The house is ready for its next story. This is an exploration foundation: follow the portrait gallery, enter the library or dining room, and continue through the conservatory into the garden. Your future games can attach clues to these objects.',kind:'inspect'});
+ a.cylinder(.055,.055,.014,-2.65,1.065,10.2,m.brass);b(.16,.012,.025,-2.54,1.07,10.2,m.brass);b(.024,.012,.06,-2.47,1.07,10.21,m.brass);
+ b(.29,.012,.22,-2.72,1.065,10.359,m.paper);
+ interactions.push({id:'letter',name:'Inspect the sealed letter',position:[-2.7,1.07,10.35],title:'A letter on the hall table',text:'The house is ready for its next story. This is an exploration foundation: follow the portrait gallery, enter the library or dining room, and continue through the conservatory into the garden. Your future games can attach clues to these objects.',kind:'inspect'});
  interactions.push({id:'library-note',name:'Read the library journal',position:[-9,1.05,32.8],title:'The library journal',text:'A reusable world should keep its rooms, props and interactions separate from each game. This desk is an example interaction anchor. It does not reveal a generated mystery.',kind:'inspect'});
  interactions.push({id:'theatre',name:'Open Theatre',position:[8.4,1,21],title:'Theatre',text:'Open your Narrator Package in the existing Theatre. Returning here starts a fresh exploration.',kind:'link',href:'../theatre/'});
  const root=a.finish();return {root,colliders:a.colliders,interactions,dispose(){a.dispose();}};

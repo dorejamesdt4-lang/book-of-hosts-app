@@ -18,7 +18,7 @@ export const portals=[
  {from:'gallery',to:'conserv',axis:'z',at:36,min:-1.6,max:1.6},
  {from:'conserv',to:'garden',axis:'z',at:48,min:-1.6,max:1.6}
 ];
-export const spawn={x:0,z:3,yaw:0};
+export const spawn={x:0,z:8,yaw:0};
 export const roomAt=(x,z)=>rooms.find(r=>x>=r.bounds[0]&&x<=r.bounds[2]&&z>=r.bounds[1]&&z<=r.bounds[3]);
 export function wallSegments(room){
  const [x0,z0,x1,z1]=room.bounds,edges=[['x',x0,z0,z1],['x',x1,z0,z1],['z',z0,x0,x1],['z',z1,x0,x1]];

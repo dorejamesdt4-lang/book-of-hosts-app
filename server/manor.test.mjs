@@ -25,10 +25,10 @@ test('the fixed ground floor is connected and every portal is usable by a player
  for(const p of portals){const middle=(p.min+p.max)/2,player=p.axis==='x'?{x:p.at-.8,z:middle}:{x:middle,z:p.at-.8};movePlayer(player,p.axis==='x'?1.6:0,p.axis==='z'?1.6:0,walls);assert.ok(Math.abs((p.axis==='x'?player.x:player.z)-(p.at+.8))<.001,`${p.from} to ${p.to} blocked`);}
 });
 test('authored furniture leaves every room reachable and merged geometry stays inside the foundation budget',()=>{
- const keys=['wood','darkWood','brass','black','plaster','wallpaper','marble','darkMarble','rug','tile','grass','leaf','soil','terracotta','leather','linen','light','glass','water','portrait','landscape','bookRed','bookGreen','bookTan','paper'];
+ const keys=['contact','stoneFloor','parquet','wood','darkWood','brass','black','plaster','wallpaper','marble','darkMarble','rug','tile','grass','leaf','soil','terracotta','leather','linen','light','glass','water','portrait','landscape','bookRed','bookGreen','bookTan','paper'];
  const materials=Object.fromEntries(keys.map(k=>[k,new T.MeshStandardMaterial()]));const world=buildWorld(materials);
  try{
-  assert.ok(world.root.children.length<=25);let tris=0;
+  assert.ok(world.root.children.length<=27);let tris=0;
   for(const mesh of world.root.children){const g=mesh.geometry;for(const v of g.attributes.position.array)assert.ok(Number.isFinite(v));for(const id of g.index.array)assert.ok(id<g.attributes.position.count);tris+=g.index.count/3;}
   assert.ok(tris<120000);
   const step=.25,start=[80,12],seen=new Set(),queue=[start],reached=new Set();
