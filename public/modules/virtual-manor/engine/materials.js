@@ -10,8 +10,9 @@ export async function makeMaterials(onProgress){
  // Small relief/roughness variations are artistic approximations, not scanned PBR data.
  const relief=(source,rough=false)=>{const c=document.createElement('canvas');c.width=c.height=512;const ctx=c.getContext('2d',{willReadFrequently:true});ctx.drawImage(source.image,0,0,512,512);const data=ctx.getImageData(0,0,512,512);for(let i=0;i<data.data.length;i+=4){const l=data.data[i]*.2126+data.data[i+1]*.7152+data.data[i+2]*.0722;const v=rough?155+l*.28:l;data.data[i]=data.data[i+1]=data.data[i+2]=v;}ctx.putImageData(data,0,0);const t=new T.CanvasTexture(c);t.colorSpace=T.NoColorSpace;t.wrapS=t.wrapT=T.RepeatWrapping;t.anisotropy=4;resources.push(t);return t;};
  const woodHeight=relief(wood),woodRoughness=relief(wood,true),fabricHeight=relief(maps[8]);
- // One repeat is a pale limestone tile with small black diamond corner inlays.
- const stoneFloor=canvasMap((c,s)=>{c.drawImage(marble.image,0,0,s,s);c.strokeStyle='#8b8576';c.lineWidth=2;c.strokeRect(0,0,s,s);for(const x of [0,s])for(const y of [0,s]){c.fillStyle='#263033';c.beginPath();c.moveTo(x,y-72);c.lineTo(x+72,y);c.lineTo(x,y+72);c.lineTo(x-72,y);c.closePath();c.fill();}},1024);resources.push(stoneFloor);
+ // Plain existing marble while the owner selects the external seamless replacement.
+ // Do not bake a tile grid or black corner diamonds into this floor.
+ const stoneFloor=marble;
  const parquet=canvasMap((c,s)=>{for(let j=0;j<8;j++)for(let i=-1;i<4;i++){const x=i*128+(j%2)*64,y=j*64;c.save();c.translate(x,y+64);c.rotate(-Math.PI/2);c.drawImage(wood.image,(j%4)*120,((i+4)%4)*180,320,600,0,0,64,128);c.restore();c.strokeStyle='#2c2018';c.lineWidth=1;c.strokeRect(x,y,128,64);}});resources.push(parquet);
  const wallpaper=maps[8];
  const contact=canvasMap((c,s)=>{const g=c.createRadialGradient(s/2,s/2,s*.1,s/2,s/2,s*.5);g.addColorStop(0,'rgba(0,0,0,.55)');g.addColorStop(.55,'rgba(0,0,0,.28)');g.addColorStop(1,'rgba(0,0,0,0)');c.fillStyle=g;c.fillRect(0,0,s,s);},64);resources.push(contact);

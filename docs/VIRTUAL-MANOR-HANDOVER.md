@@ -6,7 +6,7 @@ Updated: 1 October 2026 (Europe/London). Owner: James Dore.
 
 Recorded: 1 October 2026, 12:49 Europe/London. James is restarting his PC and will upload a repository folder named `SREENSHOTS FOR AI REVEIEW` (retain his spelling). It will contain screenshots of problems and a README explaining what needs fixing. This snag review takes priority over the general art backlog below.
 
-Status: awaiting James's upload; the new README/screenshots have not yet been reviewed. Do not invent a snag list or claim any reported issue has been fixed.
+Status: uploaded folder `screenshots for ai reveiew` and its `readme.txt` reviewed on 1 October 2026. Both images inspected. See the screenshot snag update below; code changes await rendered visual confirmation.
 
 Resume procedure:
 1. Fetch the latest `main` from `dorejamesdt4-lang/book-of-hosts-app`. Locate the uploaded folder; if its final name differs, find the matching screenshot-review folder without renaming James's files.
@@ -101,3 +101,15 @@ Continued from 20d833f following James's request to replace placeholder-looking 
 - WebGL2 successfully rendered in local headless Chromium using ANGLE SwiftShader. This exercises the WebGL shader pipeline with CPU software execution; it is NOT hardware GPU or phone performance verification. Actual capture: docs/visuals/manor-texture-pass-desktop.png. Mobile-size capture uses low graphics and touch controls; it is not a physical-phone test.
 - Scene measurement: 27 draw calls, 104,858 triangles. Increased material-mesh cap from 25 to 27 for stone, parquet and contact shading; retained the existing 120k triangle limit. All 29 regression tests and static build pass.
 - Remaining gap: props/foliage are still simplified, repeated art is visible, no true baked AO/indirect lighting, and conservatory/garden detail still needs development. Do not call this a pixel-identical or finished reproduction of the concept. Next art pass should target furniture silhouettes/carving, varied foliage, and a richer glazed garden vista.
+
+
+## Screenshot snag update — 1 October 2026
+
+Branch: `fix/manor-screenshot-snags`.
+
+1. `screenshots for ai reveiew/Screenshot (1379).png`: Long Gallery picture overlaps doorway/trim. `engine/world.js` previously placed pictures at z=20.2 and 30.6, overlapping gallery portals at 18–20.4 and 29–31.4. Pictures now occupy z=15,22,25.4,33 on both walls, preserving the original lamp/plant locations and doorway graph. Full frame width including bevel clears the portal's outer trim. Code corrected; rendered verification pending.
+2. `screenshots for ai reveiew/Screenshot (1380).png`: floor pattern/black diamond issue beside the gallery runner; James also reports hall symmetry. `engine/materials.js` added the diamond pattern in canvas code. Removed the generated diamonds and grout grid; hall and gallery now use the existing plain marble map. This is an interim treatment, NOT the final seamless texture selected by James. He will create an asset repository on the same account and upload a replacement. Do not invent its URL or import an alternative texture without his selection.
+
+Module cache versions advanced to manor-8. All 29 existing tests pass and the static build succeeds. Browser installation returned an invalid/truncated download, so no updated render or physical-device verification is claimed. Keep this change as a draft until visual review.
+
+Asset direction: keep texture sources outside the app repository. Once James supplies the new repository, inspect its files and arrange stable browser-readable, versioned asset URLs (including cross-origin texture access), or fetch pinned assets during deployment. Merely moving files into another repository does not establish runtime hosting. Final seamless marble integration is pending.
