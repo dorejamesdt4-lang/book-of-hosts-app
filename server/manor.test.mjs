@@ -41,3 +41,23 @@ test('movement cannot tunnel through walls and slides along furniture without en
  const q={x:.7,z:0};movePlayer(q,1,3,[wall]);assert.ok(q.x<=1-radius);assert.ok(q.z>2.9);
  const closed=[{x0:-.2,x1:.2,z0:1,z1:2}];const r={x:0,z:0};movePlayer(r,0,100,closed);assert.ok(r.z<1);
 });
+
+test('hall and gallery share a continuous centred floor texture grid',()=>{
+ const keys=['contact','stoneFloor','parquet','wood','darkWood','brass','black','plaster','wallpaper','marble','darkMarble','rug','tile','grass','leaf','soil','terracotta','leather','linen','light','glass','water','portrait','landscape','bookRed','bookGreen','bookTan','paper'];
+ const mats=Object.fromEntries(keys.map(k=>[k,new T.MeshStandardMaterial()])),world=buildWorld(mats);
+ try{const g=world.root.children.find(mesh=>mesh.material===mats.stoneFloor).geometry;
+ assert.equal(g.attributes.position.count,8);
+ for(let i=0;i<8;i++){const p=g.attributes.position,uv=g.attributes.uv;assert.ok(Math.abs(uv.getX(i)-(p.getX(i)/3+.5))<1e-6);assert.ok(Math.abs(uv.getY(i)+p.getZ(i)/3)<1e-6);}
+ }finally{world.dispose();Object.values(mats).forEach(m=>m.dispose());}
+});
+
+import {Architecture} from '../public/modules/virtual-manor/engine/geometry.js?v=manor-10';
+test('every gallery picture backing clears the complete doorway moulding',()=>{
+ const keys=['contact','stoneFloor','parquet','wood','darkWood','brass','black','plaster','wallpaper','marble','darkMarble','rug','tile','grass','leaf','soil','terracotta','leather','linen','light','glass','water','portrait','landscape','bookRed','bookGreen','bookTan','paper'];
+ const mats=Object.fromEntries(keys.map(k=>[k,new T.MeshStandardMaterial()])),frames=[],lamps=[],original=Architecture.prototype.bevel,originalBox=Architecture.prototype.box;
+ Architecture.prototype.bevel=function(w,h,d,x,y,z,...rest){if(Math.abs(Math.abs(x)-1.8)<1e-6&&y===2.37)frames.push({x,z,half:w/2+.012});return original.call(this,w,h,d,x,y,z,...rest);};
+ Architecture.prototype.box=function(w,h,d,x,y,z,...rest){if(w===.14&&h===.38&&Math.abs(Math.abs(x)-1.76)<1e-6)lamps.push({x,z});return originalBox.call(this,w,h,d,x,y,z,...rest);};
+ let world;
+ try{world=buildWorld(mats);assert.equal(frames.length,8);for(const f of frames)for(const p of portals.filter(p=>p.axis==='x'&&Math.sign(p.at)===Math.sign(f.x)&&(p.from==='gallery'||p.to==='gallery'))){assert.ok(f.z+f.half<p.min-.34||f.z-f.half>p.max+.34,`Picture at ${f.z} overlaps ${p.to}`);}assert.equal(lamps.length,8);for(const lamp of lamps){for(const f of frames.filter(f=>Math.sign(f.x)===Math.sign(lamp.x)))assert.ok(Math.abs(lamp.z-f.z)>f.half+.14,'Lamp overlaps picture');for(const p of portals.filter(p=>p.axis==='x'&&Math.sign(p.at)===Math.sign(lamp.x)&&(p.from==='gallery'||p.to==='gallery')))assert.ok(lamp.z+.14<p.min-.34||lamp.z-.14>p.max+.34,'Lamp overlaps doorway');}}
+ finally{Architecture.prototype.bevel=original;Architecture.prototype.box=originalBox;world?.dispose();Object.values(mats).forEach(m=>m.dispose());}
+});

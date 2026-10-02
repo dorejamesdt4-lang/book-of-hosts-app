@@ -1,12 +1,12 @@
 # Virtual Manor — handover
 
-Updated: 1 October 2026 (Europe/London). Owner: James Dore.
+Updated: 2 October 2026 (Europe/London). Owner: James Dore.
 
 ## Immediate next task — James's screenshot snag review
 
 Recorded: 1 October 2026, 12:49 Europe/London. James is restarting his PC and will upload a repository folder named `SREENSHOTS FOR AI REVEIEW` (retain his spelling). It will contain screenshots of problems and a README explaining what needs fixing. This snag review takes priority over the general art backlog below.
 
-Status: awaiting James's upload; the new README/screenshots have not yet been reviewed. Do not invent a snag list or claim any reported issue has been fixed.
+Status: uploaded folder `screenshots for ai reveiew` and its `readme.txt` reviewed on 1 October 2026. Both images inspected. See the screenshot snag update below; code changes await rendered visual confirmation.
 
 Resume procedure:
 1. Fetch the latest `main` from `dorejamesdt4-lang/book-of-hosts-app`. Locate the uploaded folder; if its final name differs, find the matching screenshot-review folder without renaming James's files.
@@ -101,3 +101,39 @@ Continued from 20d833f following James's request to replace placeholder-looking 
 - WebGL2 successfully rendered in local headless Chromium using ANGLE SwiftShader. This exercises the WebGL shader pipeline with CPU software execution; it is NOT hardware GPU or phone performance verification. Actual capture: docs/visuals/manor-texture-pass-desktop.png. Mobile-size capture uses low graphics and touch controls; it is not a physical-phone test.
 - Scene measurement: 27 draw calls, 104,858 triangles. Increased material-mesh cap from 25 to 27 for stone, parquet and contact shading; retained the existing 120k triangle limit. All 29 regression tests and static build pass.
 - Remaining gap: props/foliage are still simplified, repeated art is visible, no true baked AO/indirect lighting, and conservatory/garden detail still needs development. Do not call this a pixel-identical or finished reproduction of the concept. Next art pass should target furniture silhouettes/carving, varied foliage, and a richer glazed garden vista.
+
+
+## Screenshot snag update — 1 October 2026
+
+Branch: `fix/manor-screenshot-snags`.
+
+1. `screenshots for ai reveiew/Screenshot (1379).png`: Long Gallery picture overlaps doorway/trim. `engine/world.js` previously placed pictures at z=20.2 and 30.6, overlapping gallery portals at 18–20.4 and 29–31.4. Pictures now occupy z=15,22,25.4,33 on both walls, preserving the original lamp/plant locations and doorway graph. Full frame width including bevel clears the portal's outer trim. Code corrected; rendered verification pending.
+2. `screenshots for ai reveiew/Screenshot (1380).png`: floor pattern/black diamond issue beside the gallery runner; James also reports hall symmetry. `engine/materials.js` added the diamond pattern in canvas code. Removed the generated diamonds and grout grid; hall and gallery now use the existing plain marble map. This is an interim treatment, NOT the final seamless texture selected by James. He will create an asset repository on the same account and upload a replacement. Do not invent its URL or import an alternative texture without his selection.
+
+Module cache versions advanced to manor-8. All 29 existing tests pass and the static build succeeds. Browser installation returned an invalid/truncated download, so no updated render or physical-device verification is claimed. Keep this change as a draft until visual review.
+
+Asset direction: keep texture sources outside the app repository. Once James supplies the new repository, inspect its files and arrange stable browser-readable, versioned asset URLs (including cross-origin texture access), or fetch pinned assets during deployment. Merely moving files into another repository does not establish runtime hosting. Final seamless marble integration is pending.
+
+
+## Selected tile integration — 2 October 2026
+
+Branch: `fix/manor-screenshot-snags` (PR #2).
+
+- Integrated James's selected `floor_tiles_06` from `dorejamesdt4-lang/asset-libary` commit `151bba6`. Original Blender/4K maps stay in that repository. Only 1024px colour and roughness runtime derivatives are bundled here (about 196 KiB total) so Pages serves them on the same origin without cross-origin failures or a moving asset URL. Source entries, hashes and sizes are recorded in `assets/catalog.json`. The archive's licence status remains recorded as not supplied.
+- Hall and Long Gallery share world-coordinate UVs: 3 metres per complete texture repeat (four tile columns), with the grid centred on the hallway axis. The gallery no longer restarts or stretches the pattern at the doorway. Removed procedural black corner diamonds remain removed; the selected map contains alternating stone tiles. The runner stays in place.
+- Preserved all eight relocated gallery pictures and added a geometry regression verifying their bevelled backings clear the outer doorway moulding. A second regression verifies every hall/gallery floor vertex uses the common texture grid.
+- Module cache version advanced to manor-9. All 31 checks pass, the static build succeeds, and diff whitespace checks pass. Seven furnished rooms remain reachable and the existing geometry budget passes.
+- Rendered visual confirmation is still pending: no local Chromium executable is available in this workspace. Do not present these automated geometry/material checks as a real GPU screenshot or physical-phone performance test. Keep PR #2 available for review; no merge or live deployment is claimed.
+
+Next: render the branch on a WebGL-capable browser, inspect both gallery doorways and the hall/gallery seam, then review PR #2 for merge. Exact concept-art fidelity and physical-phone testing remain separate unfinished work.
+
+
+## PR #2 software visual review — 2 October 2026
+
+Rendered and inspected four diagnostic views using the actual branch world geometry, material definitions, selected colour textures and existing CompatibilityRenderer: `docs/visuals/pr2-hall-floor.jpg`, `pr2-drawing-door.jpg`, `pr2-library-door.jpg`, `pr2-dining-door.jpg`.
+
+- Pictures clear all three gallery side-room doorways in the inspected views. Hall/gallery floor lines continue through the portal and lie on the shared grid.
+- Review caught a secondary regression: lamps retained their old positions and crossed the relocated paintings at z=22 and z=33. Moved the eight gallery lamps into clear wall bays at z=16.7,23.7,27,34.7. Regenerated and inspected all four views; extended the geometry regression to verify lamps clear both pictures and doorway trim.
+- Cache version manor-10; all 31 tests and static build pass.
+- These captures are a software diagnostic, not a browser screenshot or GPU acceptance test. The Node canvas sampler supplies decoded textures; procedural contact decals are hidden and side-room parquet Canvas transformations are omitted. It does not reproduce WebGL lamps, shadows, reflections, roughness response or phone performance. `scripts/manor-software-review.mjs` reproduces this limited check with the installed sharp dependency.
+- Screenshot snags have geometry/texture visual evidence now. A full WebGL browser check and physical-phone testing remain pending; PR #2 has not been merged or deployed.
