@@ -1,6 +1,6 @@
 # Virtual Manor — handover
 
-Updated: 1 October 2026 (Europe/London). Owner: James Dore.
+Updated: 2 October 2026 (Europe/London). Owner: James Dore.
 
 ## Immediate next task — James's screenshot snag review
 
@@ -113,3 +113,16 @@ Branch: `fix/manor-screenshot-snags`.
 Module cache versions advanced to manor-8. All 29 existing tests pass and the static build succeeds. Browser installation returned an invalid/truncated download, so no updated render or physical-device verification is claimed. Keep this change as a draft until visual review.
 
 Asset direction: keep texture sources outside the app repository. Once James supplies the new repository, inspect its files and arrange stable browser-readable, versioned asset URLs (including cross-origin texture access), or fetch pinned assets during deployment. Merely moving files into another repository does not establish runtime hosting. Final seamless marble integration is pending.
+
+
+## Selected tile integration — 2 October 2026
+
+Branch: `fix/manor-screenshot-snags` (PR #2).
+
+- Integrated James's selected `floor_tiles_06` from `dorejamesdt4-lang/asset-libary` commit `151bba6`. Original Blender/4K maps stay in that repository. Only 1024px colour and roughness runtime derivatives are bundled here (about 196 KiB total) so Pages serves them on the same origin without cross-origin failures or a moving asset URL. Source entries, hashes and sizes are recorded in `assets/catalog.json`. The archive's licence status remains recorded as not supplied.
+- Hall and Long Gallery share world-coordinate UVs: 3 metres per complete texture repeat (four tile columns), with the grid centred on the hallway axis. The gallery no longer restarts or stretches the pattern at the doorway. Removed procedural black corner diamonds remain removed; the selected map contains alternating stone tiles. The runner stays in place.
+- Preserved all eight relocated gallery pictures and added a geometry regression verifying their bevelled backings clear the outer doorway moulding. A second regression verifies every hall/gallery floor vertex uses the common texture grid.
+- Module cache version advanced to manor-9. All 31 checks pass, the static build succeeds, and diff whitespace checks pass. Seven furnished rooms remain reachable and the existing geometry budget passes.
+- Rendered visual confirmation is still pending: no local Chromium executable is available in this workspace. Do not present these automated geometry/material checks as a real GPU screenshot or physical-phone performance test. Keep PR #2 available for review; no merge or live deployment is claimed.
+
+Next: render the branch on a WebGL-capable browser, inspect both gallery doorways and the hall/gallery seam, then review PR #2 for merge. Exact concept-art fidelity and physical-phone testing remain separate unfinished work.

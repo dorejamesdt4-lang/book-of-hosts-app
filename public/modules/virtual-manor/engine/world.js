@@ -1,13 +1,13 @@
 import * as T from '../vendor/three.module.min.js';
-import {rooms,portals,wallSegments} from './layout.js?v=manor-8';
-import {Architecture} from './geometry.js?v=manor-8';
-import {makeProps} from './props.js?v=manor-8';
+import {rooms,portals,wallSegments} from './layout.js?v=manor-9';
+import {Architecture} from './geometry.js?v=manor-9';
+import {makeProps} from './props.js?v=manor-9';
 export function buildWorld(m){
  const a=new Architecture(),p=makeProps(a,m),interactions=[];
  const b=(w,h,d,x,y,z,mat=m.wood,ry=0)=>a.box(w,h,d,x,y,z,mat,ry);
  for(const room of rooms){
   const [x0,z0,x1,z1]=room.bounds,w=x1-x0,d=z1-z0,x=(x0+x1)/2,z=(z0+z1)/2;
-  if(room.id==='hall'||room.id==='gallery')a.floor(w,d,x,z,m.stoneFloor,1.05,.002);
+  if(room.id==='hall'||room.id==='gallery')a.floor(w,d,x,z,m.stoneFloor,3,.002,true);
   else if(room.floor==='wood')a.floor(w,d,x,z,m.parquet,2.4,.002);
   else a.floor(w,d,x,z,room.floor==='tile'?m.tile:m.grass,room.floor==='tile'?2:0,.002);
   if(room.id!=='garden'){

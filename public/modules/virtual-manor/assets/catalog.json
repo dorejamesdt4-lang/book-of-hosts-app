@@ -101,5 +101,25 @@
     "modifications": "Resized to 1024x1024 and encoded WebP quality 88. Runtime walnut/damask relief and roughness are luminance-based artistic approximations, not scanned PBR measurements.",
     "sha256": "fbf2f449bafab56b9c5514ff5188400f5aa5560031edc17f14e5f7adb403b99f",
     "bytes": 103568
+  },
+  {
+    "path": "floor-tiles-06-colour.webp",
+    "sourceRepo": "dorejamesdt4-lang/asset-libary",
+    "sourceCommit": "151bba6",
+    "sourceEntry": "assets/floor_tiles_06/textures/floor_tiles_06_diff_4k.jpg",
+    "license": "Not supplied in owner-selected archive; see source_manifest.json",
+    "modifications": "1024x1024 WebP runtime derivative; original retained in asset repository",
+    "sha256": "df360d61ffc25231df1c4614b43ce789ef4931a10741681542c043cfd98d896d",
+    "bytes": 172832
+  },
+  {
+    "path": "floor-tiles-06-roughness.webp",
+    "sourceRepo": "dorejamesdt4-lang/asset-libary",
+    "sourceCommit": "151bba6",
+    "sourceEntry": "assets/floor_tiles_06/textures/floor_tiles_06_rough_4k.jpg",
+    "license": "Not supplied in owner-selected archive; see source_manifest.json",
+    "modifications": "1024x1024 WebP runtime derivative; original retained in asset repository",
+    "sha256": "026d93881907a9736ca8fc49306e651648d885b8d4447cf3c8623e7fc1d17795",
+    "bytes": 26654
   }
 ]
