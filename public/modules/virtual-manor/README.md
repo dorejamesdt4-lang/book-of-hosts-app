@@ -62,3 +62,10 @@ Continued from 20d833f following James's request to replace placeholder-looking 
 - WebGL2 successfully rendered in local headless Chromium using ANGLE SwiftShader. This exercises the WebGL shader pipeline with CPU software execution; it is NOT hardware GPU or phone performance verification. Actual capture is recorded in the repository handover. Mobile-size capture uses low graphics and touch controls; it is not a physical-phone test.
 - Scene measurement: 27 draw calls, 104,858 triangles. Increased material-mesh cap from 25 to 27 for stone, parquet and contact shading; retained the existing 120k triangle limit. All 29 regression tests and static build pass.
 - Remaining gap: props/foliage are still simplified, repeated art is visible, no true baked AO/indirect lighting, and conservatory/garden detail still needs development. Do not call this a pixel-identical or finished reproduction of the concept. Next art pass should target furniture silhouettes/carving, varied foliage, and a richer glazed garden vista.
+
+
+## Astra finishing pass — 2 October 2026
+
+Shield-back upholstered chairs, rolled-arm sofa cushions, folded broadleaf/fern foliage, dining place settings and conservatory iron braces/potting bench refine the existing scene. Chair parts and footprints rotate together. The selected floor, seven-room layout and gallery clearances are preserved. Full geometry measures 113,508 triangles across 27 merged material meshes; the 120k/27 limits remain unchanged.
+
+Five labelled software diagnostics are recorded in `docs/visuals/astra-polish-*.jpg`; reproduce with `node scripts/manor-software-review.mjs --polish` with `sharp` installed (or set `CODEX_PRIMARY_RUNTIME_NODE_MODULES`). These are mesh/texture evidence, not WebGL lighting or phone-performance acceptance. Contact gradients and stroked parquet seams are omitted. Cache version: `manor-11`; 31 tests and static build pass. The exact concept match and physical-device checks remain open.

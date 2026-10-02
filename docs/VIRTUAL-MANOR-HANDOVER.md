@@ -137,3 +137,20 @@ Rendered and inspected four diagnostic views using the actual branch world geome
 - Cache version manor-10; all 31 tests and static build pass.
 - These captures are a software diagnostic, not a browser screenshot or GPU acceptance test. The Node canvas sampler supplies decoded textures; procedural contact decals are hidden and side-room parquet Canvas transformations are omitted. It does not reproduce WebGL lamps, shadows, reflections, roughness response or phone performance. `scripts/manor-software-review.mjs` reproduces this limited check with the installed sharp dependency.
 - Screenshot snags have geometry/texture visual evidence now. A full WebGL browser check and physical-phone testing remain pending; PR #2 has not been merged or deployed.
+
+
+## Astra finishing pass — 2 October 2026
+
+James authorised merging PR #2 and requested Astra for a finishing pass. PR #2 is merged into `main` at `ce98b396892d24b7498f5741e4ac569aeb4494b0`. This section supersedes the earlier unmerged status; remote publication of the finishing pass is recorded separately by the publishing agent.
+
+- Replaced block chairs with walnut shield backs, inset emerald upholstery and turned feet. Local offsets now rotate with the chair, and the collider uses its rotated footprint. Dining, library and conservatory chairs face their respective tables.
+- Added a three-cushion drawing-room sofa with rolled arms, a wood frame and turned feet. Retained its original footprint.
+- Replaced flattened spherical plant leaves with folded opaque leaf geometry (16 triangles per leaf), alternating broadleaf plants and arched fern fronds. The leaf colour is slightly lighter. Existing materials are reused; no texture downloads or transparent foliage sorting were added.
+- Dressed the dining table with a narrow linen runner, ten place settings inside its edges, and three brass candleholders. Flames use the existing emissive material, with no extra dynamic lights.
+- Added curved iron roof braces around the conservatory's perimeter, and a potting bench with plants and spare pots. The central walking route and garden portal remain clear. Preserved the seven-room layout, selected tile/UV grid, and gallery picture/lamp/doorway clearances.
+- Measured full world: **113,508 triangles, 27 merged material meshes**, within the unchanged 120,000-triangle / 27-mesh limits. This is a geometry budget check, not a physical-phone performance result.
+- Rendered and inspected five actual-mesh software diagnostics in `docs/visuals/astra-polish-{hall,drawing,dining,conservatory,foliage}.jpg`. The first fern capture was too sparse, so fronds were widened and given a drooping silhouette before the final captures. These establish geometry/texture evidence only.
+- `node scripts/manor-software-review.mjs --polish` reproduces the views. Its Canvas sampler now handles wood-texture rotation/translation; it still omits procedural contact gradients and stroked parquet seams. The diagnostic lacks WebGL lighting, shadows, reflections and roughness response; it also drops subpixel triangles, making distant fine foliage less visible.
+- Cache version advanced to `manor-11`. All 31 regression checks and the static build pass; diff whitespace checks pass. No renderer, controls, dashboard, Ruby or narrator behaviour was changed.
+
+Still open: a current WebGL rendering check, physical-phone controls/performance, varied artwork, finer material calibration and the remaining concept-art fidelity gap. This finishing pass is a focused refinement, not completion of the entire art backlog.

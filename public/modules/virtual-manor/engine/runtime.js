@@ -1,10 +1,10 @@
 import * as T from '../vendor/three.module.min.js';
-import {makeMaterials} from './materials.js?v=manor-10';
-import {buildWorld} from './world.js?v=manor-10';
-import {FirstPersonInput} from './input.js?v=manor-10';
-import {movePlayer,movementVector} from './collision.js?v=manor-10';
-import {spawn,roomAt} from './layout.js?v=manor-10';
-import {CompatibilityRenderer} from './compatibility.js?v=manor-10';
+import {makeMaterials} from './materials.js?v=manor-11';
+import {buildWorld} from './world.js?v=manor-11';
+import {FirstPersonInput} from './input.js?v=manor-11';
+import {movePlayer,movementVector} from './collision.js?v=manor-11';
+import {spawn,roomAt} from './layout.js?v=manor-11';
+import {CompatibilityRenderer} from './compatibility.js?v=manor-11';
 export async function createManor(canvas,ui,callbacks,options={}){
  const abort=new AbortController();let disposed=false,playing=false,raf=0,last=0,frames=0,elapsed=0,target=null;
  const scene=new T.Scene();scene.background=new T.Color('#16242b');scene.fog=new T.Fog('#19272b',22,75);
