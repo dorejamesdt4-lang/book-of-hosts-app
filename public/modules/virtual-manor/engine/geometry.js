@@ -7,7 +7,17 @@ export class Architecture {
  floor(w,d,x,z,mat,tileSize=0,y=.022,worldAligned=false){const g=new T.PlaneGeometry(w,d);g.rotateX(-Math.PI/2);if(tileSize){const uv=g.attributes.uv,pos=g.attributes.position;for(let i=0;i<uv.count;i++){if(worldAligned)uv.setXY(i,(pos.getX(i)+x)/tileSize+.5,-(pos.getZ(i)+z)/tileSize);else uv.setXY(i,uv.getX(i)*w/tileSize,uv.getY(i)*d/tileSize);}}this.add(g,mat,x,y,z);}
  rod(from,to,r,mat){const direction=new T.Vector3(...to).sub(new T.Vector3(...from)),g=new T.CylinderGeometry(r,r,direction.length(),8);g.applyQuaternion(new T.Quaternion().setFromUnitVectors(new T.Vector3(0,1,0),direction.normalize()));this.add(g,mat,(from[0]+to[0])/2,(from[1]+to[1])/2,(from[2]+to[2])/2);}
  bevel(w,h,d,x,y,z,mat,ry=0){const s=new T.Shape();s.moveTo(-w/2,-h/2);s.lineTo(w/2,-h/2);s.lineTo(w/2,h/2);s.lineTo(-w/2,h/2);s.closePath();const g=new T.ExtrudeGeometry(s,{depth:Math.max(.001,d-.03),bevelEnabled:true,bevelThickness:.015,bevelSize:.012,bevelSegments:2,steps:1});g.translate(0,0,-d/2+.015);this.add(g,mat,x,y,z,ry);}
- turned(points,x,y,z,mat){this.add(new T.LatheGeometry(points.map(([r,h])=>new T.Vector2(r,h)),20),mat,x,y,z);}
+ turned(points,x,y,z,mat,segments=20){this.add(new T.LatheGeometry(points.map(([r,h])=>new T.Vector2(r,h)),segments),mat,x,y,z);}
+ outline(points,depth,x,y,z,mat,ry=0){const shape=new T.Shape(points.map(([px,py])=>new T.Vector2(px,py))),g=new T.ExtrudeGeometry(shape,{depth,bevelEnabled:true,bevelThickness:.012,bevelSize:.012,bevelSegments:1,steps:1});g.translate(0,0,-depth/2);this.add(g,mat,x,y,z,ry);}
+ // Folded, arched leaves use 16 triangles, including their reverse faces.
+ // Opaque geometry avoids alpha sorting and keeps the existing material batch.
+ leaf(from,to,width,mat){
+  const start=new T.Vector3(...from),direction=new T.Vector3(...to).sub(start),length=direction.length(),side=new T.Vector3(direction.z,0,-direction.x).normalize();
+  if(side.lengthSq()<.01)side.set(1,0,0);
+  const points=[start];for(const t of [.3,.7]){const center=start.clone().addScaledVector(direction,t);center.y+=Math.sin(t*Math.PI)*length*.13;const spread=width*(t===.3?.5:.32);points.push(center.clone().addScaledVector(side,-spread),center.clone().add(new T.Vector3(0,width*.12,0)),center.clone().addScaledVector(side,spread));}points.push(start.clone().add(direction));
+  const faces=[0,1,2,0,2,3,1,4,5,1,5,2,2,5,6,2,6,3,4,7,5,5,7,6],back=[];for(let i=0;i<faces.length;i+=3)back.push(faces[i]+8,faces[i+2]+8,faces[i+1]+8);
+  const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute([...points,...points].flatMap(p=>p.toArray()),3));g.setAttribute('uv',new T.Float32BufferAttribute(new Array(32).fill(0),2));g.setIndex([...faces,...back]);g.computeVertexNormals();this.add(g,mat,0,0,0);
+ }
  cylinder(rt,rb,h,x,y,z,mat,n=12){this.add(new T.CylinderGeometry(rt,rb,h,n),mat,x,y,z);}
  sphere(r,x,y,z,mat,sx=1,sy=1,sz=1){const g=new T.SphereGeometry(r,12,8);g.scale(sx,sy,sz);this.add(g,mat,x,y,z);}
  obstacle(x,z,w,d){this.colliders.push({x0:x-w/2,x1:x+w/2,z0:z-d/2,z1:z+d/2});}

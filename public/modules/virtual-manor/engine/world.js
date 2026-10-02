@@ -1,7 +1,7 @@
 import * as T from '../vendor/three.module.min.js';
-import {rooms,portals,wallSegments} from './layout.js?v=manor-10';
-import {Architecture} from './geometry.js?v=manor-10';
-import {makeProps} from './props.js?v=manor-10';
+import {rooms,portals,wallSegments} from './layout.js?v=manor-11';
+import {Architecture} from './geometry.js?v=manor-11';
+import {makeProps} from './props.js?v=manor-11';
 export function buildWorld(m){
  const a=new Architecture(),p=makeProps(a,m),interactions=[];
  const b=(w,h,d,x,y,z,mat=m.wood,ry=0)=>a.box(w,h,d,x,y,z,mat,ry);
@@ -73,23 +73,35 @@ export function buildWorld(m){
  // Library shelves and desk in the verified west room.
  for(let z=27.6;z<35;z+=2.4){p.shelf(-15.6,z,2.2,Math.PI/2);if(z<29||z>31.4)p.shelf(-2.4,z,2.2,-Math.PI/2);}
  p.shelf(-12,35.5,2.6,Math.PI);p.shelf(-8.8,35.5,2.6,Math.PI);
- p.cabinet(-9,32.8,2.8);p.lamp(-9.6,32.8);p.chair(-9,31.6);b(3.7,.018,4,-9,.011,31,m.rug);
+ p.cabinet(-9,32.8,2.8);p.lamp(-9.6,32.8);p.chair(-9,31.6,Math.PI);b(3.7,.018,4,-9,.011,31,m.rug);
  a.sphere(.27,-10.3,1.36,32.8,m.water);a.cylinder(.12,.18,.18,-10.3,1.13,32.8,m.brass);
  // Drawing room fireplace and seating.
  b(2.8,1.3,.65,-15.48,.65,21.5,m.marble);b(.05,.78,1.7,-15.11,.5,21.5,m.black);b(.08,.16,.95,-15.06,.19,21.5,m.light);
  b(3,.14,.85,-15.48,1.35,21.5,m.marble);p.frame(-15.25,2.5,21.5,1.4,1.65,Math.PI/2);
- b(3,.45,1.1,-10,.35,23.9,m.leather);b(3,.65,.17,-10,.81,24.4,m.leather);a.obstacle(-10,23.9,3,1.2);
- for(const xx of [-11.65,-8.35])p.chair(xx,21.2);b(1.8,.1,.85,-10,.5,21.5,m.wood);for(const xx of [-10.65,-9.35])b(.1,.45,.65,xx,.225,21.5,m.darkWood);a.obstacle(-10,21.5,1.8,.85);b(5,.016,5,-10,.009,21.7,m.rug);
+ p.sofa(-10,23.9);
+ for(const xx of [-11.65,-8.35])p.chair(xx,21.2,Math.PI);a.bevel(1.8,.1,.85,-10,.5,21.5,m.wood);for(const xx of [-10.65,-9.35])b(.1,.45,.65,xx,.225,21.5,m.darkWood);a.obstacle(-10,21.5,1.8,.85);b(5,.016,5,-10,.009,21.7,m.rug);
  p.lamp(-13.1,24.9,.02);p.plant(-3.1,24.9);
  // Dining room and its table; future game hooks are data-driven interactions.
  b(6,.17,1.8,9,.88,21,m.wood);for(const xx of [6.4,11.6])for(const zz of [20.4,21.6])b(.16,.8,.16,xx,.4,zz,m.darkWood);a.obstacle(9,21,6,1.8);
- for(let xx=6;xx<=12;xx+=1.5){p.chair(xx,19.5);p.chair(xx,22.5,Math.PI);a.cylinder(.23,.23,.018,xx,.982,21,m.linen);}
+ for(let i=0;i<5;i++){const xx=6.6+i*1.2;p.chair(xx,19.5,Math.PI);p.chair(xx,22.5);for(const zz of [20.45,21.55]){a.cylinder(.205,.205,.018,xx,.982,zz,m.linen);a.cylinder(.15,.15,.021,xx,.988,zz,m.marble);b(.017,.012,.26,xx+.27,.981,zz,m.brass);}}
+ b(4.8,.012,.4,9,.979,21,m.linen);
+ for(const xx of [7.5,9,10.5]){a.turned([[.12,0],[.12,.025],[.06,.04],[.028,.12],[.045,.2],[.08,.24]],xx,.99,21,m.brass,10);a.cylinder(.035,.035,.24,xx,1.35,21,m.linen,8);a.sphere(.032,xx,1.49,21,m.light,.65,1.6,.65);}
  p.cabinet(13.8,24.9,2.8);p.lamp(13.1,24.9);p.frame(8,2.55,25.75,2.4,1.6,Math.PI,m.landscape);
  // Conservatory: iron mullions, green plants, table and glass structure.
- for(let zz=37.5;zz<47;zz+=2.5)for(const xx of [-6.7,6.7])p.plant(xx,zz,0,1.1);
+ for(let i=0;i<4;i++)for(const xx of [-6.7,6.7])p.plant(xx,37.5+i*2.5,0,1.1,i%2?'broadleaf':'fern');
  for(let xx=-7;xx<=7;xx+=1.4){b(.055,.08,12,xx,4.04,42,m.black);}
  for(let zz=36;zz<=48;zz+=1.5)b(16,.08,.055,0,4.05,zz,m.black);
- a.cylinder(.85,.85,.08,-4,1,42,m.marble);a.cylinder(.13,.25,1,-4,.5,42,m.black);a.obstacle(-4,42,1.7,1.7);p.chair(-4,40.8);p.chair(-4,43.2);p.plant(-4,42,1.06,.55);
+ a.cylinder(.85,.85,.08,-4,1,42,m.marble);a.cylinder(.13,.25,1,-4,.5,42,m.black);a.obstacle(-4,42,1.7,1.7);p.chair(-4,40.8,Math.PI);p.chair(-4,43.2);p.plant(-4,42,1.06,.55,'fern');
+ // Curved iron knee braces and a potting bench deepen the glazed garden vista.
+ for(const zz of [38,42,46])for(const side of [-1,1]){
+  const curve=t=>[side*(6.45+1.35*Math.sin(t*Math.PI/2)),4.02-1.25*(1-Math.cos(t*Math.PI/2)),zz];
+  for(let i=0;i<5;i++)a.rod(curve(i/5),curve((i+1)/5),.026,m.black);
+  a.sphere(.065,side*6.45,4.02,zz,m.brass);
+ }
+ a.bevel(2.6,.08,.7,4.7,.9,46.3,m.wood);b(2.4,.06,.6,4.7,.23,46.3,m.darkWood);
+ for(const xx of [3.6,5.8])for(const zz of [46.08,46.52])a.cylinder(.026,.04,.85,xx,.445,zz,m.black,8);
+ a.obstacle(4.7,46.3,2.65,.75);p.plant(5.4,46.3,.95,.6,'fern');p.plant(4.5,46.3,.95,.42);
+ for(const xx of [3.8,4.25,4.7]){a.cylinder(.15,.1,.23,xx,.375,46.3,m.terracotta);a.cylinder(.155,.155,.03,xx,.49,46.3,m.terracotta);a.cylinder(.125,.125,.012,xx,.51,46.3,m.soil);}
  // The glazed arch gives the straight gallery a fixed conservatory sightline.
  a.add(new T.TorusGeometry(1.65,.035,5,28,Math.PI),m.black,0,2.15,47.82);
  for(const side of [-1,1])a.rod([side*1.65,0,47.82],[side*1.65,2.15,47.82],.035,m.black);

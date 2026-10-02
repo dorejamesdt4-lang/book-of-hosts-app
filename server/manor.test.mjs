@@ -51,7 +51,7 @@ test('hall and gallery share a continuous centred floor texture grid',()=>{
  }finally{world.dispose();Object.values(mats).forEach(m=>m.dispose());}
 });
 
-import {Architecture} from '../public/modules/virtual-manor/engine/geometry.js?v=manor-10';
+import {Architecture} from '../public/modules/virtual-manor/engine/geometry.js?v=manor-11';
 test('every gallery picture backing clears the complete doorway moulding',()=>{
  const keys=['contact','stoneFloor','parquet','wood','darkWood','brass','black','plaster','wallpaper','marble','darkMarble','rug','tile','grass','leaf','soil','terracotta','leather','linen','light','glass','water','portrait','landscape','bookRed','bookGreen','bookTan','paper'];
  const mats=Object.fromEntries(keys.map(k=>[k,new T.MeshStandardMaterial()])),frames=[],lamps=[],original=Architecture.prototype.bevel,originalBox=Architecture.prototype.box;
