@@ -51,12 +51,13 @@ test('hall and gallery share a continuous centred floor texture grid',()=>{
  }finally{world.dispose();Object.values(mats).forEach(m=>m.dispose());}
 });
 
-import {Architecture} from '../public/modules/virtual-manor/engine/geometry.js?v=manor-9';
+import {Architecture} from '../public/modules/virtual-manor/engine/geometry.js?v=manor-10';
 test('every gallery picture backing clears the complete doorway moulding',()=>{
  const keys=['contact','stoneFloor','parquet','wood','darkWood','brass','black','plaster','wallpaper','marble','darkMarble','rug','tile','grass','leaf','soil','terracotta','leather','linen','light','glass','water','portrait','landscape','bookRed','bookGreen','bookTan','paper'];
- const mats=Object.fromEntries(keys.map(k=>[k,new T.MeshStandardMaterial()])),frames=[],original=Architecture.prototype.bevel;
+ const mats=Object.fromEntries(keys.map(k=>[k,new T.MeshStandardMaterial()])),frames=[],lamps=[],original=Architecture.prototype.bevel,originalBox=Architecture.prototype.box;
  Architecture.prototype.bevel=function(w,h,d,x,y,z,...rest){if(Math.abs(Math.abs(x)-1.8)<1e-6&&y===2.37)frames.push({x,z,half:w/2+.012});return original.call(this,w,h,d,x,y,z,...rest);};
+ Architecture.prototype.box=function(w,h,d,x,y,z,...rest){if(w===.14&&h===.38&&Math.abs(Math.abs(x)-1.76)<1e-6)lamps.push({x,z});return originalBox.call(this,w,h,d,x,y,z,...rest);};
  let world;
- try{world=buildWorld(mats);assert.equal(frames.length,8);for(const f of frames)for(const p of portals.filter(p=>p.axis==='x'&&Math.sign(p.at)===Math.sign(f.x)&&(p.from==='gallery'||p.to==='gallery'))){assert.ok(f.z+f.half<p.min-.34||f.z-f.half>p.max+.34,`Picture at ${f.z} overlaps ${p.to}`);}}
- finally{Architecture.prototype.bevel=original;world?.dispose();Object.values(mats).forEach(m=>m.dispose());}
+ try{world=buildWorld(mats);assert.equal(frames.length,8);for(const f of frames)for(const p of portals.filter(p=>p.axis==='x'&&Math.sign(p.at)===Math.sign(f.x)&&(p.from==='gallery'||p.to==='gallery'))){assert.ok(f.z+f.half<p.min-.34||f.z-f.half>p.max+.34,`Picture at ${f.z} overlaps ${p.to}`);}assert.equal(lamps.length,8);for(const lamp of lamps){for(const f of frames.filter(f=>Math.sign(f.x)===Math.sign(lamp.x)))assert.ok(Math.abs(lamp.z-f.z)>f.half+.14,'Lamp overlaps picture');for(const p of portals.filter(p=>p.axis==='x'&&Math.sign(p.at)===Math.sign(lamp.x)&&(p.from==='gallery'||p.to==='gallery')))assert.ok(lamp.z+.14<p.min-.34||lamp.z-.14>p.max+.34,'Lamp overlaps doorway');}}
+ finally{Architecture.prototype.bevel=original;Architecture.prototype.box=originalBox;world?.dispose();Object.values(mats).forEach(m=>m.dispose());}
 });

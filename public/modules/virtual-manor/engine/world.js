@@ -1,7 +1,7 @@
 import * as T from '../vendor/three.module.min.js';
-import {rooms,portals,wallSegments} from './layout.js?v=manor-9';
-import {Architecture} from './geometry.js?v=manor-9';
-import {makeProps} from './props.js?v=manor-9';
+import {rooms,portals,wallSegments} from './layout.js?v=manor-10';
+import {Architecture} from './geometry.js?v=manor-10';
+import {makeProps} from './props.js?v=manor-10';
 export function buildWorld(m){
  const a=new Architecture(),p=makeProps(a,m),interactions=[];
  const b=(w,h,d,x,y,z,mat=m.wood,ry=0)=>a.box(w,h,d,x,y,z,mat,ry);
@@ -66,8 +66,8 @@ export function buildWorld(m){
   p.wallLamp(side*2.67,2.45,11.7,Math.PI);
  }
  // Pictures occupy clear wall bays; their full frames clear the portal trim.
- const galleryPictureZ=[15,22,25.4,33];
- for(let i=0;i<4;i++){const z=15+i*5.2;for(const side of [-1,1]){p.frame(side*1.8,2.37,galleryPictureZ[i],1.02,1.35,-side*Math.PI/2,i%2?m.landscape:m.portrait);p.wallLamp(side*1.76,2.35,z+1.7,-side*Math.PI/2);}if(i<3){p.plant(-1.45,z+2.9,0,.6);}}
+ const galleryPictureZ=[15,22,25.4,33],galleryLampZ=[16.7,23.7,27,34.7];
+ for(let i=0;i<4;i++){const z=15+i*5.2;for(const side of [-1,1]){p.frame(side*1.8,2.37,galleryPictureZ[i],1.02,1.35,-side*Math.PI/2,i%2?m.landscape:m.portrait);p.wallLamp(side*1.76,2.35,galleryLampZ[i],-side*Math.PI/2);}if(i<3){p.plant(-1.45,z+2.9,0,.6);}}
  for(const z of [16,24,32])p.hangingLantern(0,z);
  p.hangingLantern(0,8);
  // Library shelves and desk in the verified west room.

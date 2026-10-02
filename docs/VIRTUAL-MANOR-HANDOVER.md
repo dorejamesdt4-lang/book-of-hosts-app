@@ -126,3 +126,14 @@ Branch: `fix/manor-screenshot-snags` (PR #2).
 - Rendered visual confirmation is still pending: no local Chromium executable is available in this workspace. Do not present these automated geometry/material checks as a real GPU screenshot or physical-phone performance test. Keep PR #2 available for review; no merge or live deployment is claimed.
 
 Next: render the branch on a WebGL-capable browser, inspect both gallery doorways and the hall/gallery seam, then review PR #2 for merge. Exact concept-art fidelity and physical-phone testing remain separate unfinished work.
+
+
+## PR #2 software visual review — 2 October 2026
+
+Rendered and inspected four diagnostic views using the actual branch world geometry, material definitions, selected colour textures and existing CompatibilityRenderer: `docs/visuals/pr2-hall-floor.jpg`, `pr2-drawing-door.jpg`, `pr2-library-door.jpg`, `pr2-dining-door.jpg`.
+
+- Pictures clear all three gallery side-room doorways in the inspected views. Hall/gallery floor lines continue through the portal and lie on the shared grid.
+- Review caught a secondary regression: lamps retained their old positions and crossed the relocated paintings at z=22 and z=33. Moved the eight gallery lamps into clear wall bays at z=16.7,23.7,27,34.7. Regenerated and inspected all four views; extended the geometry regression to verify lamps clear both pictures and doorway trim.
+- Cache version manor-10; all 31 tests and static build pass.
+- These captures are a software diagnostic, not a browser screenshot or GPU acceptance test. The Node canvas sampler supplies decoded textures; procedural contact decals are hidden and side-room parquet Canvas transformations are omitted. It does not reproduce WebGL lamps, shadows, reflections, roughness response or phone performance. `scripts/manor-software-review.mjs` reproduces this limited check with the installed sharp dependency.
+- Screenshot snags have geometry/texture visual evidence now. A full WebGL browser check and physical-phone testing remain pending; PR #2 has not been merged or deployed.
